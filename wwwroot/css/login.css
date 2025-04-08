@@ -1,0 +1,302 @@
+*{
+	padding:0px;
+	margin:0px;
+	box-sizing: border-box;
+}
+
+:root{
+	--font-sm-size:12px;
+	--font-min-size:14px;
+	--font-max-size:16px;
+	--green-color:#088178;
+	--gray-color:#637381;
+	--black-color:#1C252E;
+}
+
+body{
+	font-family:"Public Sans Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	background: linear-gradient(
+        to bottom right,
+        #f7f7f5 0%,
+        #f7f7f5 40%,
+        #cfe0d6 40%,
+        #cfe0d6 100%
+    );
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 45px;
+}
+
+.settings-svg{
+	width:22px;
+	margin-left: 8px;
+	vertical-align: text-top;
+	animation: rotate 6s linear infinite;
+}
+.signup-container{
+	margin: 3rem auto;
+    width: 100%;
+    max-width: 420px;
+}
+.wrapper{
+    padding: 35px 24px;
+    width: 100%;
+    border-radius: 16px;
+    background-color: #fff;
+    max-width: 420px;
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.signup-title{
+	font-size:19px;
+	color:var(--black-color);
+	font-weight:700;
+	line-height:2.5;
+	text-align: center;
+}
+.login-page{
+	font-size:var(--font-min-size);
+	color:var(--gray-color);
+	font-weight:400;
+	text-align: center;
+	margin-bottom:40px;
+}
+.login-page a, .seller-signup a{
+	font-size:var(--font-min-size);
+	color:#00A76F;
+	font-weight:600;
+	text-decoration:none;
+}
+.login-page a:hover, .seller-signup a:hover{
+	text-decoration:underline;
+}
+input{
+	width:100%;
+	height:54px;
+	outline:none;
+	background:none;
+	padding: 16.5px 14px;
+	border:1px solid #e9ecee;
+	border-radius: 8px;
+	color:var(--black-color);
+	font-size:15px;
+	transition:0.3s ease-out;
+}
+.row input{
+	width:178px;
+}
+.firstname{
+	margin-right: 5px;
+}
+.lastname{
+	margin-left: 5px;
+}
+::placeholder{
+	color:#919eab;
+	font-size:14px;
+}
+input:hover, input:focus{
+	border-color:var(--black-color);
+}
+label{
+	color: var(--gray-color);
+    font-size: var(--font-min-size);
+    position: absolute;
+    background-color: #fff;
+    padding: 0rem 0.4rem;
+    font-weight: 500;
+    transform: translate(16px, -12px);
+}
+.sub-container{
+	position:relative;
+	line-height:1.5;
+	margin-bottom: 32px;
+}
+.row{
+	display:block;
+}
+.inline-block{
+	display:inline-block;
+}
+.password-svgs{
+	width: 35px;
+    display: inline-block;
+    position: absolute;
+    top: 11px;
+    right: 19px;
+    height: 35px;
+    border-radius: 50%;
+	pointer-events: none;
+	overflow:hidden;
+}
+.password-svgs:hover{
+	background-color: #eaecef;
+}
+.password-svgs:before {
+	content: "";
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #9d9e9f;
+	display: block;
+	transform: scale(0);
+	opacity: 1;
+	border-radius: 50%;
+	
+}
+.password-svgs.active:before {  /* on click on svg, active class is added */
+    transform: scale(3);
+    opacity: 0;
+	transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+.password-close-svg, .password-open-svg{
+	margin: 8px;
+    width: 20px;
+    cursor: pointer;
+	pointer-events: auto;
+	z-index:11;
+    user-select: none;
+}
+.password-open-svg{
+	display:none;
+}
+/* previous sibling ele :has(next sibling ele on hover) */
+.password:has(+ .password-svgs:hover) {
+	border-color:var(--black-color);
+}
+.tc-input {
+  display: none;
+}
+.policy {
+  user-select: none;
+  position: relative;
+  cursor: pointer;
+}
+.policy span {
+  display: inline-block;
+  vertical-align: middle;
+}
+.policy-svg-container{
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  transform: scale(1);
+  border: 1px solid #9098a9;
+  transition: all 0.2s ease;
+}
+.policy-svg-container svg {
+  position: absolute;
+  top: 3px;
+  left: 2px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 16px;
+  stroke-dashoffset: 16px;
+  transition: all 0.3s ease;
+  transition-delay: 0.1s;
+}
+.policy-svg-container:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: var(--black-color);
+  display: block;
+  transform: scale(0);
+  opacity: 1;
+  border-radius: 50%;
+}
+ .policy span:last-child {
+  padding-left: 8px;
+}
+.policy:hover .policy-svg-container {
+  border-color: var(--black-color);
+}
+.tc-input:checked + .policy .policy-svg-container {
+  background: var(--black-color);
+  border-color: var(--black-color);
+  animation: wave 0.4s ease;
+}
+.tc-input:checked + .policy .policy-svg-container svg {
+  stroke-dashoffset: 0;
+}
+.tc-input:checked + .policy .policy-svg-container:before {
+  transform: scale(3);
+  opacity: 0;
+  transition: all 0.6s ease;
+}
+.terms-conditions{
+	color:var(--black-color);
+}
+@keyframes wave {
+  50% {
+    transform: scale(0.9);
+  }
+}
+.submit-button{
+	width:100%;
+	height:48px;
+	background-color:var(--black-color);
+	color:#fff;
+	padding:8px 16px;
+	text-align:center;
+	font-size:15px;
+	font-weight:700;
+	border-radius:8px;
+	border:none;
+	margin-bottom: 10px;
+	letter-spacing:0.5px;
+	cursor:pointer;
+	transition:0.2s ease-out;
+}
+.submit-button:hover{
+	background-color:#36424e;
+}
+.seller-signup{
+	font-size:var(--font-min-size);
+	color:var(--gray-color);
+	text-align:center;
+}
+.alternative{
+	text-align:center;
+	font-size:var(--font-sm-size);
+	color:#919EAB;
+	margin:24px 0px;
+	position:relative;
+	font-weight:500;
+}
+.alternative span{
+    background: #fff;
+    position: relative;
+    padding: 0px 5px;
+}
+.alternative:before{
+	content: '';
+    position: absolute;
+	width: 100%;
+    height: 1px;
+    background-color: #d3d8dd;
+    top: 8px;
+    left: 0px;
+}
+.social-signup{
+	text-align:center;
+}
+.social-svg{
+	margin:0px 8px;
+	display:inline-block;
+	width:40px;
+	height:40px;
+	border-radius:50%;
+	cursor:pointer;
+	transition:0.2s ease-out;
+}
+.social-svg:hover{
+	background-color:#eaecef;
+}
+.social-svg svg{
+	width:24px;
+	margin: 8px 0px 0px 1px;
+}

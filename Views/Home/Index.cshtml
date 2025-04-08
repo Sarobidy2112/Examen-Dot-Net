@@ -1,0 +1,103 @@
+﻿@{
+    ViewData["Title"] = "Accueil";
+}
+
+<main>
+    <!-- Hero Section -->
+    <section id="introduction" class="hero-section">
+      <div class="hero-overlay"></div>
+      <div class="hero-content container">
+        <h1>Bienvenue, @ViewBag.UserName!</h1>
+        <p class="subheading">Discover how colors influence design, art, and the world around us. Dive deep into the principles of color theory and unleash your creativity.</p>
+        <a asp-controller="Auth" asp-action="Logout" class="btn">Découvrir tous les produits disponible</a>
+      </div>
+    </section>
+
+    <!-- Color Theory Section -->
+    <section id="theory" class="color-theory-section section-container pattern-section">
+      <div class="container section-flex">
+        <div class="text-content">
+          <h2>Understanding Market Place</h2>
+          <p>Bienvenue sur notre site de vente en ligne, votre destination idéale pour découvrir une large gamme de produits de qualité à des prix compétitifs. Nous vous proposons une sélection soigneusement choisie, allant des articles du quotidien aux produits plus spécifiques, le tout avec un service rapide et sécurisé. Profitez de votre shopping en ligne avec une expérience fluide et une livraison rapide directement chez vous. Trouvez ce que vous cherchez, facilement et en toute confiance !</p>
+        </div>
+        <div class="graphic-content">
+          <!-- Color Wheel Canvas -->
+          <canvas id="colorWheelCanvas" width="400" height="400"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <div class="container-card">
+  
+        <div class="product-card">
+            <div class="product-img img-one"></div>
+            <div class="product-text">
+            <h3>London</h3>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt excepturi totam ducimus, nemo tenetur, quibusdam accusamus neque deserunt aliquid perferendis.</p>
+            </div>
+            <div class="product-cart">
+            <button type="submit">Add to cart</button>
+            </div>
+        </div>
+        
+        <div class="product-card">
+            <div class="product-img img-two"></div>
+            <div class="product-text">
+            <h3>Amsterdam</h3>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur, deserunt maxime? Earum eveniet suscipit ad! Quidem recusandae minima est minus nobis accusamus.</p>
+            </div>
+            <div class="product-cart">
+            <button type="submit">Add to cart</button>
+            </div>
+        </div>
+        
+        <div class="product-card">
+            <div class="product-img img-three"></div>
+            <div class="product-text">
+            <h3>Madrid</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, laborum. Non maxime corrupti illo necessitatibus error vitae numquam perspiciatis culpa.</p>
+            </div>
+            <div class="product-cart">
+            <button type="submit">Add to cart</button>
+            </div>
+        </div>
+        </div>
+
+  </main>
+
+  <!-- Enhanced Footer -->
+  <footer id="contact">
+    <div class="footer-container">
+      <div class="footer-section about">
+        <h2>About Us</h2>
+        <p>ColorTheory is dedicated to exploring the fascinating world of colors and their impact on art and design. We aim to inspire and educate designers, artists, and enthusiasts alike.</p>
+      </div>
+      <div class="footer-section links">
+        <h2>Quick Links</h2>
+        <ul>
+          <li><a href="#introduction">Home</a></li>
+          <li><a href="#theory">Color Theory</a></li>
+        </ul>
+      </div>
+      <div class="footer-section contact-form">
+        <h2>Contact Us</h2>
+        <form action="#" method="post">
+          <input type="email" name="email" placeholder="Your email address">
+          <textarea name="message" rows="4" placeholder="Your message"></textarea>
+          <button type="submit">Send</button>
+        </form>
+      </div>
+      <div class="footer-section social-media">
+        <h2>Follow Us</h2>
+        <ul class="social-icons">
+          <li><a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/facebook--v1.png" alt="Facebook"></a></li>
+          <li><a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/twitter.png" alt="Twitter"></a></li>
+          <li><a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new.png" alt="Instagram"></a></li>
+          <li><a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/linkedin.png" alt="LinkedIn"></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2023 ColorTheory | Designed with passion for colors</p>
+    </div>
+  </footer>

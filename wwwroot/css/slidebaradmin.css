@@ -1,0 +1,142 @@
+:root {
+    --primary-color: #e4c444;
+    --secondary-color: #f7c90f;
+    --accent-color: #fd79a8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --success-color: #00b894;
+    --danger-color: #d63031;
+    --warning-color: #fdcb6e;
+    --sidebar-width: 20%;
+    --container-width: 80%;
+}
+
+.slide-bar a{
+    color: black;
+}
+
+.slide-bar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    /* background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color)); */
+    background-color: white;
+    color: white;
+    padding: 1rem;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espace entre logo et liens */
+    z-index: 10;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logo h1{
+    color: black;
+}
+
+.logo span {
+    color: var(--primary-color);
+    font-weight: 800;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.links .top {
+    flex: 1; /* Prend tout l'espace disponible */
+}
+
+.links .bottom {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 1rem;
+}
+
+.menu-item {
+    color: white;
+    text-decoration: none;
+    padding: 0.8rem 1rem;
+    margin: 0.3rem 0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.slide-bar .menu-item:hover {
+    background-color: var(--primary-color);
+    transform: translateX(5px);
+    color: white;
+}
+
+.menu-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Version mobile */
+@media (max-width: 768px) {
+    .slide-bar {
+        width: 70px;
+        padding: 0.5rem;
+    }
+    
+    .logo {
+        font-size: 1.2rem;
+        padding: 1rem 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .logo span {
+        display: block;
+        font-size: 1.5rem;
+        line-height: 1;
+    }
+    
+    .menu-item span {
+        display: none;
+    }
+    
+    .menu-item i {
+        font-size: 1.2rem;
+        width: 100%;
+        text-align: center;
+    }
+
+}
+
+.menu-item {
+    color: white;
+    text-decoration: none;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+}
+
+.menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(5px);
+}
+
+.menu-item i {
+    width: 20px;
+    text-align: center;
+}
