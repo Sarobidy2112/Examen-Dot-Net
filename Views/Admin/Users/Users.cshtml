@@ -1,0 +1,54 @@
+@model IEnumerable<examDotNet.Models.User>
+
+@{
+    ViewData["Title"] = "Gestion des Utilisateurs";
+    ViewData["ShowHeader"] = false;
+    ViewData["ShowFooter"] = false;
+    ViewData["SlideBarAdmin"] = true;
+    ViewData["UseSlideBarAdminStyles"] = true;
+
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminuser.css" asp-append-version="true" />
+}
+
+<div class="container">
+        <header>
+            <h1>Gestion des Utilisateurs</h1>
+            <p>Gérez vos Utilisateurs</p>
+        </header>
+
+        <div class="table-section">
+            <table id="categoriesTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    @foreach (var item in Model) {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@(item.Role == 0 ? "Utilisateur" : "Admin")</td>
+                            <td class="actions">                                     
+                                <button class="action-btn delete-btn" asp-action="DeleteUser" asp-route-id="@item.Id">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>   
+                    }
+                    
+                    @* <tr class="empty-message">
+                        <td colspan="3">Aucune catégorie ajoutée pour le moment</td>
+                    </tr> *@
+                </tbody>
+            </table>
+        </div>
+</div>

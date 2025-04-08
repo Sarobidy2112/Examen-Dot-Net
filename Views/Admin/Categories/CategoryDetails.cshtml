@@ -1,0 +1,21 @@
+@model examDotNet.Models.Categorie
+
+@{
+    ViewData["Title"] = "Détails de la Catégorie";
+}
+
+<h1>Détails de la Catégorie</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">ID</dt>
+        <dd class="col-sm-10">@Model.id_categorie</dd>
+        
+        <dt class="col-sm-2">Nom</dt>
+        <dd class="col-sm-10">@Model.nom_categorie</dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="EditCategory" asp-route-id="@Model.id_categorie" class="btn btn-primary">Modifier</a>
+    <a asp-action="Categories" class="btn btn-secondary">Retour à la liste</a>
+</div>

@@ -1,0 +1,29 @@
+<header>
+    <nav>
+        <div class="logo">MARKET<span>PLACE</span></div>
+        <div class="menu-icon" id="menu-icon" aria-label="Toggle navigation menu" role="button" tabindex="0">
+            <span class="nav-icon"></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li>
+                <a asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+            
+            @if (Context.Session.GetInt32("UserId") == null)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Auth" asp-action="Register">Inscription</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Auth" asp-action="Login">Connexion</a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Auth" asp-action="Logout">Déconnexion</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</header>

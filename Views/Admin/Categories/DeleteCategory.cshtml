@@ -1,0 +1,19 @@
+@model examDotNet.Models.Categorie
+
+@{
+    ViewData["Title"] = "Supprimer la Catégorie";
+}
+
+<h1>Supprimer la Catégorie</h1>
+
+<h3>Êtes-vous sûr de vouloir supprimer cette catégorie ?</h3>
+<div>
+    <h4>@Model.nom_categorie</h4>
+    <hr />
+    
+    <form asp-action="DeleteCategory">
+        <input type="hidden" asp-for="id_categorie" />
+        <input type="submit" value="Supprimer" class="btn btn-danger" /> |
+        <a asp-action="Categories" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>

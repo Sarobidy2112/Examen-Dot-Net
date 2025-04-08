@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\css\\admin.css"
     },
     {
+      "Id": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\adminuser.css",
+      "PackagePath": "staticwebassets\\css\\adminuser.css"
+    },
+    {
+      "Id": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\bkg.jpg",
+      "PackagePath": "staticwebassets\\css\\bkg.jpg"
+    },
+    {
       "Id": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\footer.css",
       "PackagePath": "staticwebassets\\css\\footer.css"
     },

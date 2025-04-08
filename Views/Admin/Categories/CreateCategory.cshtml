@@ -1,0 +1,25 @@
+@model examDotNet.Models.Categorie
+
+@{
+    ViewData["Title"] = "Créer une Catégorie";
+}
+
+<h1>Créer une Catégorie</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateCategory">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="nom_categorie" class="control-label">Nom de la catégorie</label>
+                <input asp-for="nom_categorie" class="form-control" />
+                <span asp-validation-for="nom_categorie" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Créer" class="btn btn-primary" />
+                <a asp-action="Categories" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
+</div>

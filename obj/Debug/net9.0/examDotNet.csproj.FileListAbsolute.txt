@@ -188,6 +188,7 @@ C:\Users\Harena\Desktop\ExamenDotNet\examDotNet\obj\Debug\net9.0\examDotNet.sour
 C:\Users\Harena\Desktop\ExamenDotNet\examDotNet\obj\Debug\net9.0\compressed\7q4qb2e0c7-5ipweew5fc.gz
 C:\Users\Harena\Desktop\ExamenDotNet\examDotNet\obj\Debug\net9.0\compressed\61k29xy37k-pd66sk4oa6.gz
 C:\Users\Harena\Desktop\ExamenDotNet\examDotNet\obj\Debug\net9.0\compressed\negb78xoc6-au53cgmerc.gz
-C:\Users\Harena\Desktop\ExamenDotNet\examDotNet\obj\Debug\net9.0\compressed\7mgqmi23ot-2if9gv24ce.gz
-C:\Users\Harena\Desktop\ExamenDotNet\examDotNet\obj\Debug\net9.0\compressed\lph9h9mxfv-druo02ls1p.gz
 C:\Users\Harena\Desktop\ExamenDotNet\examDotNet\obj\Debug\net9.0\compressed\rt71i9g3ql-f42kddas73.gz
+C:\Users\Harena\Desktop\ExamenDotNet\examDotNet\obj\Debug\net9.0\compressed\lph9h9mxfv-7m3wv8owiv.gz
+C:\Users\Harena\Desktop\ExamenDotNet\examDotNet\obj\Debug\net9.0\compressed\mul3lkrdfj-ufzbu7hv2v.gz
+C:\Users\Harena\Desktop\ExamenDotNet\examDotNet\obj\Debug\net9.0\compressed\7mgqmi23ot-fqqk6afi1c.gz

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "2G3Omdp37oCuPNvX79bCW8XIhhEYSTdVW78tjLQkMVQ=",
+  "Hash": "FCFv13aFZIUE09YwuN9nFxw+7uvtulgU8g/A0r/p/QQ=",
   "Source": "examDotNet",
   "BasePath": "_content/examDotNet",
   "Mode": "Default",
@@ -311,12 +311,12 @@
       "OriginalItemSpec": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\favicon.ico"
     },
     {
-      "Identity": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\7mgqmi23ot-2if9gv24ce.gz",
+      "Identity": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\7mgqmi23ot-fqqk6afi1c.gz",
       "SourceId": "examDotNet",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/examDotNet",
-      "RelativePath": "css/home#[.{fingerprint=2if9gv24ce}]?.css.gz",
+      "RelativePath": "css/home#[.{fingerprint=fqqk6afi1c}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -325,8 +325,8 @@
       "RelatedAsset": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\home.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "mbtfhl2g0m",
-      "Integrity": "MofI1x7w/1c0KFEIoUECAwyNozw8OpVbr0uWkmBI8xU=",
+      "Fingerprint": "d0gmiecn12",
+      "Integrity": "czvYFccJGSHWlxythWttaBKSnM+wh3ArZQ2JANejbQk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\home.css"
@@ -794,12 +794,12 @@
       "OriginalItemSpec": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
     },
     {
-      "Identity": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\lph9h9mxfv-druo02ls1p.gz",
+      "Identity": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\lph9h9mxfv-7m3wv8owiv.gz",
       "SourceId": "examDotNet",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/examDotNet",
-      "RelativePath": "css/admin#[.{fingerprint=druo02ls1p}]?.css.gz",
+      "RelativePath": "css/admin#[.{fingerprint=7m3wv8owiv}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -808,8 +808,8 @@
       "RelatedAsset": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\admin.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "kyaz6ymft7",
-      "Integrity": "PNCmclvQhMkWlUEgmx4UuIoufC/0XTyN71DJB1JLZzU=",
+      "Fingerprint": "9i56na61o4",
+      "Integrity": "nx+zd0FcxFCFO4lJ5oU8J1hpRgk217NvWAgqqAoGAbU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\admin.css"
@@ -834,6 +834,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\lib\\jquery\\dist\\jquery.slim.js"
+    },
+    {
+      "Identity": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\mul3lkrdfj-ufzbu7hv2v.gz",
+      "SourceId": "examDotNet",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/examDotNet",
+      "RelativePath": "css/adminuser#[.{fingerprint=ufzbu7hv2v}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\adminuser.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "4yjt10s4wl",
+      "Integrity": "xJQ+tB1Al6/ePUC/zIADfBHTLCEeFG9RfdShUHP3Cng=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\adminuser.css"
     },
     {
       "Identity": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\mxrj20cy5q-0i3buxo5is.gz",
@@ -1459,11 +1480,53 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "druo02ls1p",
-      "Integrity": "uUn3ezT6c9UPElXlWmqnHJ1g1sqTGCtJXPqIOSrNnN0=",
+      "Fingerprint": "7m3wv8owiv",
+      "Integrity": "sQYKb6i67jXaRz38ECCiPfW8JoFUEw9XMcxlaEueMYQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\admin.css"
+    },
+    {
+      "Identity": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\adminuser.css",
+      "SourceId": "examDotNet",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\",
+      "BasePath": "_content/examDotNet",
+      "RelativePath": "css/adminuser#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ufzbu7hv2v",
+      "Integrity": "KrILuW6Mc/8La8VxbjUbz0ge80JgKmdeRk8Plxf9n8g=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\adminuser.css"
+    },
+    {
+      "Identity": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\bkg.jpg",
+      "SourceId": "examDotNet",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\",
+      "BasePath": "_content/examDotNet",
+      "RelativePath": "css/bkg#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "n73qneyozn",
+      "Integrity": "wyFab73u33dD2Qc5O2t2KbMxM3V+HQWEGpIaTxjcoiI=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\bkg.jpg"
     },
     {
       "Identity": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\footer.css",
@@ -1522,8 +1585,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "2if9gv24ce",
-      "Integrity": "Rj2aAJHeeQLZiQQvjjNi6g0yDOx48RFYMHpTmPjmvyA=",
+      "Fingerprint": "fqqk6afi1c",
+      "Integrity": "V2Lmq+XahaZgsJoq8owf0rluAZl1SK2s0llsDqypBhs=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\home.css"
@@ -2896,13 +2959,13 @@
   ],
   "Endpoints": [
     {
-      "Route": "css/admin.css",
-      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\lph9h9mxfv-druo02ls1p.gz",
+      "Route": "css/admin.7m3wv8owiv.css",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\lph9h9mxfv-7m3wv8owiv.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000972762646"
+          "Quality": "0.000961538462"
         }
       ],
       "ResponseHeaders": [
@@ -2912,19 +2975,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1027"
+          "Value": "1039"
         },
         {
           "Name": "ETag",
-          "Value": "\"PNCmclvQhMkWlUEgmx4UuIoufC/0XTyN71DJB1JLZzU=\""
+          "Value": "\"nx+zd0FcxFCFO4lJ5oU8J1hpRgk217NvWAgqqAoGAbU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 08 Apr 2025 07:15:44 GMT"
+          "Value": "Tue, 08 Apr 2025 07:29:50 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "no-cache"
+          "Value": "max-age=31536000, immutable"
         },
         {
           "Name": "Content-Encoding",
@@ -2940,18 +3003,26 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"uUn3ezT6c9UPElXlWmqnHJ1g1sqTGCtJXPqIOSrNnN0=\""
+          "Value": "W/\"sQYKb6i67jXaRz38ECCiPfW8JoFUEw9XMcxlaEueMYQ=\""
         }
       ],
       "EndpointProperties": [
         {
+          "Name": "fingerprint",
+          "Value": "7m3wv8owiv"
+        },
+        {
+          "Name": "label",
+          "Value": "css/admin.css"
+        },
+        {
           "Name": "integrity",
-          "Value": "sha256-uUn3ezT6c9UPElXlWmqnHJ1g1sqTGCtJXPqIOSrNnN0="
+          "Value": "sha256-sQYKb6i67jXaRz38ECCiPfW8JoFUEw9XMcxlaEueMYQ="
         }
       ]
     },
     {
-      "Route": "css/admin.css",
+      "Route": "css/admin.7m3wv8owiv.css",
       "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\admin.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2961,7 +3032,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3306"
+          "Value": "3362"
         },
         {
           "Name": "Content-Type",
@@ -2969,121 +3040,21 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"uUn3ezT6c9UPElXlWmqnHJ1g1sqTGCtJXPqIOSrNnN0=\""
+          "Value": "\"sQYKb6i67jXaRz38ECCiPfW8JoFUEw9XMcxlaEueMYQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 08 Apr 2025 07:15:44 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-uUn3ezT6c9UPElXlWmqnHJ1g1sqTGCtJXPqIOSrNnN0="
-        }
-      ]
-    },
-    {
-      "Route": "css/admin.css.gz",
-      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\lph9h9mxfv-druo02ls1p.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1027"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"PNCmclvQhMkWlUEgmx4UuIoufC/0XTyN71DJB1JLZzU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 08 Apr 2025 07:15:44 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-PNCmclvQhMkWlUEgmx4UuIoufC/0XTyN71DJB1JLZzU="
-        }
-      ]
-    },
-    {
-      "Route": "css/admin.druo02ls1p.css",
-      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\lph9h9mxfv-druo02ls1p.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000972762646"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1027"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"PNCmclvQhMkWlUEgmx4UuIoufC/0XTyN71DJB1JLZzU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 08 Apr 2025 07:15:44 GMT"
+          "Value": "Tue, 08 Apr 2025 07:29:50 GMT"
         },
         {
           "Name": "Cache-Control",
           "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"uUn3ezT6c9UPElXlWmqnHJ1g1sqTGCtJXPqIOSrNnN0=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "druo02ls1p"
+          "Value": "7m3wv8owiv"
         },
         {
           "Name": "label",
@@ -3091,13 +3062,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-uUn3ezT6c9UPElXlWmqnHJ1g1sqTGCtJXPqIOSrNnN0="
+          "Value": "sha256-sQYKb6i67jXaRz38ECCiPfW8JoFUEw9XMcxlaEueMYQ="
         }
       ]
     },
     {
-      "Route": "css/admin.druo02ls1p.css",
-      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\admin.css",
+      "Route": "css/admin.7m3wv8owiv.css.gz",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\lph9h9mxfv-7m3wv8owiv.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3106,7 +3077,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3306"
+          "Value": "1039"
         },
         {
           "Name": "Content-Type",
@@ -3114,56 +3085,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"uUn3ezT6c9UPElXlWmqnHJ1g1sqTGCtJXPqIOSrNnN0=\""
+          "Value": "\"nx+zd0FcxFCFO4lJ5oU8J1hpRgk217NvWAgqqAoGAbU=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 08 Apr 2025 07:15:44 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "druo02ls1p"
-        },
-        {
-          "Name": "label",
-          "Value": "css/admin.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-uUn3ezT6c9UPElXlWmqnHJ1g1sqTGCtJXPqIOSrNnN0="
-        }
-      ]
-    },
-    {
-      "Route": "css/admin.druo02ls1p.css.gz",
-      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\lph9h9mxfv-druo02ls1p.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1027"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"PNCmclvQhMkWlUEgmx4UuIoufC/0XTyN71DJB1JLZzU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 08 Apr 2025 07:15:44 GMT"
+          "Value": "Tue, 08 Apr 2025 07:29:50 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3181,7 +3107,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "druo02ls1p"
+          "Value": "7m3wv8owiv"
         },
         {
           "Name": "label",
@@ -3189,7 +3115,524 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-PNCmclvQhMkWlUEgmx4UuIoufC/0XTyN71DJB1JLZzU="
+          "Value": "sha256-nx+zd0FcxFCFO4lJ5oU8J1hpRgk217NvWAgqqAoGAbU="
+        }
+      ]
+    },
+    {
+      "Route": "css/admin.css",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\lph9h9mxfv-7m3wv8owiv.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000961538462"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1039"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nx+zd0FcxFCFO4lJ5oU8J1hpRgk217NvWAgqqAoGAbU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 07:29:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"sQYKb6i67jXaRz38ECCiPfW8JoFUEw9XMcxlaEueMYQ=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-sQYKb6i67jXaRz38ECCiPfW8JoFUEw9XMcxlaEueMYQ="
+        }
+      ]
+    },
+    {
+      "Route": "css/admin.css",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\admin.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3362"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"sQYKb6i67jXaRz38ECCiPfW8JoFUEw9XMcxlaEueMYQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 07:29:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-sQYKb6i67jXaRz38ECCiPfW8JoFUEw9XMcxlaEueMYQ="
+        }
+      ]
+    },
+    {
+      "Route": "css/admin.css.gz",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\lph9h9mxfv-7m3wv8owiv.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1039"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"nx+zd0FcxFCFO4lJ5oU8J1hpRgk217NvWAgqqAoGAbU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 07:29:50 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-nx+zd0FcxFCFO4lJ5oU8J1hpRgk217NvWAgqqAoGAbU="
+        }
+      ]
+    },
+    {
+      "Route": "css/adminuser.css",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\mul3lkrdfj-ufzbu7hv2v.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.001381215470"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "723"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xJQ+tB1Al6/ePUC/zIADfBHTLCEeFG9RfdShUHP3Cng=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 07:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"KrILuW6Mc/8La8VxbjUbz0ge80JgKmdeRk8Plxf9n8g=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-KrILuW6Mc/8La8VxbjUbz0ge80JgKmdeRk8Plxf9n8g="
+        }
+      ]
+    },
+    {
+      "Route": "css/adminuser.css",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\adminuser.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1879"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KrILuW6Mc/8La8VxbjUbz0ge80JgKmdeRk8Plxf9n8g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 07:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-KrILuW6Mc/8La8VxbjUbz0ge80JgKmdeRk8Plxf9n8g="
+        }
+      ]
+    },
+    {
+      "Route": "css/adminuser.css.gz",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\mul3lkrdfj-ufzbu7hv2v.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "723"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xJQ+tB1Al6/ePUC/zIADfBHTLCEeFG9RfdShUHP3Cng=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 07:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-xJQ+tB1Al6/ePUC/zIADfBHTLCEeFG9RfdShUHP3Cng="
+        }
+      ]
+    },
+    {
+      "Route": "css/adminuser.ufzbu7hv2v.css",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\mul3lkrdfj-ufzbu7hv2v.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.001381215470"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "723"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xJQ+tB1Al6/ePUC/zIADfBHTLCEeFG9RfdShUHP3Cng=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 07:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"KrILuW6Mc/8La8VxbjUbz0ge80JgKmdeRk8Plxf9n8g=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ufzbu7hv2v"
+        },
+        {
+          "Name": "label",
+          "Value": "css/adminuser.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-KrILuW6Mc/8La8VxbjUbz0ge80JgKmdeRk8Plxf9n8g="
+        }
+      ]
+    },
+    {
+      "Route": "css/adminuser.ufzbu7hv2v.css",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\adminuser.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1879"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"KrILuW6Mc/8La8VxbjUbz0ge80JgKmdeRk8Plxf9n8g=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 07:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ufzbu7hv2v"
+        },
+        {
+          "Name": "label",
+          "Value": "css/adminuser.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-KrILuW6Mc/8La8VxbjUbz0ge80JgKmdeRk8Plxf9n8g="
+        }
+      ]
+    },
+    {
+      "Route": "css/adminuser.ufzbu7hv2v.css.gz",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\mul3lkrdfj-ufzbu7hv2v.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "723"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"xJQ+tB1Al6/ePUC/zIADfBHTLCEeFG9RfdShUHP3Cng=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 07:59:32 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ufzbu7hv2v"
+        },
+        {
+          "Name": "label",
+          "Value": "css/adminuser.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-xJQ+tB1Al6/ePUC/zIADfBHTLCEeFG9RfdShUHP3Cng="
+        }
+      ]
+    },
+    {
+      "Route": "css/bkg.jpg",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\bkg.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2845587"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"wyFab73u33dD2Qc5O2t2KbMxM3V+HQWEGpIaTxjcoiI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 08:40:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-wyFab73u33dD2Qc5O2t2KbMxM3V+HQWEGpIaTxjcoiI="
+        }
+      ]
+    },
+    {
+      "Route": "css/bkg.n73qneyozn.jpg",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\bkg.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2845587"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"wyFab73u33dD2Qc5O2t2KbMxM3V+HQWEGpIaTxjcoiI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 08:40:08 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "n73qneyozn"
+        },
+        {
+          "Name": "label",
+          "Value": "css/bkg.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-wyFab73u33dD2Qc5O2t2KbMxM3V+HQWEGpIaTxjcoiI="
         }
       ]
     },
@@ -3790,13 +4233,13 @@
       ]
     },
     {
-      "Route": "css/home.2if9gv24ce.css",
-      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\7mgqmi23ot-2if9gv24ce.gz",
+      "Route": "css/home.css",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\7mgqmi23ot-fqqk6afi1c.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000348918353"
+          "Quality": "0.000342935528"
         }
       ],
       "ResponseHeaders": [
@@ -3806,19 +4249,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2865"
+          "Value": "2915"
         },
         {
           "Name": "ETag",
-          "Value": "\"MofI1x7w/1c0KFEIoUECAwyNozw8OpVbr0uWkmBI8xU=\""
+          "Value": "\"czvYFccJGSHWlxythWttaBKSnM+wh3ArZQ2JANejbQk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 03 Apr 2025 09:43:12 GMT"
+          "Value": "Tue, 08 Apr 2025 08:59:57 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         },
         {
           "Name": "Content-Encoding",
@@ -3834,26 +4277,18 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"Rj2aAJHeeQLZiQQvjjNi6g0yDOx48RFYMHpTmPjmvyA=\""
+          "Value": "W/\"V2Lmq+XahaZgsJoq8owf0rluAZl1SK2s0llsDqypBhs=\""
         }
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "2if9gv24ce"
-        },
-        {
-          "Name": "label",
-          "Value": "css/home.css"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-Rj2aAJHeeQLZiQQvjjNi6g0yDOx48RFYMHpTmPjmvyA="
+          "Value": "sha256-V2Lmq+XahaZgsJoq8owf0rluAZl1SK2s0llsDqypBhs="
         }
       ]
     },
     {
-      "Route": "css/home.2if9gv24ce.css",
+      "Route": "css/home.css",
       "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\home.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3863,7 +4298,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12021"
+          "Value": "12142"
         },
         {
           "Name": "Content-Type",
@@ -3871,11 +4306,156 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"Rj2aAJHeeQLZiQQvjjNi6g0yDOx48RFYMHpTmPjmvyA=\""
+          "Value": "\"V2Lmq+XahaZgsJoq8owf0rluAZl1SK2s0llsDqypBhs=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 03 Apr 2025 09:43:12 GMT"
+          "Value": "Tue, 08 Apr 2025 08:59:57 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-V2Lmq+XahaZgsJoq8owf0rluAZl1SK2s0llsDqypBhs="
+        }
+      ]
+    },
+    {
+      "Route": "css/home.css.gz",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\7mgqmi23ot-fqqk6afi1c.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2915"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"czvYFccJGSHWlxythWttaBKSnM+wh3ArZQ2JANejbQk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 08:59:57 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-czvYFccJGSHWlxythWttaBKSnM+wh3ArZQ2JANejbQk="
+        }
+      ]
+    },
+    {
+      "Route": "css/home.fqqk6afi1c.css",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\7mgqmi23ot-fqqk6afi1c.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000342935528"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2915"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"czvYFccJGSHWlxythWttaBKSnM+wh3ArZQ2JANejbQk=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 08:59:57 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"V2Lmq+XahaZgsJoq8owf0rluAZl1SK2s0llsDqypBhs=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "fqqk6afi1c"
+        },
+        {
+          "Name": "label",
+          "Value": "css/home.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-V2Lmq+XahaZgsJoq8owf0rluAZl1SK2s0llsDqypBhs="
+        }
+      ]
+    },
+    {
+      "Route": "css/home.fqqk6afi1c.css",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\home.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "12142"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"V2Lmq+XahaZgsJoq8owf0rluAZl1SK2s0llsDqypBhs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 08 Apr 2025 08:59:57 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3885,7 +4465,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "2if9gv24ce"
+          "Value": "fqqk6afi1c"
         },
         {
           "Name": "label",
@@ -3893,13 +4473,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-Rj2aAJHeeQLZiQQvjjNi6g0yDOx48RFYMHpTmPjmvyA="
+          "Value": "sha256-V2Lmq+XahaZgsJoq8owf0rluAZl1SK2s0llsDqypBhs="
         }
       ]
     },
     {
-      "Route": "css/home.2if9gv24ce.css.gz",
-      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\7mgqmi23ot-2if9gv24ce.gz",
+      "Route": "css/home.fqqk6afi1c.css.gz",
+      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\7mgqmi23ot-fqqk6afi1c.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3908,7 +4488,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2865"
+          "Value": "2915"
         },
         {
           "Name": "Content-Type",
@@ -3916,11 +4496,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"MofI1x7w/1c0KFEIoUECAwyNozw8OpVbr0uWkmBI8xU=\""
+          "Value": "\"czvYFccJGSHWlxythWttaBKSnM+wh3ArZQ2JANejbQk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 03 Apr 2025 09:43:12 GMT"
+          "Value": "Tue, 08 Apr 2025 08:59:57 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3938,7 +4518,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "2if9gv24ce"
+          "Value": "fqqk6afi1c"
         },
         {
           "Name": "label",
@@ -3946,144 +4526,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-MofI1x7w/1c0KFEIoUECAwyNozw8OpVbr0uWkmBI8xU="
-        }
-      ]
-    },
-    {
-      "Route": "css/home.css",
-      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\7mgqmi23ot-2if9gv24ce.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000348918353"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2865"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"MofI1x7w/1c0KFEIoUECAwyNozw8OpVbr0uWkmBI8xU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 03 Apr 2025 09:43:12 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"Rj2aAJHeeQLZiQQvjjNi6g0yDOx48RFYMHpTmPjmvyA=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-Rj2aAJHeeQLZiQQvjjNi6g0yDOx48RFYMHpTmPjmvyA="
-        }
-      ]
-    },
-    {
-      "Route": "css/home.css",
-      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\wwwroot\\css\\home.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "12021"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"Rj2aAJHeeQLZiQQvjjNi6g0yDOx48RFYMHpTmPjmvyA=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 03 Apr 2025 09:43:12 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-Rj2aAJHeeQLZiQQvjjNi6g0yDOx48RFYMHpTmPjmvyA="
-        }
-      ]
-    },
-    {
-      "Route": "css/home.css.gz",
-      "AssetFile": "C:\\Users\\Harena\\Desktop\\ExamenDotNet\\examDotNet\\obj\\Debug\\net9.0\\compressed\\7mgqmi23ot-2if9gv24ce.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2865"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"MofI1x7w/1c0KFEIoUECAwyNozw8OpVbr0uWkmBI8xU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Thu, 03 Apr 2025 09:43:12 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-MofI1x7w/1c0KFEIoUECAwyNozw8OpVbr0uWkmBI8xU="
+          "Value": "sha256-czvYFccJGSHWlxythWttaBKSnM+wh3ArZQ2JANejbQk="
         }
       ]
     },
