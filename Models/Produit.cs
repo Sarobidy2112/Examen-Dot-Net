@@ -24,6 +24,6 @@ namespace examDotNet.Models
         public int IdCat { get; set; }
 
         // Ajoutez cette propriété de navigation pour la relation avec CommandeProduit
-        public ICollection<CommandeProduit> CommandeProduits { get; set; }  // Relation avec CommandeProduit
+        public ICollection<CommandeProduit> CommandeProduits { get; set; } = new List<CommandeProduit>();
     }
 }

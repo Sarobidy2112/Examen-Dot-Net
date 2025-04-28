@@ -54,20 +54,11 @@ namespace examDotNet.Controllers
             return RedirectToAction(nameof(Users));
         }
 
-        // ----------- Categories -----------
-        public async Task<IActionResult> Categories()
+        // ----------- Catégories -----------
+        public IActionResult Categories()
         {
-            return View("Categories/Categories", await _context.Categories.ToListAsync());
-        }
-
-        public async Task<IActionResult> CategoryDetails(int? id)
-        {
-            if (id == null) return NotFound();
-
-            var categorie = await _context.Categories.FirstOrDefaultAsync(m => m.id_categorie == id);
-            if (categorie == null) return NotFound();
-
-            return View("Categories/CategoryDetails", categorie);
+            var categories = _context.Categories.ToList();
+            return View("Categories/Categories", categories);
         }
 
         public IActionResult CreateCategory()
@@ -76,202 +67,122 @@ namespace examDotNet.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateCategory([Bind("id_categorie,nom_categorie")] Categorie categorie)
+        public IActionResult CreateCategory(Categorie categorie)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(categorie);
-                await _context.SaveChangesAsync();
+                _context.Categories.Add(categorie);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Categories));
             }
             return View("Categories/CreateCategory", categorie);
         }
 
-        public async Task<IActionResult> EditCategory(int? id)
+        public IActionResult EditCategory(int id)
         {
-            if (id == null) return NotFound();
-
-            var categorie = await _context.Categories.FindAsync(id);
+            var categorie = _context.Categories.Find(id);
             if (categorie == null) return NotFound();
-
             return View("Categories/EditCategory", categorie);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditCategory(int id, [Bind("id_categorie,nom_categorie")] Categorie categorie)
+        public IActionResult EditCategory(Categorie categorie)
         {
-            if (id != categorie.id_categorie) return NotFound();
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(categorie);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategorieExists(categorie.id_categorie)) return NotFound();
-                    else throw;
-                }
+                _context.Categories.Update(categorie);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Categories));
             }
             return View("Categories/EditCategory", categorie);
         }
 
-        public async Task<IActionResult> DeleteCategory(int? id)
+        public IActionResult DeleteCategory(int id)
         {
-            if (id == null) return NotFound();
-
-            var categorie = await _context.Categories.FirstOrDefaultAsync(m => m.id_categorie == id);
+            var categorie = _context.Categories.Find(id);
             if (categorie == null) return NotFound();
-
             return View("Categories/DeleteCategory", categorie);
         }
 
         [HttpPost, ActionName("DeleteCategory")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteCategoryConfirmed(int id)
+        public IActionResult DeleteCategoryConfirmed(int id)
         {
-            var categorie = await _context.Categories.FindAsync(id);
-            if (categorie == null) return NotFound();
-
-            _context.Categories.Remove(categorie);
-            await _context.SaveChangesAsync();
+            var categorie = _context.Categories.Find(id);
+            if (categorie != null)
+            {
+                _context.Categories.Remove(categorie);
+                _context.SaveChanges();
+            }
             return RedirectToAction(nameof(Categories));
         }
 
-        private bool CategorieExists(int id)
-        {
-            return _context.Categories.Any(e => e.id_categorie == id);
-        }
-
         // ----------- Produits -----------
-
-        public async Task<IActionResult> Products()
+        public IActionResult Products()
         {
-            var products = await _context.Produits.Include(p => p.Categorie).ToListAsync();
-            return View("Products/Products", products);
+            var produits = _context.Produits.Include(p => p.Categorie).ToList();
+            return View("Products/Products", produits);
         }
 
-        public async Task<IActionResult> ProductDetails(int? id)
+        public IActionResult CreateProduct()
         {
-            if (id == null) return NotFound();
-
-            var produit = await _context.Produits.Include(p => p.Categorie)
-                                                .FirstOrDefaultAsync(m => m.IdProduit == id);
-            if (produit == null) return NotFound();
-
-            return View("Products/ProductDetails", produit);
-        }
-
-        public async Task<IActionResult> CreateProduct()
-        {
-            try
-            {
-                // Assurez-vous que la collection Categories existe et contient des données
-                var categories = await _context.Categories.ToListAsync();
-                
-                // Vérifiez que la collection n'est pas vide
-                if (categories == null || !categories.Any())
-                {
-                    // Log ou informez l'utilisateur qu'il n'y a pas de catégories
-                    ViewBag.NoCategoriesMessage = "Aucune catégorie trouvée. Veuillez créer une catégorie d'abord.";
-                }
-                
-                // Utilisez les noms exacts des propriétés du modèle Category
-                ViewBag.Categories = new SelectList(categories, "id_categorie", "nom_categorie");
-                
-                return View("Products/CreateProduct");
-            }
-            catch (Exception ex)
-            {
-                // Loggez l'exception ou affichez-la pour le débogage
-                ViewBag.ErrorMessage = ex.Message;
-                return View("Products/CreateProduct");
-            }
+            ViewBag.Categories = new SelectList(_context.Categories, "id_categorie", "nom_categorie");
+            return View("Products/CreateProduct");
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateProduct([Bind("IdProduit,NomProduit,Prix,Description,IdCat")] Produit produit)
+        public IActionResult CreateProduct(Produit produit)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(produit);
-                await _context.SaveChangesAsync();
+                _context.Produits.Add(produit);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Products));
             }
-            // En cas d'erreur, repopuler la liste des catégories
-            ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "id_categorie", "nom_categorie", produit.IdCat);
+            ViewBag.Categories = new SelectList(_context.Categories, "id_categorie", "nom_categorie", produit.IdCat);
             return View("Products/CreateProduct", produit);
         }
 
-        public async Task<IActionResult> EditProduct(int? id)
+        public IActionResult EditProduct(int id)
         {
-            if (id == null) return NotFound();
-
-            var produit = await _context.Produits.FindAsync(id);
+            var produit = _context.Produits.Find(id);
             if (produit == null) return NotFound();
 
-            // Utilisez ViewBag.Categories pour les catégories
-            ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "id_categorie", "nom_categorie", produit.IdCat);
+            ViewBag.Categories = new SelectList(_context.Categories, "id_categorie", "nom_categorie", produit.IdCat);
             return View("Products/EditProduct", produit);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProduct(int id, [Bind("IdProduit,NomProduit,Prix,Description,IdCat")] Produit produit)
+        public IActionResult EditProduct(Produit produit)
         {
-            if (id != produit.IdProduit) return NotFound();
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(produit);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProduitExists(produit.IdProduit)) return NotFound();
-                    else throw;
-                }
+                _context.Produits.Update(produit);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Products));
             }
-            // En cas d'erreur, repopuler la liste des catégories
-            ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "id_categorie", "nom_categorie", produit.IdCat);
+            ViewBag.Categories = new SelectList(_context.Categories, "id_categorie", "nom_categorie", produit.IdCat);
             return View("Products/EditProduct", produit);
         }
 
-        public async Task<IActionResult> DeleteProduct(int? id)
+        public IActionResult DeleteProduct(int id)
         {
-            if (id == null) return NotFound();
-
-            var produit = await _context.Produits.Include(p => p.Categorie)
-                                                .FirstOrDefaultAsync(m => m.IdProduit == id);
+            var produit = _context.Produits
+                .Include(p => p.Categorie)
+                .FirstOrDefault(p => p.IdProduit == id);
             if (produit == null) return NotFound();
-
             return View("Products/DeleteProduct", produit);
         }
 
         [HttpPost, ActionName("DeleteProduct")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteProductConfirmed(int id)
+        public IActionResult DeleteProductConfirmed(int id)
         {
-            var produit = await _context.Produits.FindAsync(id);
-            if (produit == null) return NotFound();
-
-            _context.Produits.Remove(produit);
-            await _context.SaveChangesAsync();
+            var produit = _context.Produits.Find(id);
+            if (produit != null)
+            {
+                _context.Produits.Remove(produit);
+                _context.SaveChanges();
+            }
             return RedirectToAction(nameof(Products));
-        }
-
-        private bool ProduitExists(int id)
-        {
-            return _context.Produits.Any(e => e.IdProduit == id);
         }
 
     }
