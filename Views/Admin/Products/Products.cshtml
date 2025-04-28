@@ -2,37 +2,56 @@
 
 @{
     ViewData["Title"] = "Gestion des Produits";
+    ViewData["ShowHeader"] = false;
+    ViewData["ShowFooter"] = false;
+    ViewData["SlideBarAdmin"] = true;
+    ViewData["UseSlideBarAdminStyles"] = true;
+
 }
 
-<h1>Liste des Produits</h1>
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminuser.css" asp-append-version="true" />
+}
 
-<p>
-    <a asp-action="CreateProduct" class="btn btn-success">Créer un nouveau produit</a>
-</p>
+<div class="container">
+    <header>
+        <h1>Liste des Produits</h1>
+        <p>Gérez vos produits</p>
+    </header>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Prix</th>
-            <th>Catégorie</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.IdProduit)</td>
-            <td>@Html.DisplayFor(modelItem => item.NomProduit)</td>
-            <td>@Html.DisplayFor(modelItem => item.Prix) €</td>
-            <td>@Html.DisplayFor(modelItem => item.Categorie.nom_categorie)</td>
-            <td>
-                <a asp-action="EditProduct" asp-route-id="@item.IdProduit" class="btn btn-primary">Modifier</a>
-                <a asp-action="ProductDetails" asp-route-id="@item.IdProduit" class="btn btn-info">Détails</a>
-                <a asp-action="DeleteProduct" asp-route-id="@item.IdProduit" class="btn btn-danger">Supprimer</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+    <div class="table-section">
+        <p>
+            <a asp-action="CreateProduct" class="btn btn-success">Créer un nouveau produit</a>
+        </p>
+
+        <table id="productsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Prix</th>
+                    <th>Catégorie</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                @foreach (var item in Model) {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.IdProduit)</td>
+                    <td>@Html.DisplayFor(modelItem => item.NomProduit)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Prix) €</td>
+                    <td>@Html.DisplayFor(modelItem => item.Categorie.nom_categorie)</td>
+                    <td class="actions">
+                        <a asp-action="EditProduct" asp-route-id="@item.IdProduit" class="action-btn edit-btn">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a asp-action="DeleteProduct" asp-route-id="@item.IdProduit" class="action-btn delete-btn">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

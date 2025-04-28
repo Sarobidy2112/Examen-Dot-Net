@@ -21,7 +21,8 @@
                 <div class="card-content">
                     <h2>Utilisateurs</h2>
                     <p>Il y a <span class="counter">0</span> Utilisateurs inscrits dans le site</p>
-                    <button class="btn">Gérer les Utilisateurs</button>
+                    <a asp-controller="Admin" asp-action="Users"><button class="btn">Gérer les Utilisateurs</button></a>
+                    
                 </div>
                 <div class="card-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -34,7 +35,7 @@
                 <div class="card-content">
                     <h2>Catégories</h2>
                     <p>Il y a <span class="counter">0</span> Catégories de produit</p>
-                    <button class="btn">Gérer les Catégories</button>
+                    <a asp-controller="Admin" asp-action="Categories"><button class="btn">Gérer les Catégories</button></a>
                 </div>
                 <div class="card-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -47,7 +48,7 @@
                 <div class="card-content">
                     <h2>Produits</h2>
                     <p>Il y a <span class="counter">0</span> Produits encore disponible</p>
-                    <button class="btn">Gérer les Produits</button>
+                    <a asp-controller="Admin" asp-action="Products"></a><button class="btn">Gérer les Produits</button></a>
                 </div>
                 <div class="card-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">

@@ -2,33 +2,54 @@
 
 @{
     ViewData["Title"] = "Gestion des Catégories";
+    ViewData["ShowHeader"] = false;
+    ViewData["ShowFooter"] = false;
+    ViewData["SlideBarAdmin"] = true;
+    ViewData["UseSlideBarAdminStyles"] = true;
+
 }
 
-<h1>Liste des Catégories</h1>
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminuser.css" asp-append-version="true" />
+}
 
-<p>
-    <a asp-action="CreateCategory" class="btn btn-success">Créer une nouvelle catégorie</a>
-</p>
+<div class="container">
+    <header>
+        <h1>Liste des Catégories</h1>
+        <p>Gérez vos catégories</p>
+    </header>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.id_categorie)</td>
-            <td>@Html.DisplayFor(modelItem => item.nom_categorie)</td>
-            <td>
-                <a asp-action="EditCategory" asp-route-id="@item.id_categorie" class="btn btn-primary">Modifier</a>
-                <a asp-action="CategoryDetails" asp-route-id="@item.id_categorie" class="btn btn-info">Détails</a>
-                <a asp-action="DeleteCategory" asp-route-id="@item.id_categorie" class="btn btn-danger">Supprimer</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+    <div class="table-section">
+        <p>
+            <a asp-action="CreateCategory" class="btn btn-success">Créer une nouvelle catégorie</a>
+        </p>
+
+        <table id="categoriesTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                @foreach (var item in Model) {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.id_categorie)</td>
+                    <td>@Html.DisplayFor(modelItem => item.nom_categorie)</td>
+                    <td class="actions">
+                        <a asp-action="EditCategory" asp-route-id="@item.id_categorie" class="action-btn edit-btn">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a asp-action="DeleteCategory" asp-route-id="@item.id_categorie" class="action-btn delete-btn">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

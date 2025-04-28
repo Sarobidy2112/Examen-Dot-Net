@@ -2,23 +2,65 @@
 
 @{
     ViewData["Title"] = "Créer une Catégorie";
+    ViewData["ShowHeader"] = false;
+    ViewData["ShowFooter"] = false;
+    ViewData["SlideBarAdmin"] = true;
+    ViewData["UseSlideBarAdminStyles"] = true;
+
 }
 
-<h1>Créer une Catégorie</h1>
+@section Styles {
+    <link rel="stylesheet" href="~/css/admincreate.css" asp-append-version="true" />
+}
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreateCategory">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="category-creation-container">
+    <header class="creation-header">
+        <h1>Créer une Nouvelle Catégorie</h1>
+        <p class="subtitle">Ajoutez une nouvelle catégorie à votre collection</p>
+    </header>
+
+    <div class="creation-card">
+        <div class="creation-card-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 6L9 17l-5-5"></path>
+            </svg>
+            <h2>Informations de la Catégorie</h2>
+        </div>
+
+        <form asp-action="CreateCategory" class="creation-form">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+            
             <div class="form-group">
-                <label asp-for="nom_categorie" class="control-label">Nom de la catégorie</label>
-                <input asp-for="nom_categorie" class="form-control" />
-                <span asp-validation-for="nom_categorie" class="text-danger"></span>
+                <label asp-for="nom_categorie" class="form-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    Nom de la catégorie
+                </label>
+                <div class="input-wrapper">
+                    <input asp-for="nom_categorie" class="form-input" placeholder="Ex: Électronique, Mode, Cuisine..." />
+                    <span asp-validation-for="nom_categorie" class="input-error"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Créer" class="btn btn-primary" />
-                <a asp-action="Categories" class="btn btn-secondary">Annuler</a>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-create">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        <polyline points="7 3 7 8 15 8"></polyline>
+                    </svg>
+                    Créer la catégorie
+                </button>
+                <a asp-action="Categories" class="btn-cancel">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    Annuler
+                </a>
             </div>
         </form>
     </div>

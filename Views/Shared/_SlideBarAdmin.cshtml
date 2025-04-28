@@ -1,16 +1,16 @@
 <div class="slide-bar">
         <div class="logo">
-            <h1><span>REC</span>SOUND</h1>
+            <a asp-controller="Admin" asp-action="Dashboard"><h1><span>REC</span>SOUND</h1></a>
         </div>
         <div class="links">
             <div class="top">
-                <a href="#users" class="menu-item">
+                <a asp-controller="Admin" asp-action="Users" class="menu-item">
                     <i class="fas fa-users"></i> Utilisateurs
                 </a>
-                <a href="#categories" class="menu-item">
+                <a asp-controller="Admin" asp-action="Categories" class="menu-item">
                     <i class="fas fa-th-large"></i> Catégories
                 </a>
-                <a href="#products" class="menu-item">
+                <a asp-controller="Admin" asp-action="Products" class="menu-item">
                     <i class="fas fa-cogs"></i> Produits
                 </a>
             </div>
@@ -18,7 +18,7 @@
                 <a href="#settings" class="menu-item">
                     <i class="fas fa-cogs"></i> Paramètres
                 </a>
-                <a href="#logout" class="menu-item">
+                <a asp-controller="Auth" asp-action="Logout" class="menu-item">
                     <i class="fas fa-sign-out-alt"></i> Déconnexion
                 </a>
             </div>

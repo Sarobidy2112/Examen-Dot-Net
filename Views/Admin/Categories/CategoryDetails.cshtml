@@ -2,7 +2,17 @@
 
 @{
     ViewData["Title"] = "Détails de la Catégorie";
+    ViewData["ShowHeader"] = false;
+    ViewData["ShowFooter"] = false;
+    ViewData["SlideBarAdmin"] = true;
+    ViewData["UseSlideBarAdminStyles"] = true;
+
 }
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminuser.css" asp-append-version="true" />
+}
+
 
 <h1>Détails de la Catégorie</h1>
 

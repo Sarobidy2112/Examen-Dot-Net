@@ -1,0 +1,153 @@
+.containers{
+    display: flex;
+}
+
+
+.category-deletion-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2d3748;
+}
+
+.deletion-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.deletion-header h1 {
+    font-size: 2.5rem;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #718096;
+}
+
+.deletion-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.deletion-card:hover {
+    transform: translateY(-2px);
+}
+
+.deletion-card-header {
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+    border-bottom: 1px solid #fed7d7;
+}
+
+.deletion-card-header h2 {
+    font-size: 1.5rem;
+    color: #b91c1c;
+    margin-bottom: 0.5rem;
+}
+
+.warning-message {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #b91c1c;
+    margin-bottom: 0.5rem;
+}
+
+.warning-message svg {
+    color: #dc2626;
+}
+
+.confirmation-text {
+    color: #7f1d1d;
+    font-size: 0.95rem;
+}
+
+.category-details-block {
+    padding: 2rem;
+}
+
+.category-details-block h4 {
+    font-size: 1.3rem;
+    color: #1e40af;
+    margin-bottom: 1rem;
+}
+
+.divider {
+    height: 1px;
+    background: #e2e8f0;
+    margin: 1.5rem 0;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-delete {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.btn-delete:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2), 0 2px 4px -1px rgba(220, 38, 38, 0.06);
+}
+
+.btn-delete:active {
+    transform: translateY(0);
+}
+
+.btn-cancel {
+    background: white;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-cancel:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+    transform: translateY(-1px);
+}
+
+.btn-cancel:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn-delete, .btn-cancel {
+        width: 100%;
+        justify-content: center;
+    }
+}
