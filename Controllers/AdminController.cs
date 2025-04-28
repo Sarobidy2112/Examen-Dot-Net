@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using examDotNet.Data;
 using examDotNet.Filters;
+using Microsoft.AspNetCore.Mvc.Rendering; // Pour SelectList
 
 namespace examDotNet.Controllers
 {
@@ -53,8 +54,7 @@ namespace examDotNet.Controllers
             return RedirectToAction(nameof(Users));
         }
 
-        // ----------- Catégories -----------
-
+        // ----------- Categories -----------
         public async Task<IActionResult> Categories()
         {
             return View("Categories/Categories", await _context.Categories.ToListAsync());
@@ -169,8 +169,29 @@ namespace examDotNet.Controllers
 
         public async Task<IActionResult> CreateProduct()
         {
-            ViewBag.Categories = await _context.Categories.ToListAsync();
-            return View("Products/CreateProduct");
+            try
+            {
+                // Assurez-vous que la collection Categories existe et contient des données
+                var categories = await _context.Categories.ToListAsync();
+                
+                // Vérifiez que la collection n'est pas vide
+                if (categories == null || !categories.Any())
+                {
+                    // Log ou informez l'utilisateur qu'il n'y a pas de catégories
+                    ViewBag.NoCategoriesMessage = "Aucune catégorie trouvée. Veuillez créer une catégorie d'abord.";
+                }
+                
+                // Utilisez les noms exacts des propriétés du modèle Category
+                ViewBag.Categories = new SelectList(categories, "id_categorie", "nom_categorie");
+                
+                return View("Products/CreateProduct");
+            }
+            catch (Exception ex)
+            {
+                // Loggez l'exception ou affichez-la pour le débogage
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Products/CreateProduct");
+            }
         }
 
         [HttpPost]
@@ -183,7 +204,8 @@ namespace examDotNet.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Products));
             }
-            ViewBag.Categories = await _context.Categories.ToListAsync();
+            // En cas d'erreur, repopuler la liste des catégories
+            ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "id_categorie", "nom_categorie", produit.IdCat);
             return View("Products/CreateProduct", produit);
         }
 
@@ -194,7 +216,8 @@ namespace examDotNet.Controllers
             var produit = await _context.Produits.FindAsync(id);
             if (produit == null) return NotFound();
 
-            ViewBag.Categories = await _context.Categories.ToListAsync();
+            // Utilisez ViewBag.Categories pour les catégories
+            ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "id_categorie", "nom_categorie", produit.IdCat);
             return View("Products/EditProduct", produit);
         }
 
@@ -218,7 +241,8 @@ namespace examDotNet.Controllers
                 }
                 return RedirectToAction(nameof(Products));
             }
-            ViewBag.Categories = await _context.Categories.ToListAsync();
+            // En cas d'erreur, repopuler la liste des catégories
+            ViewBag.Categories = new SelectList(await _context.Categories.ToListAsync(), "id_categorie", "nom_categorie", produit.IdCat);
             return View("Products/EditProduct", produit);
         }
 
@@ -249,5 +273,6 @@ namespace examDotNet.Controllers
         {
             return _context.Produits.Any(e => e.IdProduit == id);
         }
+
     }
 }

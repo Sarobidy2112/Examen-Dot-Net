@@ -20,7 +20,7 @@ namespace examDotNet.Models
         public string Description { get; set; }
 
         [ForeignKey("IdCat")]
-        public Categorie Categorie { get; set; }
+        public Categorie? Categorie { get; set; }
         public int IdCat { get; set; }
 
         // Ajoutez cette propriété de navigation pour la relation avec CommandeProduit
