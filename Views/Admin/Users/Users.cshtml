@@ -37,10 +37,15 @@
                             <td>@Html.DisplayFor(modelItem => item.Name)</td>
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
                             <td>@(item.Role == 0 ? "Utilisateur" : "Admin")</td>
-                            <td class="actions">                                     
-                                <button class="action-btn delete-btn" asp-action="DeleteUser" asp-route-id="@item.Id">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                            <td class="actions">      
+                                
+                                                               
+                                <a asp-action="DeleteUser" asp-route-id="@item.Id">
+                                    <button class="action-btn delete-btn" >
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </a>
+                                
                             </td>
                         </tr>   
                     }
