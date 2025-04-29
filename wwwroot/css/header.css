@@ -101,6 +101,27 @@
   cursor: pointer;
 }
 
+.navbar .action .d-inline{
+  margin-left: 35px;
+}
+
+.navbar .action .d-inline .btn {
+  width: 135px;
+  height: 30px;
+  background-color: white;
+  border: 1px solid #f1c40f;
+  border-radius: 35px;
+  transition: 0.5s ease;
+}
+
+.navbar .action .d-inline .btn:hover {
+  background-color: #f1c40f;
+  border: 1px solid #f1c40f;
+  transition: 0.5s ease;
+  color: white;
+  cursor: pointer;
+}
+
 .navbar .action .user-info {
   display: flex;
   align-items: center;
