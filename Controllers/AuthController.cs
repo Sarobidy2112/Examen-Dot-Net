@@ -72,6 +72,7 @@ namespace examDotNet.Controllers
             // Créer la session utilisateur
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("UserName", user.Name);
+            HttpContext.Session.SetString("UserEmail", user.Email);
             HttpContext.Session.SetInt32("UserRole", user.Role);
 
             return RedirectToAction("Index", "Home");

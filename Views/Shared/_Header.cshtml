@@ -1,6 +1,50 @@
-<header>
-    <nav>
-        <div class="logo">MARKET<span>PLACE</span></div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <h1>REC <span>Sound</span></h1>
+        </div>
+
+        <div class="links">
+            <ul>
+                <li><a href="#">Les Produits</a></li>
+                @if (Context.Session.GetInt32("UserRole") == 1){
+                    <li><a asp-controller="Admin" asp-action="Dashboard">Dashboard</a></li>   
+                }
+                <li><a href="#">Favoris</a></li>
+                <li><a href="#">A propos</a></li>
+            </ul>
+            <div class="cart">
+                <i class="icon fas fa-shopping-cart"></i>
+            </div>
+        </div>
+
+        <div class="action">
+
+            @if (Context.Session.GetInt32("UserId") == null)
+            {
+                <a asp-controller="Auth" asp-action="Register">
+                    <button class="btn btn-register">S'inscrire</button>
+                </a>
+                <a asp-controller="Auth" asp-action="Login">
+                    <button class="btn btn-login">Se connecter</button>
+                </a>
+            }
+            else
+            {
+                <div class="user-info">
+                    <i class="fas fa-user icon-user"></i>
+                    <p>@(Context.Session.GetInt32("UserName"))</p>
+                </div>
+
+                <a asp-controller="Auth" asp-action="Logout">
+                    <button class="btn btn-logout">Se Deconnecter</button>
+                </a>
+            }
+        </div>
+    </nav>
+    
+    @* <nav>
+        <div class="logo">REC<span>SOUND</span></div>
         <div class="menu-icon" id="menu-icon" aria-label="Toggle navigation menu" role="button" tabindex="0">
             <span class="nav-icon"></span>
         </div>
@@ -12,18 +56,17 @@
             @if (Context.Session.GetInt32("UserId") == null)
             {
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Auth" asp-action="Register">Inscription</a>
+                    <a asp-controller="Auth" asp-action="Register">Inscription</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Auth" asp-action="Login">Connexion</a>
+                    <a asp-controller="Auth" asp-action="Login">Connexion</a>
                 </li>
             }
             else
             {
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Auth" asp-action="Logout">Déconnexion</a>
+                    <a asp-controller="Auth" asp-action="Logout">Déconnexion</a>
                 </li>
             }
         </ul>
-    </nav>
-</header>
+    </nav> *@
