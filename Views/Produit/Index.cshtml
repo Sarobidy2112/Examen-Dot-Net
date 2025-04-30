@@ -1,4 +1,4 @@
-@model IEnumerable<examDotNet.Models.Produit>
+@model examDotNet.Models.ProduitsViewModel
 
 @{
     ViewData["Title"] = "Les Produits";
@@ -21,57 +21,83 @@
         <aside class="filters">
             <div class="filters-content">
                 <h2 class="filters-title">Filtrer les produits</h2>
-                
-                <!-- Recherche -->
-                <div class="filter-section">
-                    <h3>Recherche</h3>
-                    <div class="search-box">
-                        <input type="text" id="search-input" placeholder="Rechercher un produit...">
-                        <button id="search-btn"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-                
-                <!-- Catégories -->
-                <div class="filter-section">
-                    <h3>Catégories</h3>
-                    <ul class="category-list">
-                        <li><label><input type="checkbox" name="category" value="electronique"> Électronique</label></li>
-                        <li><label><input type="checkbox" name="category" value="vetements"> Vêtements</label></li>
-                        <li><label><input type="checkbox" name="category" value="maison"> Maison</label></li>
-                        <li><label><input type="checkbox" name="category" value="sport"> Sport</label></li>
-                        <li><label><input type="checkbox" name="category" value="beaute"> Beauté</label></li>
-                    </ul>
-                </div>
-                
-                <!-- Disponibilité -->
-                <div class="filter-section">
-                    <h3>Disponibilité</h3>
-                    <div class="availability-options">
-                        <label><input type="checkbox" name="availability" value="in-stock"> En stock seulement</label>
-                    </div>
-                </div>
-                
-                <!-- Prix -->
-                <div class="filter-section">
-                    <h3>Prix</h3>
-                    <div class="price-range">
-                        <input type="range" id="price-slider" min="0" max="1000" step="10" value="1000">
-                        <div class="price-values">
-                            <span>0 €</span>
-                            <span id="max-price-display">1000 €</span>
+                    <form id="filter-form" asp-action="Index" method="get">
+                        <!-- Recherche -->
+                        <div class="filter-section">
+                            <h3>Recherche</h3>
+                            <div class="search-box">
+                                <input type="text" id="search-input" name="searchString" value="@Model.SearchString" placeholder="Rechercher un produit...">
+                                <button id="search-btn" type="submit"><i class="fas fa-search"></i></button>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                
-                <button id="reset-filters" class="reset-btn">Réinitialiser les filtres</button>
+                        
+                        <!-- Catégories -->
+                        <div class="filter-section">
+                            <h3>Catégories</h3>
+                            <ul class="category-list">
+                                @foreach (var categorie in Model.Categories)
+                                {
+                                    <li>
+                                        <label>
+                                            <input  type="checkbox"
+                                                    name="categories"
+                                                    value="@categorie"
+                                                    id="cat-@categorie"
+                                                   @(Model.CategoriesSelectionnees.Contains(categorie) ? "checked" : "")
+                                                   class="filter-checkbox" 
+                                                   >
+                                                    
+                                            @categorie
+                                        </label>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        
+                        <!-- Disponibilité -->
+                        <div class="filter-section">
+                            <h3>Disponibilité</h3>
+                            <div class="availability-options">
+                                <label>
+                                    <input type="checkbox" name="inStock" value="true" id="in-stock" 
+                                           @(Model.EnStockSeulement ? "checked" : "")
+                                           class="filter-checkbox" >
+                                    En stock seulement
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Prix -->
+                        <div class="filter-section">
+                            <h3>Prix</h3>
+                            <div class="price-range">
+                                <input  type="range" id="price-slider"
+                                        min="0" max="@Model.PrixMaxPossible" step="10"
+                                        value="@Model.PrixMaximum"
+                                        name="maxPrice" >
+                                <div class="price-values">
+                                    <span>0 €</span>
+                                    <span id="max-price-display">@Model.PrixMaximum €</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="btn-place">
+                            
+                            <button type="submit" cid="reset-filters" class="reset-btn">Appliquer les filtres</button>
+                            <a href="@Url.Action("Index")" class="reset-btn" id="reset-filters" class="reset-btn">
+                                Réinitialiser les filtre
+                            </a>
+                        </div>
+                    </form>
             </div>
         </aside>
         
         <!-- Section Produits -->
         <main class="products">
             <div class="products-grid" id="products-container">
-                
-                @foreach (var produit in Model) {
+                @if (Model.Produits.Any()){
+                @foreach (var produit in Model.Produits) {
 
                     <div class="product-card">
 
@@ -96,44 +122,75 @@
                         </div>
 
                     </div>
-                }
-
-
-
+                }}
             </div>
         </main>
 </div>
 
-
-
-@* 
-<h1>Liste des produits</h1>
-
-<div class="row">
-    @foreach (var produit in Model)
-    {
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                @if (!string.IsNullOrEmpty(produit.ImagePath))
-                {
-                    <img src="@produit.ImagePath" class="product-img" alt="@produit.NomProduit">
-                }
-                else
-                {
-                    <img src="~/images/no-image.png" class="product-img" alt="Pas d'image">
-                }
-                <div class="card-body">
-                    <h5 class="card-title">@produit.NomProduit</h5>
-                    <p class="card-text">Prix: @produit.Prix.ToString("C")</p>
-                    
-                    @if (produit.NbStock <= 0)
-                    {
-                        <p class="text-danger">Stock épuisé</p>
+@section Scripts {
+    <script>
+        // Mise à jour de l'affichage du prix maximum sélectionné
+        document.addEventListener('DOMContentLoaded', function() {
+            const priceSlider = document.getElementById('price-slider');
+            const maxPriceDisplay = document.getElementById('max-price-display');
+            const filterForm = document.getElementById('filter-form');
+            
+            if (priceSlider && maxPriceDisplay) {
+                // Valeur initiale du slider
+                const defaultValue = @Model.PrixMaxPossible;
+                
+                priceSlider.addEventListener('input', function() {
+                    maxPriceDisplay.textContent = this.value + ' €';
+                });
+                
+                // Ne pas soumettre la valeur de prix si elle est égale au maximum
+                priceSlider.addEventListener('change', function() {
+                    if (parseInt(this.value) === defaultValue) {
+                        this.removeAttribute('name');
+                    } else {
+                        this.setAttribute('name', 'maxPrice');
                     }
-                    
-                    <a asp-action="Details" asp-route-slug="@produit.Slug" class="btn btn-primary">Voir détails</a>
-                </div>
-            </div>
-        </div>
-    }
-</div> *@
+                });
+            }
+            
+            // Soumission du formulaire lors du changement des cases à cocher
+            const filterCheckboxes = document.querySelectorAll('.filter-checkbox');
+            filterCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    // Nettoyage des paramètres inutiles avant la soumission
+                    cleanupForm();
+                    filterForm.submit();
+                });
+            });
+            
+            // Nettoyage des paramètres non utilisés
+            function cleanupForm() {
+                // Supprime le paramètre searchString s'il est vide
+                const searchInput = document.getElementById('search-input');
+                if (searchInput && searchInput.value.trim() === '') {
+                    searchInput.removeAttribute('name');
+                }
+                
+                // Supprime le paramètre inStock s'il n'est pas coché
+                const inStockCheckbox = document.getElementById('in-stock');
+                if (inStockCheckbox && !inStockCheckbox.checked) {
+                    inStockCheckbox.removeAttribute('name');
+                }
+                
+                // Supprime le paramètre maxPrice s'il est à la valeur maximale
+                if (priceSlider && parseInt(priceSlider.value) === defaultValue) {
+                    priceSlider.removeAttribute('name');
+                }
+            }
+            
+            // Appliquer le nettoyage des paramètres lors de la soumission du formulaire
+            if (filterForm) {
+                filterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    cleanupForm();
+                    this.submit();
+                });
+            }
+        });
+    </script>
+}

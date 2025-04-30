@@ -18,6 +18,12 @@
 .filters-content {
   position: relative;
 }
+
+.filters-content .btn-place{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 135px;
+}
 .filters-title {
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
@@ -147,7 +153,6 @@
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 1rem;
-  margin-bottom: 135px;
 }
 .reset-btn:hover {
   background-color: #ff3838;

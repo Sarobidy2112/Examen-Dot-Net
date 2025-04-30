@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace examDotNet.Controllers
 {
@@ -18,14 +19,63 @@ namespace examDotNet.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
-        // Action pour afficher la liste des produits
-        public async Task<IActionResult> Index()
+        // Action pour afficher la liste des produits avec options de filtrage
+        public async Task<IActionResult> Index(string searchString, List<string> categories, bool? inStock, decimal? maxPrice)
         {
-            var produits = await _context.Produits
+            // Récupérer les produits avec leurs catégories
+            var produitsQuery = _context.Produits
                 .Include(p => p.Categorie)
+                .AsQueryable();
+
+            // Filtrer par nom si un terme de recherche est fourni
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                produitsQuery = produitsQuery.Where(p => p.NomProduit.Contains(searchString));
+            }
+
+            // Filtrer par catégorie si des catégories sont sélectionnées
+            if (categories != null && categories.Count > 0)
+            {
+                produitsQuery = produitsQuery.Where(p => p.Categorie != null && categories.Contains(p.Categorie.nom_categorie));
+            }
+
+            // Filtrer par disponibilité si demandé
+            if (inStock == true)
+            {
+                produitsQuery = produitsQuery.Where(p => p.NbStock > 0);
+            }
+
+            // Filtrer par prix maximum si spécifié
+            if (maxPrice.HasValue)
+            {
+                produitsQuery = produitsQuery.Where(p => p.Prix <= maxPrice.Value);
+            }
+
+            // Récupérer toutes les catégories pour le filtre
+            var toutesCategories = await _context.Categories
+                .Select(c => c.nom_categorie)
                 .ToListAsync();
-            
-            return View(produits);
+
+            // Récupérer le prix maximum pour le slider
+            var prixMaximum = await _context.Produits
+                .MaxAsync(p => p.Prix);
+
+            // Arrondir le prix maximum à la centaine supérieure pour le slider
+            prixMaximum = Math.Ceiling(prixMaximum / 100) * 100;
+
+            // Créer un modèle pour la vue qui contient les produits et les filtres
+            var viewModel = new ProduitsViewModel
+            {
+                Produits = await produitsQuery.ToListAsync(),
+                Categories = toutesCategories,
+                SearchString = searchString,
+                CategoriesSelectionnees = categories ?? new List<string>(),
+                EnStockSeulement = inStock ?? false,
+                PrixMaximum = maxPrice ?? prixMaximum,
+                PrixMaxPossible = prixMaximum
+            };
+
+            return View(viewModel);
         }
 
         // Action pour afficher les détails d'un produit spécifique
