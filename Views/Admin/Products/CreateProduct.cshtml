@@ -92,6 +92,20 @@
             </div>
 
             <div class="form-group">
+                <label asp-for="NbStock" class="form-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 16h12v4H6z"></path>
+                        <path d="M6 8h12v4H6z"></path>
+                    </svg>
+                    Nombre de Stock
+                </label>
+                <div class="input-wrapper">
+                    <input asp-for="NbStock" class="form-input" />
+                    <span asp-validation-for="NbStock" class="input-error"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label asp-for="IdCat" class="form-label">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 6L8 2 12 6 16 2 20 6"></path>

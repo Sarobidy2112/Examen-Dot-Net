@@ -19,6 +19,9 @@ namespace examDotNet.Models
         [MaxLength(225)]
         public string Description { get; set; }
 
+        [Required]
+        public int NbStock { get; set; }
+
         [ForeignKey("IdCat")]
         public Categorie? Categorie { get; set; }
         public int IdCat { get; set; }
