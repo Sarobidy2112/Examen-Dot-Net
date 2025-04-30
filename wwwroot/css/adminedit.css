@@ -175,6 +175,20 @@
     transform: translateY(0);
 }
 
+.edit-form img {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: block;
+    margin-bottom: 15px;
+}
+
+/* Style pour le champ fichier */
+.form-input[type="file"] {
+    padding: 8px;
+    border: 1px dashed #ccc;
+    background-color: #f9f9f9;
+}
+
 @media (max-width: 640px) {
     .form-actions {
         flex-direction: column;

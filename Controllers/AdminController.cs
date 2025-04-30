@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using examDotNet.Data;
 using examDotNet.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering; // Pour SelectList
+using System.Text;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+
 
 namespace examDotNet.Controllers
 {
@@ -13,10 +17,12 @@ namespace examDotNet.Controllers
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public AdminController(ApplicationDbContext context)
+        public AdminController(ApplicationDbContext context, IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public IActionResult Dashboard()
@@ -130,14 +136,55 @@ namespace examDotNet.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateProduct(Produit produit)
+        public async Task<IActionResult> CreateProduct(Produit produit)
         {
             if (ModelState.IsValid)
             {
+                // Générer le slug
+                produit.Slug = GenerateSlug(produit.NomProduit);
+
+                // Gestion de l'image
+                if (produit.ImageFile != null && produit.ImageFile.Length > 0)
+                {
+                    try
+                    {
+                        // Chemin du dossier d'upload
+                        var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images", "products");
+                        
+                        // Créer le dossier s'il n'existe pas
+                        if (!Directory.Exists(uploadsFolder))
+                        {
+                            Directory.CreateDirectory(uploadsFolder);
+                        }
+
+                        // Nom unique pour le fichier
+                        var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(produit.ImageFile.FileName);
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        // Sauvegarder le fichier
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await produit.ImageFile.CopyToAsync(fileStream);
+                        }
+
+                        // Enregistrer le chemin dans la base
+                        produit.ImagePath = "/images/products/" + uniqueFileName;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Loguer l'erreur pour le débogage
+                        Console.WriteLine($"Erreur lors de l'upload: {ex.Message}");
+                        ModelState.AddModelError("", "Erreur lors de l'enregistrement de l'image");
+                        ViewBag.Categories = new SelectList(_context.Categories, "id_categorie", "nom_categorie", produit.IdCat);
+                        return View("Products/CreateProduct", produit);
+                    }
+                }
+
                 _context.Produits.Add(produit);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Products));
             }
+
             ViewBag.Categories = new SelectList(_context.Categories, "id_categorie", "nom_categorie", produit.IdCat);
             return View("Products/CreateProduct", produit);
         }
@@ -152,17 +199,47 @@ namespace examDotNet.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditProduct(Produit produit)
+        public async Task<IActionResult> EditProduct(Produit produit)
         {
             if (ModelState.IsValid)
             {
+                // Gestion du slug
+                produit.Slug = GenerateSlug(produit.NomProduit);
+
+                // Gestion de l'image
+                if (produit.ImageFile != null && produit.ImageFile.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images/products");
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + produit.ImageFile.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    Directory.CreateDirectory(uploadsFolder);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await produit.ImageFile.CopyToAsync(fileStream);
+                    }
+
+                    // Supprimer l'ancienne image si elle existe
+                    if (!string.IsNullOrEmpty(produit.ImagePath))
+                    {
+                        var oldImagePath = Path.Combine(_hostingEnvironment.WebRootPath, produit.ImagePath.TrimStart('/'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    produit.ImagePath = "/images/products/" + uniqueFileName;
+                }
+
                 _context.Produits.Update(produit);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Products));
             }
             ViewBag.Categories = new SelectList(_context.Categories, "id_categorie", "nom_categorie", produit.IdCat);
             return View("Products/EditProduct", produit);
         }
+
 
         public IActionResult DeleteProduct(int id)
         {
@@ -183,6 +260,45 @@ namespace examDotNet.Controllers
                 _context.SaveChanges();
             }
             return RedirectToAction(nameof(Products));
+        }
+
+
+
+        // Méthode pour générer un slug
+        private string GenerateSlug(string phrase)
+        {
+            // Convertir en minuscules
+            string str = phrase.ToLowerInvariant();
+            
+            // Remplacer les caractères spéciaux et espaces par des tirets
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in str)
+            {
+                if (char.IsLetterOrDigit(c))
+                {
+                    sb.Append(c);
+                }
+                else if (c == ' ' || c == '-' || c == '_')
+                {
+                    sb.Append('-');
+                }
+                // On ignore les autres caractères
+            }
+            
+            str = sb.ToString();
+            
+            // Supprimer les doubles tirets
+            while (str.Contains("--"))
+                str = str.Replace("--", "-");
+            
+            // Supprimer les tirets en début et fin
+            str = str.Trim('-');
+            
+            // Si le résultat est vide (que des caractères spéciaux), on met une valeur par défaut
+            if (string.IsNullOrEmpty(str))
+                str = "product";
+            
+            return str;
         }
 
     }

@@ -13,7 +13,7 @@ namespace examDotNet.Models
         public string NomProduit { get; set; }
 
         [Required]
-        public decimal Prix { get; set; }  // Le prix unitaire du produit
+        public decimal Prix { get; set; }
 
         [Required]
         [MaxLength(225)]
@@ -22,11 +22,17 @@ namespace examDotNet.Models
         [Required]
         public int NbStock { get; set; }
 
+        public string? Slug { get; set; }  // Nouveau champ pour le slug
+
+        public string? ImagePath { get; set; }  // Chemin de l'image
+
         [ForeignKey("IdCat")]
         public Categorie? Categorie { get; set; }
         public int IdCat { get; set; }
 
-        // Ajoutez cette propriété de navigation pour la relation avec CommandeProduit
+        [NotMapped]  // Ne sera pas enregistré en base
+        public IFormFile? ImageFile { get; set; }  // Pour l'upload
+
         public ICollection<CommandeProduit> CommandeProduits { get; set; } = new List<CommandeProduit>();
     }
 }
