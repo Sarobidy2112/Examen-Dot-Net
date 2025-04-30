@@ -7,12 +7,14 @@
 
 <nav class="navbar">
     <div class="logo">
-        <h1>REC <span>Sound</span></h1>
+        <a asp-controller="Home" asp-action="Index">
+            <h1>REC <span>Sound</span></h1>
+        </a>
     </div>
 
     <div class="links">
         <ul>
-            <li><a href="#">Les Produits</a></li>
+            <li><a asp-controller="Produit" asp-action="Index">Les Produits</a></li>
             @if (userRole == 1)
             {
                 <li><a asp-controller="Admin" asp-action="Dashboard">Dashboard</a></li>   

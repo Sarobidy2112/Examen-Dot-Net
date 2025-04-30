@@ -1,0 +1,46 @@
+@model examDotNet.Models.Produit
+
+@{
+    ViewData["Title"] = "Détails du produit";
+}
+
+<h1>@Model.NomProduit</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Model.ImagePath" class="img-fluid" alt="@Model.NomProduit">
+        }
+        else
+        {
+            <img src="~/images/no-image.png" class="img-fluid" alt="Pas d'image">
+        }
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h3>@Model.NomProduit</h3>
+                <p class="fs-4">Prix: @Model.Prix.ToString("C")</p>
+                
+                <h5>Description</h5>
+                <p>@Model.Description</p>
+                
+                <h5>Catégorie</h5>
+                <p>@(Model.Categorie != null ? Model.Categorie.nom_categorie : "Non catégorisé")</p>
+                
+                <h5>Stock</h5>
+                @if (Model.NbStock > 0)
+                {
+                    <p>En stock: @Model.NbStock unité(s)</p>
+                }
+                else
+                {
+                    <p class="text-danger">Stock épuisé</p>
+                }
+                
+                <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+            </div>
+        </div>
+    </div>
+</div>

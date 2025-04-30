@@ -1,0 +1,139 @@
+@model IEnumerable<examDotNet.Models.Produit>
+
+@{
+    ViewData["Title"] = "Les Produits";
+    ViewData["ShowHeader"] = true;
+    ViewData["ShowFooter"] = false;
+    ViewData["UseHeaderStyles"] = true;
+    ViewData["UseFooterStyles"] = false;
+    ViewData["SlideBarAdmin"] = false;
+    ViewData["UseSlideBarAdminStyles"] = false;
+    ViewData["UseBootstrap"] = false;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/listproduit.css" asp-append-version="true" />
+}
+
+
+<div class="container">
+        <!-- Section Filtres -->
+        <aside class="filters">
+            <div class="filters-content">
+                <h2 class="filters-title">Filtrer les produits</h2>
+                
+                <!-- Recherche -->
+                <div class="filter-section">
+                    <h3>Recherche</h3>
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Rechercher un produit...">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                
+                <!-- Catégories -->
+                <div class="filter-section">
+                    <h3>Catégories</h3>
+                    <ul class="category-list">
+                        <li><label><input type="checkbox" name="category" value="electronique"> Électronique</label></li>
+                        <li><label><input type="checkbox" name="category" value="vetements"> Vêtements</label></li>
+                        <li><label><input type="checkbox" name="category" value="maison"> Maison</label></li>
+                        <li><label><input type="checkbox" name="category" value="sport"> Sport</label></li>
+                        <li><label><input type="checkbox" name="category" value="beaute"> Beauté</label></li>
+                    </ul>
+                </div>
+                
+                <!-- Disponibilité -->
+                <div class="filter-section">
+                    <h3>Disponibilité</h3>
+                    <div class="availability-options">
+                        <label><input type="checkbox" name="availability" value="in-stock"> En stock seulement</label>
+                    </div>
+                </div>
+                
+                <!-- Prix -->
+                <div class="filter-section">
+                    <h3>Prix</h3>
+                    <div class="price-range">
+                        <input type="range" id="price-slider" min="0" max="1000" step="10" value="1000">
+                        <div class="price-values">
+                            <span>0 €</span>
+                            <span id="max-price-display">1000 €</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="reset-filters" class="reset-btn">Réinitialiser les filtres</button>
+            </div>
+        </aside>
+        
+        <!-- Section Produits -->
+        <main class="products">
+            <div class="products-grid" id="products-container">
+                
+                @foreach (var produit in Model) {
+
+                    <div class="product-card">
+
+                        @if (!string.IsNullOrEmpty(produit.ImagePath))
+                        {
+                            <img src="@produit.ImagePath" class="product-img" alt="@produit.NomProduit">
+                        }
+                        else
+                        {
+                            <img src="~/images/no-image.png" class="product-img" alt="Pas d'image">
+                        }
+
+                        <div class="product-text">
+                            <h3 class="product-card-title">@produit.NomProduit</h3>
+                            <p class="product-card-price">@produit.Prix.ToString("C")</p>
+                        </div>
+
+                        <div class="product-cart">
+                            <a asp-action="Details" asp-route-slug="@produit.Slug">
+                                <button type="submit">Add to cart</button>
+                            </a>
+                        </div>
+
+                    </div>
+                }
+
+
+
+            </div>
+        </main>
+</div>
+
+
+
+@* 
+<h1>Liste des produits</h1>
+
+<div class="row">
+    @foreach (var produit in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                @if (!string.IsNullOrEmpty(produit.ImagePath))
+                {
+                    <img src="@produit.ImagePath" class="product-img" alt="@produit.NomProduit">
+                }
+                else
+                {
+                    <img src="~/images/no-image.png" class="product-img" alt="Pas d'image">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@produit.NomProduit</h5>
+                    <p class="card-text">Prix: @produit.Prix.ToString("C")</p>
+                    
+                    @if (produit.NbStock <= 0)
+                    {
+                        <p class="text-danger">Stock épuisé</p>
+                    }
+                    
+                    <a asp-action="Details" asp-route-slug="@produit.Slug" class="btn btn-primary">Voir détails</a>
+                </div>
+            </div>
+        </div>
+    }
+</div> *@
