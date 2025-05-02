@@ -84,9 +84,9 @@
                         
                         <div class="btn-place">
                             
-                            <button type="submit" cid="reset-filters" class="reset-btn">Appliquer les filtres</button>
-                            <a href="@Url.Action("Index")" class="reset-btn" id="reset-filters" class="reset-btn">
-                                Réinitialiser les filtre
+                            <button type="submit" id="apply-filters" class="reset-btn">Appliquer les filtres</button>
+                            <a href="@Url.Action("Index")" id="reset-filters" class="reset-btn">
+                                Réinitialiser les filtres
                             </a>
                         </div>
                     </form>
@@ -129,68 +129,68 @@
 
 @section Scripts {
     <script>
-        // Mise à jour de l'affichage du prix maximum sélectionné
         document.addEventListener('DOMContentLoaded', function() {
-            const priceSlider = document.getElementById('price-slider');
-            const maxPriceDisplay = document.getElementById('max-price-display');
-            const filterForm = document.getElementById('filter-form');
+        const priceSlider = document.getElementById('price-slider');
+        const maxPriceDisplay = document.getElementById('max-price-display');
+        const filterForm = document.getElementById('filter-form');
+        
+        if (priceSlider && maxPriceDisplay) {
+            // Valeur initiale du slider
+            const maxValue = @Model.PrixMaxPossible;
             
-            if (priceSlider && maxPriceDisplay) {
-                // Valeur initiale du slider
-                const defaultValue = @Model.PrixMaxPossible;
-                
-                priceSlider.addEventListener('input', function() {
-                    maxPriceDisplay.textContent = this.value + ' €';
-                });
-                
-                // Ne pas soumettre la valeur de prix si elle est égale au maximum
-                priceSlider.addEventListener('change', function() {
-                    if (parseInt(this.value) === defaultValue) {
-                        this.removeAttribute('name');
-                    } else {
-                        this.setAttribute('name', 'maxPrice');
-                    }
-                });
-            }
-            
-            // Soumission du formulaire lors du changement des cases à cocher
-            const filterCheckboxes = document.querySelectorAll('.filter-checkbox');
-            filterCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    // Nettoyage des paramètres inutiles avant la soumission
-                    cleanupForm();
-                    filterForm.submit();
-                });
+            priceSlider.addEventListener('input', function() {
+                maxPriceDisplay.textContent = this.value + ' €';
             });
             
-            // Nettoyage des paramètres non utilisés
-            function cleanupForm() {
-                // Supprime le paramètre searchString s'il est vide
-                const searchInput = document.getElementById('search-input');
-                if (searchInput && searchInput.value.trim() === '') {
-                    searchInput.removeAttribute('name');
+            // Ne pas soumettre la valeur de prix si elle est égale au maximum
+            priceSlider.addEventListener('change', function() {
+                if (parseInt(this.value) === maxValue) {
+                    this.removeAttribute('name');
+                } else {
+                    this.setAttribute('name', 'maxPrice');
                 }
-                
-                // Supprime le paramètre inStock s'il n'est pas coché
-                const inStockCheckbox = document.getElementById('in-stock');
-                if (inStockCheckbox && !inStockCheckbox.checked) {
-                    inStockCheckbox.removeAttribute('name');
-                }
-                
-                // Supprime le paramètre maxPrice s'il est à la valeur maximale
-                if (priceSlider && parseInt(priceSlider.value) === defaultValue) {
-                    priceSlider.removeAttribute('name');
-                }
+            });
+        }
+        
+        // Soumission du formulaire lors du changement des cases à cocher
+        const filterCheckboxes = document.querySelectorAll('.filter-checkbox');
+        filterCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                // Nettoyage des paramètres inutiles avant la soumission
+                cleanupForm();
+                filterForm.submit();
+            });
+        });
+        
+        // Nettoyage des paramètres non utilisés
+        function cleanupForm() {
+            // Supprime le paramètre searchString s'il est vide
+            const searchInput = document.getElementById('search-input');
+            if (searchInput && searchInput.value.trim() === '') {
+                searchInput.removeAttribute('name');
             }
             
-            // Appliquer le nettoyage des paramètres lors de la soumission du formulaire
-            if (filterForm) {
-                filterForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    cleanupForm();
-                    this.submit();
-                });
+            // Supprime le paramètre inStock s'il n'est pas coché
+            const inStockCheckbox = document.getElementById('in-stock');
+            if (inStockCheckbox && !inStockCheckbox.checked) {
+                inStockCheckbox.removeAttribute('name');
             }
-        });
+            
+            // Supprime le paramètre maxPrice s'il est à la valeur maximale
+            const maxValue = @Model.PrixMaxPossible;
+            if (priceSlider && parseInt(priceSlider.value) === maxValue) {
+                priceSlider.removeAttribute('name');
+            }
+        }
+        
+        // Appliquer le nettoyage des paramètres lors de la soumission du formulaire
+        if (filterForm) {
+            filterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                cleanupForm();
+                this.submit();
+            });
+        }
+    });
     </script>
 }
