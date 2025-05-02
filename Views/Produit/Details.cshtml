@@ -1,10 +1,126 @@
 @model examDotNet.Models.Produit
 
 @{
-    ViewData["Title"] = "Détails du produit";
+    ViewData["ShowHeader"] = true;
+    ViewData["ShowFooter"] = false;
+    ViewData["UseHeaderStyles"] = true;
+    ViewData["UseFooterStyles"] = false;
+    ViewData["SlideBarAdmin"] = false;
+    ViewData["UseSlideBarAdminStyles"] = false;
+    ViewData["UseBootstrap"] = false;
 }
 
-<h1>@Model.NomProduit</h1>
+@section Styles {
+    <link rel="stylesheet" href="~/css/detailsproduit.css" asp-append-version="true" />
+}
+
+
+
+<div class="container">
+        <div class="left">
+            <img class="product-img" src="@Model.ImagePath" alt="">
+        </div>
+        <div class="right">
+            <div class="details">
+                <h1 class="product-title">@Model.NomProduit</h1>
+
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-stroke"></i>
+                </div>
+
+                <p class="product-description">@Model.Description</p>
+
+                <h1 class="product-price">@Model.Prix.ToString("C")</h1>
+
+                <div class="product-qte">
+                    <button class="btn btn-down">-</button>
+                    <input type="number" placeholder="Quantité" value="1">
+                    <button class="btn btn-up">+</button>
+                </div>
+
+                <button class="btn-add-cart">Ajouter au pannier</button>
+            </div>
+        </div>
+</div>
+
+@section Scripts {
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer les éléments
+        const btnDown = document.querySelector('.btn-down');
+        const btnUp = document.querySelector('.btn-up');
+        const quantityInput = document.querySelector('.product-qte input');
+        const btnAddCart = document.querySelector('.btn-add-cart');
+
+        // Minimum et maximum de quantité
+        const minQuantity = 1;
+        const maxQuantity = 10;
+
+        // Fonction pour mettre à jour la quantité
+        function updateQuantity(value) {
+            let currentValue = parseInt(quantityInput.value) || minQuantity;
+            let newValue = currentValue + value;
+            
+            // Limiter entre min et max
+            newValue = Math.max(minQuantity, Math.min(maxQuantity, newValue));
+            
+            quantityInput.value = newValue;
+            
+            // Animation feedback
+            if (value > 0) {
+            quantityInput.classList.add('qte-up');
+            setTimeout(() => quantityInput.classList.remove('qte-up'), 300);
+            } else if (value < 0) {
+            quantityInput.classList.add('qte-down');
+            setTimeout(() => quantityInput.classList.remove('qte-down'), 300);
+            }
+        }
+
+        // Écouteurs d'événements
+        btnDown.addEventListener('click', () => updateQuantity(-1));
+        btnUp.addEventListener('click', () => updateQuantity(1));
+
+        // Réinitialiser la quantité au clic sur "Ajouter au panier"
+        btnAddCart.addEventListener('click', function() {
+            const currentQty = parseInt(quantityInput.value) || minQuantity;
+            
+            // Animation de confirmation
+            quantityInput.classList.add('qte-confirm');
+            setTimeout(() => {
+            quantityInput.classList.remove('qte-confirm');
+            quantityInput.value = minQuantity; // Réinitialiser à 1
+            }, 1000);
+            
+            // Ici vous pourriez ajouter la logique pour ajouter au panier
+            console.log(`Ajouté au panier: ${currentQty} unité(s)`);
+        });
+
+        // Validation de l'input manuel
+        quantityInput.addEventListener('change', function() {
+            let value = parseInt(this.value) || minQuantity;
+            value = Math.max(minQuantity, Math.min(maxQuantity, value));
+            this.value = value;
+        });
+
+        // Animation au focus
+        quantityInput.addEventListener('focus', function() {
+            this.classList.add('qte-focus');
+        });
+
+        quantityInput.addEventListener('blur', function() {
+            this.classList.remove('qte-focus');
+        });
+    });
+    </script>
+}
+
+
+
+@* <h1>@Model.NomProduit</h1>
 
 <div class="row">
     <div class="col-md-6">
@@ -43,4 +159,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> *@
