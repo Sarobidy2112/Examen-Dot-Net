@@ -95,7 +95,21 @@ namespace examDotNet.Controllers
                 return NotFound();
             }
 
-            return View(produit);
+            // Récupérer les produits similaires (même catégorie, mais pas le produit actuel)
+            var produitsSimilaires = await _context.Produits
+                .Include(p => p.Categorie)
+                .Where(p => p.IdCat == produit.IdCat && p.IdProduit != produit.IdProduit)
+                .Take(4) // Limiter à 4 produits similaires pour ne pas surcharger la page
+                .ToListAsync();
+
+            // Créer le ViewModel qui contient à la fois le produit et les produits similaires
+            var viewModel = new ProductDetailsViewModel
+            {
+                Produit = produit,
+                ProduitsSimilaires = produitsSimilaires
+            };
+
+            return View(viewModel);
         }
     }
 }

@@ -1,4 +1,4 @@
-@model examDotNet.Models.Produit
+@model examDotNet.Models.ProductDetailsViewModel
 
 @{
     ViewData["ShowHeader"] = true;
@@ -14,61 +14,69 @@
     <link rel="stylesheet" href="~/css/detailsproduit.css" asp-append-version="true" />
 }
 
-
-
 <div class="container">
-        <div class="left">
-            <img class="product-img" src="@Model.ImagePath" alt="">
-            <div class="product-category">@Model.Categorie.nom_categorie</div>
-        </div>
-        <div class="right">
-            <div class="details">
-                <h1 class="product-title">@Model.NomProduit</h1>
-    
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half-stroke"></i>
-                </div>
-    
-                <p class="product-description">@Model.Description</p>
-    
-                <h1 class="product-price">@Model.Prix.ToString("C")</h1>
-    
-                <div class="product-qte">
-                    <button class="btn btn-down">-</button>
-                    <input type="number" placeholder="Quantité" value="1">
-                    <button class="btn btn-up">+</button>
-                </div>
-    
-                <button class="btn-add-cart">Ajouter au pannier</button>
+    <div class="left">
+        @if (!string.IsNullOrEmpty(Model.Produit.ImagePath))
+        {
+            <img class="product-img" src="@Model.Produit.ImagePath" alt="@Model.Produit.NomProduit">
+        }
+        else
+        {
+            <img class="product-img" src="~/images/no-image.png" alt="Pas d'image">
+        }
+        <div class="product-category">@Model.Produit.Categorie?.nom_categorie</div>
+    </div>
+    <div class="right">
+        <div class="details">
+            <h1 class="product-title">@Model.Produit.NomProduit</h1>
+
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-stroke"></i>
             </div>
+
+            <p class="product-description">@Model.Produit.Description</p>
+
+            <h1 class="product-price">@Model.Produit.Prix.ToString("C")</h1>
+
+            <div class="product-qte">
+                <button class="btn btn-down">-</button>
+                <input type="number" placeholder="Quantité" value="1">
+                <button class="btn btn-up">+</button>
+            </div>
+
+            <button class="btn-add-cart">Ajouter au panier</button>
         </div>
-        
+    </div>
+    
+    @if (Model.ProduitsSimilaires.Any())
+    {
         <div class="similar-products">
             <h2 class="similar-title">Produits similaires</h2>
             <div class="similar-slider">
-                <div class="similar-item">
-                    <img src="https://cdn.cultura.com/cdn-cgi/image/width=830/media/pim/yamaha-rydeen-black-20-comp-2001000261475_0.jpg" alt="">
-                    <h3>Pearl Export EXX</h3>
-                </div>
-                <div class="similar-item">
-                    <img src="https://cdn.cultura.com/cdn-cgi/image/width=830/media/pim/yamaha-rydeen-black-20-comp-2001000261475_0.jpg" alt="">
-                    <h3>Tama Imperialstar</h3>
-                </div>
-                <div class="similar-item">
-                    <img src="https://cdn.cultura.com/cdn-cgi/image/width=830/media/pim/yamaha-rydeen-black-20-comp-2001000261475_0.jpg" alt="">
-                    <h3>Ludwig Pocket Kit</h3>
-                </div>
-                <div class="similar-item">
-                    <img src="https://cdn.cultura.com/cdn-cgi/image/width=830/media/pim/yamaha-rydeen-black-20-comp-2001000261475_0.jpg" alt="">
-                    <h3>Sonor AQ2 Bop</h3>
-                </div>
+                @foreach (var produitSimilaire in Model.ProduitsSimilaires)
+                {
+                    <a asp-action="Details" asp-route-slug="@produitSimilaire.Slug">
+                    <div class="similar-item">
+                        @if (!string.IsNullOrEmpty(produitSimilaire.ImagePath))
+                        {
+                            <img src="@produitSimilaire.ImagePath" alt="@produitSimilaire.NomProduit">
+                        }
+                        else
+                        {
+                            <img src="~/images/no-image.png" alt="Pas d'image">
+                        }
+                        <h3>@produitSimilaire.NomProduit</h3>
+                    </div>
+                    </a>
+                }
             </div>
         </div>
-    </div>
+    }
+</div>
 
 @section Scripts {
     <script>
@@ -140,46 +148,3 @@
     });
     </script>
 }
-
-
-
-@* <h1>@Model.NomProduit</h1>
-
-<div class="row">
-    <div class="col-md-6">
-        @if (!string.IsNullOrEmpty(Model.ImagePath))
-        {
-            <img src="@Model.ImagePath" class="img-fluid" alt="@Model.NomProduit">
-        }
-        else
-        {
-            <img src="~/images/no-image.png" class="img-fluid" alt="Pas d'image">
-        }
-    </div>
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <h3>@Model.NomProduit</h3>
-                <p class="fs-4">Prix: @Model.Prix.ToString("C")</p>
-                
-                <h5>Description</h5>
-                <p>@Model.Description</p>
-                
-                <h5>Catégorie</h5>
-                <p>@(Model.Categorie != null ? Model.Categorie.nom_categorie : "Non catégorisé")</p>
-                
-                <h5>Stock</h5>
-                @if (Model.NbStock > 0)
-                {
-                    <p>En stock: @Model.NbStock unité(s)</p>
-                }
-                else
-                {
-                    <p class="text-danger">Stock épuisé</p>
-                }
-                
-                <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
-            </div>
-        </div>
-    </div>
-</div> *@
