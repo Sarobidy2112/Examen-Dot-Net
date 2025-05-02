@@ -19,11 +19,12 @@
 <div class="container">
         <div class="left">
             <img class="product-img" src="@Model.ImagePath" alt="">
+            <div class="product-category">@Model.Categorie.nom_categorie</div>
         </div>
         <div class="right">
             <div class="details">
                 <h1 class="product-title">@Model.NomProduit</h1>
-
+    
                 <div class="stars">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -31,21 +32,43 @@
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star-half-stroke"></i>
                 </div>
-
+    
                 <p class="product-description">@Model.Description</p>
-
+    
                 <h1 class="product-price">@Model.Prix.ToString("C")</h1>
-
+    
                 <div class="product-qte">
                     <button class="btn btn-down">-</button>
                     <input type="number" placeholder="Quantité" value="1">
                     <button class="btn btn-up">+</button>
                 </div>
-
+    
                 <button class="btn-add-cart">Ajouter au pannier</button>
             </div>
         </div>
-</div>
+        
+        <div class="similar-products">
+            <h2 class="similar-title">Produits similaires</h2>
+            <div class="similar-slider">
+                <div class="similar-item">
+                    <img src="https://cdn.cultura.com/cdn-cgi/image/width=830/media/pim/yamaha-rydeen-black-20-comp-2001000261475_0.jpg" alt="">
+                    <h3>Pearl Export EXX</h3>
+                </div>
+                <div class="similar-item">
+                    <img src="https://cdn.cultura.com/cdn-cgi/image/width=830/media/pim/yamaha-rydeen-black-20-comp-2001000261475_0.jpg" alt="">
+                    <h3>Tama Imperialstar</h3>
+                </div>
+                <div class="similar-item">
+                    <img src="https://cdn.cultura.com/cdn-cgi/image/width=830/media/pim/yamaha-rydeen-black-20-comp-2001000261475_0.jpg" alt="">
+                    <h3>Ludwig Pocket Kit</h3>
+                </div>
+                <div class="similar-item">
+                    <img src="https://cdn.cultura.com/cdn-cgi/image/width=830/media/pim/yamaha-rydeen-black-20-comp-2001000261475_0.jpg" alt="">
+                    <h3>Sonor AQ2 Bop</h3>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @section Scripts {
     <script>
