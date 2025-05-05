@@ -1,6 +1,7 @@
 @model examDotNet.Models.ProductDetailsViewModel
 
 @{
+    ViewData["Title"] = "Les Produits";
     ViewData["ShowHeader"] = true;
     ViewData["ShowFooter"] = false;
     ViewData["UseHeaderStyles"] = true;
@@ -24,7 +25,7 @@
         {
             <img class="product-img" src="~/images/no-image.png" alt="Pas d'image">
         }
-        <div class="product-category">@Model.Produit.Categorie?.nom_categorie</div>
+        <div class="product-category">@Model.Produit.SousCategorie?.NomSousCategorie</div>
     </div>
     <div class="right">
         <div class="details">
@@ -80,6 +81,8 @@
 
 @section Scripts {
     <script>
+
+        
     document.addEventListener('DOMContentLoaded', function() {
         // Récupérer les éléments
         const btnDown = document.querySelector('.btn-down');

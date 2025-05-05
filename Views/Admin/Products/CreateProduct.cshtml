@@ -127,17 +127,17 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="IdCat" class="form-label">
+                <label asp-for="IdSousCat" class="form-label">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 6L8 2 12 6 16 2 20 6"></path>
                     </svg>
                     Catégorie
                 </label>
                 <div class="input-wrapper">
-                    <select asp-for="IdCat" class="form-input" asp-items="ViewBag.Categories">
+                    <select asp-for="IdSousCat" class="form-input" asp-items="ViewBag.SousCategories">
                         <option value="">-- Sélectionnez une catégorie --</option>
                     </select>
-                    <span asp-validation-for="IdCat" class="input-error"></span>
+                    <span asp-validation-for="IdSousCat" class="input-error"></span>
                 </div>
             </div>
 

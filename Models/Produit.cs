@@ -22,16 +22,17 @@ namespace examDotNet.Models
         [Required]
         public int NbStock { get; set; }
 
-        public string? Slug { get; set; }  // Nouveau champ pour le slug
+        public string? Slug { get; set; }
 
-        public string? ImagePath { get; set; }  // Chemin de l'image
+        public string? ImagePath { get; set; }
 
-        [ForeignKey("IdCat")]
-        public Categorie? Categorie { get; set; }
-        public int IdCat { get; set; }
+        // Relation avec la sous-catégorie au lieu de la catégorie
+        [ForeignKey("IdSousCat")]
+        public SousCategorie? SousCategorie { get; set; }
+        public int IdSousCat { get; set; }
 
-        [NotMapped]  // Ne sera pas enregistré en base
-        public IFormFile? ImageFile { get; set; }  // Pour l'upload
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
 
         public ICollection<CommandeProduit> CommandeProduits { get; set; } = new List<CommandeProduit>();
     }

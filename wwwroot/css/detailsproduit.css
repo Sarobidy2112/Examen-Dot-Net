@@ -95,7 +95,7 @@
   position: absolute;
   top: 2rem;
   left: 2rem;
-  background: #ff6b6b;
+  background: #f1c40f;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 50px;
@@ -135,7 +135,7 @@
   left: 0;
   width: 60px;
   height: 4px;
-  background: #ff6b6b;
+  background: #f1c40f;
   border-radius: 2px;
 }
 
@@ -157,7 +157,7 @@
 
 .product-price {
   font-size: 2.5rem;
-  color: #ff6b6b;
+  color: #f1c40f;
   margin: 1.5rem 0;
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   animation: pulse 2s infinite;
@@ -225,7 +225,7 @@
 .btn-add-cart {
   width: 100%;
   padding: 1rem;
-  background: #ff6b6b;
+  background: #f1c40f;
   color: white;
   border: none;
   border-radius: 50px;
@@ -238,7 +238,7 @@
   letter-spacing: 1px;
 }
 .btn-add-cart:hover {
-  background: #ff3838;
+  background: #e3b706;
   transform: translateY(-5px);
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
 }
@@ -266,7 +266,7 @@
   top: 0;
   height: 100%;
   width: 5px;
-  background: #ff6b6b;
+  background: #f1c40f;
   border-radius: 5px;
 }
 .similar-products .similar-slider {
@@ -284,7 +284,7 @@
   border-radius: 10px;
 }
 .similar-products .similar-slider::-webkit-scrollbar-thumb {
-  background: #ff6b6b;
+  background: #f1c40f;
   border-radius: 10px;
 }
 .similar-products .similar-item {

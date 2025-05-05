@@ -1,0 +1,84 @@
+@model examDotNet.Models.GrandCategorie
+
+@{
+    ViewData["Title"] = "Modifier la Catégorie";
+    ViewData["ShowHeader"] = false;
+    ViewData["ShowFooter"] = false;
+    ViewData["SlideBarAdmin"] = true;
+    ViewData["UseSlideBarAdminStyles"] = true;
+    ViewData["UseBootstrap"] = true;
+
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminedit.css" asp-append-version="true" />
+}
+
+
+<div class="category-edit-container">
+    <header class="edit-header">
+        <h1>Modifier la Catégorie</h1>
+        <p class="subtitle">Mettez à jour les informations de cette catégorie</p>
+    </header>
+
+    <div class="edit-card">
+        <div class="edit-card-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            <h2>Édition de catégorie</h2>
+        </div>
+
+        <form asp-action="EditGrandCategory" class="edit-form" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+            <input type="hidden" asp-for="IdGrandCategorie" />
+            
+            <div class="form-group">
+                <label class="form-label">Image actuelle</label>
+                <div class="input-wrapper">
+                    @if (!string.IsNullOrEmpty(Model.ImagePath))
+                    {
+                        <img src="@Model.ImagePath" alt="Image actuelle" style="max-width: 200px; max-height: 200px; margin-bottom: 10px;" />
+                    }
+                    else
+                    {
+                        <span>Aucune image disponible</span>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NomGrandCategorie" class="form-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    Nom de la catégorie
+                </label>
+                <div class="input-wrapper">
+                    <input asp-for="NomGrandCategorie" class="form-input" placeholder="Saisissez le nouveau nom" />
+                    <span asp-validation-for="NomGrandCategorie" class="input-error"></span>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-save">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        <polyline points="7 3 7 8 15 8"></polyline>
+                    </svg>
+                    Enregistrer les modifications
+                </button>
+                <a asp-action="GrandCategories" class="btn-cancel">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

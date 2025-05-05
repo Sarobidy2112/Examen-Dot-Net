@@ -10,7 +10,6 @@ using System.Text;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
-
 namespace examDotNet.Controllers
 {
     [TypeFilter(typeof(AdminAuthFilter))]
@@ -60,78 +59,301 @@ namespace examDotNet.Controllers
             return RedirectToAction(nameof(Users));
         }
 
-        // ----------- Catégories -----------
-        public IActionResult Categories()
+        // ----------- Grandes Catégories -----------
+        public async Task<IActionResult> GrandCategories()
         {
-            var categories = _context.Categories.ToList();
-            return View("Categories/Categories", categories);
+            var grandCategories = await _context.GrandCategories.ToListAsync();
+            return View("GrandCategories/GrandCategories", grandCategories);
         }
 
-        public IActionResult CreateCategory()
+        public IActionResult CreateGrandCategory()
         {
-            return View("Categories/CreateCategory");
-        }
-
-        [HttpPost]
-        public IActionResult CreateCategory(Categorie categorie)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Categories.Add(categorie);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Categories));
-            }
-            return View("Categories/CreateCategory", categorie);
-        }
-
-        public IActionResult EditCategory(int id)
-        {
-            var categorie = _context.Categories.Find(id);
-            if (categorie == null) return NotFound();
-            return View("Categories/EditCategory", categorie);
+            return View("GrandCategories/CreateGrandCategory");
         }
 
         [HttpPost]
-        public IActionResult EditCategory(Categorie categorie)
+        public async Task<IActionResult> CreateGrandCategory(GrandCategorie grandCategorie)
         {
             if (ModelState.IsValid)
             {
-                _context.Categories.Update(categorie);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Categories));
+                // Gestion de l'image
+                if (grandCategorie.ImageFile != null && grandCategorie.ImageFile.Length > 0)
+                {
+                    try
+                    {
+                        // Chemin du dossier d'upload
+                        var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images", "categories");
+                        
+                        // Créer le dossier s'il n'existe pas
+                        if (!Directory.Exists(uploadsFolder))
+                        {
+                            Directory.CreateDirectory(uploadsFolder);
+                        }
+
+                        // Nom unique pour le fichier
+                        var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(grandCategorie.ImageFile.FileName);
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        // Sauvegarder le fichier
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await grandCategorie.ImageFile.CopyToAsync(fileStream);
+                        }
+
+                        // Enregistrer le chemin dans la base
+                        grandCategorie.ImagePath = "/images/categories/" + uniqueFileName;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Loguer l'erreur pour le débogage
+                        Console.WriteLine($"Erreur lors de l'upload: {ex.Message}");
+                        ModelState.AddModelError("", "Erreur lors de l'enregistrement de l'image");
+                        return View("GrandCategories/CreateGrandCategory", grandCategorie);
+                    }
+                }
+
+                _context.GrandCategories.Add(grandCategorie);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(GrandCategories));
             }
-            return View("Categories/EditCategory", categorie);
+            return View("GrandCategories/CreateGrandCategory", grandCategorie);
         }
 
-        public IActionResult DeleteCategory(int id)
+        public async Task<IActionResult> EditGrandCategory(int id)
         {
-            var categorie = _context.Categories.Find(id);
-            if (categorie == null) return NotFound();
-            return View("Categories/DeleteCategory", categorie);
+            var grandCategorie = await _context.GrandCategories.FindAsync(id);
+            if (grandCategorie == null) return NotFound();
+            return View("GrandCategories/EditGrandCategory", grandCategorie);
         }
 
-        [HttpPost, ActionName("DeleteCategory")]
-        public IActionResult DeleteCategoryConfirmed(int id)
+        [HttpPost]
+        public async Task<IActionResult> EditGrandCategory(GrandCategorie grandCategorie)
         {
-            var categorie = _context.Categories.Find(id);
-            if (categorie != null)
+            if (ModelState.IsValid)
             {
-                _context.Categories.Remove(categorie);
-                _context.SaveChanges();
+                // Gestion de l'image
+                if (grandCategorie.ImageFile != null && grandCategorie.ImageFile.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images/categories");
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + grandCategorie.ImageFile.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    Directory.CreateDirectory(uploadsFolder);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await grandCategorie.ImageFile.CopyToAsync(fileStream);
+                    }
+
+                    // Supprimer l'ancienne image si elle existe
+                    if (!string.IsNullOrEmpty(grandCategorie.ImagePath))
+                    {
+                        var oldImagePath = Path.Combine(_hostingEnvironment.WebRootPath, grandCategorie.ImagePath.TrimStart('/'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    grandCategorie.ImagePath = "/images/categories/" + uniqueFileName;
+                }
+
+                _context.GrandCategories.Update(grandCategorie);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(GrandCategories));
             }
-            return RedirectToAction(nameof(Categories));
+            return View("GrandCategories/EditGrandCategory", grandCategorie);
+        }
+
+        public async Task<IActionResult> DeleteGrandCategory(int id)
+        {
+            var grandCategorie = await _context.GrandCategories
+                .Include(gc => gc.SousCategories)
+                .FirstOrDefaultAsync(gc => gc.IdGrandCategorie == id);
+            
+            if (grandCategorie == null) return NotFound();
+            return View("GrandCategories/DeleteGrandCategory", grandCategorie);
+        }
+
+        [HttpPost, ActionName("DeleteGrandCategory")]
+        public async Task<IActionResult> DeleteGrandCategoryConfirmed(int id)
+        {
+            var grandCategorie = await _context.GrandCategories.FindAsync(id);
+            if (grandCategorie != null)
+            {
+                // Supprimer l'image associée
+                if (!string.IsNullOrEmpty(grandCategorie.ImagePath))
+                {
+                    var imagePath = Path.Combine(_hostingEnvironment.WebRootPath, grandCategorie.ImagePath.TrimStart('/'));
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        System.IO.File.Delete(imagePath);
+                    }
+                }
+
+                _context.GrandCategories.Remove(grandCategorie);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(GrandCategories));
+        }
+
+        // ----------- Sous-Catégories -----------
+        public async Task<IActionResult> SousCategories()
+        {
+            var sousCategories = await _context.SousCategories
+                .Include(sc => sc.GrandCategorie)
+                .ToListAsync();
+            return View("SousCategories/SousCategories", sousCategories);
+        }
+
+        public IActionResult CreateSousCategory()
+        {
+            ViewBag.GrandCategories = new SelectList(_context.GrandCategories, "IdGrandCategorie", "NomGrandCategorie");
+            return View("SousCategories/CreateSousCategory");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateSousCategory(SousCategorie sousCategorie)
+        {
+            if (ModelState.IsValid)
+            {
+                // Gestion de l'image
+                if (sousCategorie.ImageFile != null && sousCategorie.ImageFile.Length > 0)
+                {
+                    try
+                    {
+                        // Chemin du dossier d'upload
+                        var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images", "souscategories");
+                        
+                        // Créer le dossier s'il n'existe pas
+                        if (!Directory.Exists(uploadsFolder))
+                        {
+                            Directory.CreateDirectory(uploadsFolder);
+                        }
+
+                        // Nom unique pour le fichier
+                        var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(sousCategorie.ImageFile.FileName);
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        // Sauvegarder le fichier
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await sousCategorie.ImageFile.CopyToAsync(fileStream);
+                        }
+
+                        // Enregistrer le chemin dans la base
+                        sousCategorie.ImagePath = "/images/souscategories/" + uniqueFileName;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Loguer l'erreur pour le débogage
+                        Console.WriteLine($"Erreur lors de l'upload: {ex.Message}");
+                        ModelState.AddModelError("", "Erreur lors de l'enregistrement de l'image");
+                        ViewBag.GrandCategories = new SelectList(_context.GrandCategories, "IdGrandCategorie", "NomGrandCategorie", sousCategorie.IdGrandCat);
+                        return View("SousCategories/CreateSousCategory", sousCategorie);
+                    }
+                }
+
+                _context.SousCategories.Add(sousCategorie);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(SousCategories));
+            }
+            ViewBag.GrandCategories = new SelectList(_context.GrandCategories, "IdGrandCategorie", "NomGrandCategorie", sousCategorie.IdGrandCat);
+            return View("SousCategories/CreateSousCategory", sousCategorie);
+        }
+
+        public async Task<IActionResult> EditSousCategory(int id)
+        {
+            var sousCategorie = await _context.SousCategories.FindAsync(id);
+            if (sousCategorie == null) return NotFound();
+
+            ViewBag.GrandCategories = new SelectList(_context.GrandCategories, "IdGrandCategorie", "NomGrandCategorie", sousCategorie.IdGrandCat);
+            return View("SousCategories/EditSousCategory", sousCategorie);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditSousCategory(SousCategorie sousCategorie)
+        {
+            if (ModelState.IsValid)
+            {
+                // Gestion de l'image
+                if (sousCategorie.ImageFile != null && sousCategorie.ImageFile.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images/souscategories");
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + sousCategorie.ImageFile.FileName;
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    Directory.CreateDirectory(uploadsFolder);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await sousCategorie.ImageFile.CopyToAsync(fileStream);
+                    }
+
+                    // Supprimer l'ancienne image si elle existe
+                    if (!string.IsNullOrEmpty(sousCategorie.ImagePath))
+                    {
+                        var oldImagePath = Path.Combine(_hostingEnvironment.WebRootPath, sousCategorie.ImagePath.TrimStart('/'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    sousCategorie.ImagePath = "/images/souscategories/" + uniqueFileName;
+                }
+
+                _context.SousCategories.Update(sousCategorie);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(SousCategories));
+            }
+            ViewBag.GrandCategories = new SelectList(_context.GrandCategories, "IdGrandCategorie", "NomGrandCategorie", sousCategorie.IdGrandCat);
+            return View("SousCategories/EditSousCategory", sousCategorie);
+        }
+
+        public async Task<IActionResult> DeleteSousCategory(int id)
+        {
+            var sousCategorie = await _context.SousCategories
+                .Include(sc => sc.GrandCategorie)
+                .FirstOrDefaultAsync(sc => sc.IdSousCategorie == id);
+            
+            if (sousCategorie == null) return NotFound();
+            return View("SousCategories/DeleteSousCategory", sousCategorie);
+        }
+
+        [HttpPost, ActionName("DeleteSousCategory")]
+        public async Task<IActionResult> DeleteSousCategoryConfirmed(int id)
+        {
+            var sousCategorie = await _context.SousCategories.FindAsync(id);
+            if (sousCategorie != null)
+            {
+                // Supprimer l'image associée
+                if (!string.IsNullOrEmpty(sousCategorie.ImagePath))
+                {
+                    var imagePath = Path.Combine(_hostingEnvironment.WebRootPath, sousCategorie.ImagePath.TrimStart('/'));
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        System.IO.File.Delete(imagePath);
+                    }
+                }
+
+                _context.SousCategories.Remove(sousCategorie);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(SousCategories));
         }
 
         // ----------- Produits -----------
-        public IActionResult Products()
+        public async Task<IActionResult> Products()
         {
-            var produits = _context.Produits.Include(p => p.Categorie).ToList();
+            var produits = await _context.Produits
+                .Include(p => p.SousCategorie)
+                .ThenInclude(sc => sc.GrandCategorie)
+                .ToListAsync();
             return View("Products/Products", produits);
         }
 
         public IActionResult CreateProduct()
         {
-            ViewBag.Categories = new SelectList(_context.Categories, "id_categorie", "nom_categorie");
+            ViewBag.SousCategories = new SelectList(_context.SousCategories, "IdSousCategorie", "NomSousCategorie");
             return View("Products/CreateProduct");
         }
 
@@ -175,7 +397,7 @@ namespace examDotNet.Controllers
                         // Loguer l'erreur pour le débogage
                         Console.WriteLine($"Erreur lors de l'upload: {ex.Message}");
                         ModelState.AddModelError("", "Erreur lors de l'enregistrement de l'image");
-                        ViewBag.Categories = new SelectList(_context.Categories, "id_categorie", "nom_categorie", produit.IdCat);
+                        ViewBag.SousCategories = new SelectList(_context.SousCategories, "IdSousCategorie", "NomSousCategorie", produit.IdSousCat);
                         return View("Products/CreateProduct", produit);
                     }
                 }
@@ -185,16 +407,16 @@ namespace examDotNet.Controllers
                 return RedirectToAction(nameof(Products));
             }
 
-            ViewBag.Categories = new SelectList(_context.Categories, "id_categorie", "nom_categorie", produit.IdCat);
+            ViewBag.SousCategories = new SelectList(_context.SousCategories, "IdSousCategorie", "NomSousCategorie", produit.IdSousCat);
             return View("Products/CreateProduct", produit);
         }
 
-        public IActionResult EditProduct(int id)
+        public async Task<IActionResult> EditProduct(int id)
         {
-            var produit = _context.Produits.Find(id);
+            var produit = await _context.Produits.FindAsync(id);
             if (produit == null) return NotFound();
 
-            ViewBag.Categories = new SelectList(_context.Categories, "id_categorie", "nom_categorie", produit.IdCat);
+            ViewBag.SousCategories = new SelectList(_context.SousCategories, "IdSousCategorie", "NomSousCategorie", produit.IdSousCat);
             return View("Products/EditProduct", produit);
         }
 
@@ -236,33 +458,40 @@ namespace examDotNet.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Products));
             }
-            ViewBag.Categories = new SelectList(_context.Categories, "id_categorie", "nom_categorie", produit.IdCat);
+            ViewBag.SousCategories = new SelectList(_context.SousCategories, "IdSousCategorie", "NomSousCategorie", produit.IdSousCat);
             return View("Products/EditProduct", produit);
         }
 
-
-        public IActionResult DeleteProduct(int id)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
-            var produit = _context.Produits
-                .Include(p => p.Categorie)
-                .FirstOrDefault(p => p.IdProduit == id);
+            var produit = await _context.Produits
+                .Include(p => p.SousCategorie)
+                .FirstOrDefaultAsync(p => p.IdProduit == id);
             if (produit == null) return NotFound();
             return View("Products/DeleteProduct", produit);
         }
 
         [HttpPost, ActionName("DeleteProduct")]
-        public IActionResult DeleteProductConfirmed(int id)
+        public async Task<IActionResult> DeleteProductConfirmed(int id)
         {
-            var produit = _context.Produits.Find(id);
+            var produit = await _context.Produits.FindAsync(id);
             if (produit != null)
             {
+                // Supprimer l'image associée
+                if (!string.IsNullOrEmpty(produit.ImagePath))
+                {
+                    var imagePath = Path.Combine(_hostingEnvironment.WebRootPath, produit.ImagePath.TrimStart('/'));
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        System.IO.File.Delete(imagePath);
+                    }
+                }
+
                 _context.Produits.Remove(produit);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Products));
         }
-
-
 
         // Méthode pour générer un slug
         private string GenerateSlug(string phrase)
@@ -300,6 +529,5 @@ namespace examDotNet.Controllers
             
             return str;
         }
-
     }
 }

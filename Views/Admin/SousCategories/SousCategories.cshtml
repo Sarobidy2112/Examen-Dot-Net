@@ -1,0 +1,68 @@
+@model IEnumerable<examDotNet.Models.SousCategorie>
+
+@{
+    ViewData["Title"] = "Gestion des Catégories";
+    ViewData["ShowHeader"] = false;
+    ViewData["ShowFooter"] = false;
+    ViewData["SlideBarAdmin"] = true;
+    ViewData["UseSlideBarAdminStyles"] = true;
+    ViewData["UseBootstrap"] = true;
+    
+
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminuser.css" asp-append-version="true" />
+}
+
+<div class="container">
+    <header>
+        <h1>Liste des Catégories</h1>
+        <p>Gérez vos catégories</p>
+    </header>
+
+    <div class="table-section">
+        <p>
+            <a asp-action="CreateSousCategory" class="btn btn-success">Créer une nouvelle catégorie</a>
+        </p>
+
+        <table id="categoriesTable">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ImagePath))
+                        {
+                            <img src="@item.ImagePath" alt="@item.NomSousCategorie" style="width: 50px; height: 50px; object-fit: cover;" />
+                        }
+                        else
+                        {
+                            <span>Aucune image</span>
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.IdSousCategorie)</td>
+                    <td>@Html.DisplayFor(modelItem => item.NomSousCategorie)</td>
+                    <td class="actions">
+                        <a asp-action="EditSousCategory" asp-route-id="@item.IdSousCategorie" class="action-btn edit-btn">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a asp-action="DeleteSousCategory" asp-route-id="@item.IdSousCategorie" class="action-btn delete-btn">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

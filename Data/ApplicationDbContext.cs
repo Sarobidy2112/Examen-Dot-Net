@@ -1,40 +1,58 @@
-using Microsoft.EntityFrameworkCore;
 using examDotNet.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace examDotNet.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
-            : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
 
-        // Définition des DbSets pour chaque entité
         public DbSet<User> Users { get; set; }
-        public DbSet<Categorie> Categories { get; set; }
+        // Nouvelles tables pour la hiérarchie de catégories
+        public DbSet<GrandCategorie> GrandCategories { get; set; }
+        public DbSet<SousCategorie> SousCategories { get; set; }
         public DbSet<Produit> Produits { get; set; }
-        public DbSet<Commande> Commandes { get; set; }  // Ajout du DbSet pour Commande
-        public DbSet<CommandeProduit> CommandeProduits { get; set; }  // Ajout du DbSet pour CommandeProduit
+        public DbSet<Commande> Commandes { get; set; }
+        public DbSet<CommandeProduit> CommandeProduits { get; set; }
+        
+        // Vous pouvez conserver cette DbSet pour la transition, 
+        // mais elle ne sera plus utilisée à terme
+        // public DbSet<Categorie> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configuration de la relation entre Produit et Categorie
-            modelBuilder.Entity<Categorie>()
-                .HasMany(c => c.Produits)  // Une catégorie a plusieurs produits
-                .WithOne(p => p.Categorie)  // Chaque produit appartient à une catégorie
-                .HasForeignKey(p => p.IdCat)  // La clé étrangère sur Produit
-                .OnDelete(DeleteBehavior.Cascade);  // Définir le comportement de suppression en cascade, si nécessaire
+            base.OnModelCreating(modelBuilder);
 
-            // Configuration de la relation entre Commande et CommandeProduit
-            modelBuilder.Entity<Commande>()
-                .HasMany(c => c.CommandeProduits)  // Une commande peut avoir plusieurs produits
-                .WithOne(cp => cp.Commande)  // Chaque CommandeProduit appartient à une commande
-                .HasForeignKey(cp => cp.IdCommande);  // La clé étrangère vers Commande
+            // Configuration de la relation GrandCategorie -> SousCategorie
+            modelBuilder.Entity<SousCategorie>()
+                .HasOne(sc => sc.GrandCategorie)
+                .WithMany(gc => gc.SousCategories)
+                .HasForeignKey(sc => sc.IdGrandCat)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Configuration de la relation entre Produit et CommandeProduit
+            // Configuration de la relation SousCategorie -> Produit
             modelBuilder.Entity<Produit>()
-                .HasMany(p => p.CommandeProduits)  // Un produit peut être dans plusieurs CommandeProduit
-                .WithOne(cp => cp.Produit)  // Chaque CommandeProduit est lié à un produit
-                .HasForeignKey(cp => cp.IdProduit);  // La clé étrangère vers Produit
+                .HasOne(p => p.SousCategorie)
+                .WithMany(sc => sc.Produits)
+                .HasForeignKey(p => p.IdSousCat)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configuration pour CommandeProduit (table de liaison)
+            modelBuilder.Entity<CommandeProduit>()
+                .HasKey(cp => new { cp.IdCommande, cp.IdProduit });
+
+            modelBuilder.Entity<CommandeProduit>()
+                .HasOne(cp => cp.Commande)
+                .WithMany(c => c.CommandeProduits)
+                .HasForeignKey(cp => cp.IdCommande);
+
+            modelBuilder.Entity<CommandeProduit>()
+                .HasOne(cp => cp.Produit)
+                .WithMany(p => p.CommandeProduits)
+                .HasForeignKey(cp => cp.IdProduit);
         }
     }
 }

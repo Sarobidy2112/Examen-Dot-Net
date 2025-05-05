@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Acceuil";
     ViewData["ShowHeader"] = true;
     ViewData["ShowFooter"] = false;
     ViewData["UseHeaderStyles"] = true;
@@ -21,7 +21,7 @@
 
         <div class="welcome-content">
             <div class="typewriter" id="text-container"></div>
-            <button class="btn">Tous les produits disponibles</button>
+            @* <button class="btn">Tous les produits disponibles</button> *@
         </div>
     </section>
 
@@ -67,7 +67,11 @@
     </section>
 
     <script>
-        const texts = ["Bienvenue", "Profiter de notre large produit", "Des conseils d'expert"];
+        const texts = [
+            "Profiter de notre large produit",
+            "Des conseils d'expert",
+            "Prix très abordable"
+        ];
         let count = 0;
         let index = 0;
         let currentText = '';

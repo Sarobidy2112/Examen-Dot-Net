@@ -9,16 +9,22 @@
                 <a asp-controller="Admin" asp-action="Users" class="menu-item">
                     <i class="fas fa-users"></i> Utilisateurs
                 </a>
-                <a asp-controller="Admin" asp-action="Categories" class="menu-item">
-                    <i class="fas fa-th-large"></i> Catégories
+                <a asp-controller="Admin" asp-action="GrandCategories" class="menu-item">
+                    <i class="fas fa-th-large"></i> Grand Catégories
+                </a>
+                <a asp-controller="Admin" asp-action="SousCategories" class="menu-item">
+                    <i class="fas fa-th-large"></i> Sous Catégories
                 </a>
                 <a asp-controller="Admin" asp-action="Products" class="menu-item">
-                    <i class="fas fa-cogs"></i> Produits
+                    <i class="fas fa-box"></i> Produits
                 </a>
             </div>
             <div class="bottom">
                 <a href="#settings" class="menu-item">
                     <i class="fas fa-cogs"></i> Paramètres
+                </a>
+                <a asp-controller="Home" asp-action="Index" class="menu-item">
+                    <i class="fas fa-home"></i> Acceuil
                 </a>
                 <a asp-controller="Auth" asp-action="Logout" class="menu-item">
                     <i class="fas fa-sign-out-alt"></i> Déconnexion

@@ -22,24 +22,6 @@ namespace examDotNet.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("examDotNet.Models.Categorie", b =>
-                {
-                    b.Property<int>("id_categorie")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id_categorie"));
-
-                    b.Property<string>("nom_categorie")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.HasKey("id_categorie");
-
-                    b.ToTable("Categories");
-                });
-
             modelBuilder.Entity("examDotNet.Models.Commande", b =>
                 {
                     b.Property<int>("IdCommande")
@@ -63,28 +45,44 @@ namespace examDotNet.Migrations
 
             modelBuilder.Entity("examDotNet.Models.CommandeProduit", b =>
                 {
-                    b.Property<int>("IdCommandeProduit")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdCommandeProduit"));
-
                     b.Property<int>("IdCommande")
                         .HasColumnType("int");
 
                     b.Property<int>("IdProduit")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdCommandeProduit")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantite")
                         .HasColumnType("int");
 
-                    b.HasKey("IdCommandeProduit");
-
-                    b.HasIndex("IdCommande");
+                    b.HasKey("IdCommande", "IdProduit");
 
                     b.HasIndex("IdProduit");
 
                     b.ToTable("CommandeProduits");
+                });
+
+            modelBuilder.Entity("examDotNet.Models.GrandCategorie", b =>
+                {
+                    b.Property<int>("IdGrandCategorie")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdGrandCategorie"));
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NomGrandCategorie")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("IdGrandCategorie");
+
+                    b.ToTable("GrandCategories");
                 });
 
             modelBuilder.Entity("examDotNet.Models.Produit", b =>
@@ -100,7 +98,7 @@ namespace examDotNet.Migrations
                         .HasMaxLength(225)
                         .HasColumnType("varchar(225)");
 
-                    b.Property<int>("IdCat")
+                    b.Property<int>("IdSousCat")
                         .HasColumnType("int");
 
                     b.Property<string>("ImagePath")
@@ -122,9 +120,35 @@ namespace examDotNet.Migrations
 
                     b.HasKey("IdProduit");
 
-                    b.HasIndex("IdCat");
+                    b.HasIndex("IdSousCat");
 
                     b.ToTable("Produits");
+                });
+
+            modelBuilder.Entity("examDotNet.Models.SousCategorie", b =>
+                {
+                    b.Property<int>("IdSousCategorie")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdSousCategorie"));
+
+                    b.Property<int>("IdGrandCat")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NomSousCategorie")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("IdSousCategorie");
+
+                    b.HasIndex("IdGrandCat");
+
+                    b.ToTable("SousCategories");
                 });
 
             modelBuilder.Entity("examDotNet.Models.User", b =>
@@ -190,18 +214,24 @@ namespace examDotNet.Migrations
 
             modelBuilder.Entity("examDotNet.Models.Produit", b =>
                 {
-                    b.HasOne("examDotNet.Models.Categorie", "Categorie")
+                    b.HasOne("examDotNet.Models.SousCategorie", "SousCategorie")
                         .WithMany("Produits")
-                        .HasForeignKey("IdCat")
+                        .HasForeignKey("IdSousCat")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Categorie");
+                    b.Navigation("SousCategorie");
                 });
 
-            modelBuilder.Entity("examDotNet.Models.Categorie", b =>
+            modelBuilder.Entity("examDotNet.Models.SousCategorie", b =>
                 {
-                    b.Navigation("Produits");
+                    b.HasOne("examDotNet.Models.GrandCategorie", "GrandCategorie")
+                        .WithMany("SousCategories")
+                        .HasForeignKey("IdGrandCat")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GrandCategorie");
                 });
 
             modelBuilder.Entity("examDotNet.Models.Commande", b =>
@@ -209,9 +239,19 @@ namespace examDotNet.Migrations
                     b.Navigation("CommandeProduits");
                 });
 
+            modelBuilder.Entity("examDotNet.Models.GrandCategorie", b =>
+                {
+                    b.Navigation("SousCategories");
+                });
+
             modelBuilder.Entity("examDotNet.Models.Produit", b =>
                 {
                     b.Navigation("CommandeProduits");
+                });
+
+            modelBuilder.Entity("examDotNet.Models.SousCategorie", b =>
+                {
+                    b.Navigation("Produits");
                 });
 #pragma warning restore 612, 618
         }

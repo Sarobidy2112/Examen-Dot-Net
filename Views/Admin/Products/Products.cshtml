@@ -52,7 +52,7 @@
                     <td>@Html.DisplayFor(modelItem => item.IdProduit)</td>
                     <td>@Html.DisplayFor(modelItem => item.NomProduit)</td>
                     <td>@Html.DisplayFor(modelItem => item.Prix) €</td>
-                    <td>@Html.DisplayFor(modelItem => item.Categorie.nom_categorie)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SousCategorie.NomSousCategorie)</td>
                     <td class="actions">
                         <a asp-action="EditProduct" asp-route-id="@item.IdProduit" class="action-btn edit-btn">
                             <i class="fas fa-edit"></i>
