@@ -1,4 +1,12 @@
-﻿@{
+﻿@* @model List<examDotNet.Models.GrandCategorie> *@
+@model List<examDotNet.Models.SousCategorie>
+
+@{
+    var random = new Random();
+    var grandCategories = ViewBag.GrandCategories as List<examDotNet.Models.GrandCategorie>;
+}
+
+@{
     ViewData["Title"] = "Acceuil";
     ViewData["ShowHeader"] = true;
     ViewData["ShowFooter"] = false;
@@ -25,44 +33,72 @@
         </div>
     </section>
 
-    <section class="products">
-        <div class="container-card">
-            <h2>Listes des produits</h2>
-            <div class="product-container">
-              <div class="product-card">
-                <img class="product-img" src="https://cdn.cultura.com/cdn-cgi/image/width=830/media/pim/yamaha-rydeen-black-20-comp-2001000261475_0.jpg">
-                  <div class="product-text">
-                  <h3>Yamaha RYDEEN RDP0F5</h3>
-                  <p>un kit batterie au coloris très attrayant, idéale pour une première batterie, </p>
-                  </div>
-                  <div class="product-cart">
-                  <button type="submit">Add to cart</button>
-                  </div>
-              </div>
-              
-              <div class="product-card">
-                <img class="product-img" src="https://cdn.cultura.com/cdn-cgi/image/width=830/media/pim/yamaha-rydeen-black-20-comp-2001000261475_0.jpg">
-                  <div class="product-text">
-                  <h3>Yamaha RYDEEN RDP0F5</h3>
-                  <p>un kit batterie au coloris très attrayant, idéale pour une première batterie, </p>
-                  </div>
-                  <div class="product-cart">
-                  <button type="submit">Add to cart</button>
-                  </div>
-              </div>
-              
-              <div class="product-card">
-                <img class="product-img" src="https://cdn.cultura.com/cdn-cgi/image/width=830/media/pim/yamaha-rydeen-black-20-comp-2001000261475_0.jpg">
-                  <div class="product-text">
-                  <h3>Yamaha RYDEEN RDP0F5</h3>
-                  <p>un kit batterie au coloris très attrayant, idéale pour une première batterie, </p>
-                  </div>
-                  <div class="product-cart">
-                  <button type="submit">Add to cart</button>
-                  </div>
-              </div>
+    <section class="category">
+        <h1 class="category-title">Rayons</h1>
+        <div class="category-container">
+            <div class="category-carousel">
+                <!-- Tous les éléments dans une seule div -->
+                <div class="category-content">
+                   @foreach (var categorie in grandCategories)
+                    {
+                        <div class="content">
+                            <div class="content-img-container">
+                                <img src="@categorie.ImagePath" alt="@categorie.NomGrandCategorie" class="content-img">
+                            </div>
+                            <p class="content-title">@categorie.NomGrandCategorie</p>
+                        </div>
+                    }
+                </div>
             </div>
-            <p class="see-more">Afficher plus ... </p>
+            <button class="carousel-btn prev-btn">&lt;</button>
+            <button class="carousel-btn next-btn">&gt;</button>
+        </div>
+        <div class="carousel-dots"></div>
+    </section>
+
+    <section class="product-showcase">
+        <div class="showcase-header">
+            <h2 class="showcase-title">Nos Produits</h2>
+            <ul class="category-tabs">
+                @for (int i = 0; i < 4; i++)
+                {
+                    var sc = Model[i];
+                    <li class="tab-item @(i == 0 ? "active" : "")" data-target="cat-@sc.IdSousCategorie">
+                        @sc.NomSousCategorie
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="products-container">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var sc = Model[i];
+                <div class="content-product @(i == 0 ? "active" : "")" data-category="cat-@sc.IdSousCategorie">
+                    @foreach (var produit in sc.Produits)
+                    {
+                        @if (@produit.NbStock != 0){
+                            <a asp-controller="Produit" asp-action="Details" asp-route-slug="@produit.Slug">
+                                <div class="product-card">
+                                    <div class="product-badge">@produit.NbStock</div>
+                                    <div class="product-image">
+                                        <img src="@produit.ImagePath" alt="@produit.NomProduit">
+                                    </div>
+                                    <h3 class="product-title">@produit.NomProduit</h3>
+                                    <p class="product-price">@($"{produit.Prix:F2} €")</p>
+                                    <button class="product-btn">Voir plus</button>
+                                </div>
+                            </a>
+                        }
+                    }
+
+                    @* Aucun produit *@
+                    @if (!sc.Produits.Any())
+                    {
+                        <p>Aucun produit disponible pour cette catégorie.</p>
+                    }
+                </div>
+            }
         </div>
     </section>
 
@@ -96,4 +132,108 @@
                 setTimeout(type, 100); // Vitesse d'écriture
             }
         })();
+
+        const carousel = document.querySelector('.category-content');
+        const contents = document.querySelectorAll('.content');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const dotsContainer = document.querySelector('.carousel-dots');
+        
+        let currentIndex = 0;
+        const itemsPerSlide = 3;
+        const totalSlides = Math.ceil(contents.length / itemsPerSlide);
+        
+        // Créer les dots
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('span');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+        
+        const dots = document.querySelectorAll('.dot');
+        
+        function updateCarousel() {
+            const contentWidth = document.querySelector('.content').offsetWidth + 20; // + gap
+            const translateX = -currentIndex * itemsPerSlide * contentWidth;
+            carousel.style.transform = `translateX(${translateX}px)`;
+            
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+        
+        function goToSlide(index) {
+            currentIndex = index;
+            updateCarousel();
+        }
+        
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateCarousel();
+        });
+        
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        });
+        
+        // Défilement automatique
+        let autoSlide = setInterval(() => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateCarousel();
+        }, 5000);
+        
+        // Arrêter le défilement automatique au survol
+        carousel.addEventListener('mouseenter', () => {
+            clearInterval(autoSlide);
+        });
+        
+        // Redémarrer le défilement automatique
+        carousel.addEventListener('mouseleave', () => {
+            autoSlide = setInterval(() => {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateCarousel();
+            }, 5000);
+        });
+        
+        // Gestion du responsive
+        function handleResize() {
+            updateCarousel();
+        }
+        
+        window.addEventListener('resize', handleResize);
+        
+        // Initialisation
+        updateCarousel();
+
+        const tabItems = document.querySelectorAll('.tab-item');
+        const contentProducts = document.querySelectorAll('.content-product');
+
+        function changeTab(selectedTab) {
+            const targetCategory = selectedTab.dataset.target;
+
+            tabItems.forEach(tab => tab.classList.remove('active'));
+            selectedTab.classList.add('active');
+
+            contentProducts.forEach(product => {
+                product.classList.remove('active');
+                if (product.dataset.category === targetCategory) {
+                    setTimeout(() => {
+                        product.classList.add('active');
+                    }, 10);
+                }
+            });
+        }
+
+        tabItems.forEach(tab => {
+            tab.addEventListener('click', function () {
+                changeTab(this);
+            });
+        });
+
+        setTimeout(() => {
+            document.querySelector('.tab-item.active').classList.add('animate');
+        }, 500);
     </script>
