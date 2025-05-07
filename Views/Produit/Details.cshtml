@@ -9,6 +9,8 @@
     ViewData["SlideBarAdmin"] = false;
     ViewData["UseSlideBarAdminStyles"] = false;
     ViewData["UseBootstrap"] = false;
+
+    var userId = Context.Session.GetInt32("UserId");
 }
 
 @section Styles {
@@ -49,7 +51,13 @@
                 <button class="btn btn-up">+</button>
             </div>
 
-            <button class="btn-add-cart">Ajouter au panier</button>
+            <button class="btn-add-cart" 
+                    data-id="@Model.Produit.IdProduit" 
+                    data-name="@Model.Produit.NomProduit" 
+                    data-price="@Model.Produit.Prix" 
+                    data-image="@(string.IsNullOrEmpty(Model.Produit.ImagePath) ? "/images/no-image.png" : Model.Produit.ImagePath)">
+                Ajouter au panier
+            </button>
         </div>
     </div>
     
@@ -79,17 +87,20 @@
     }
 </div>
 
+@if (userId != null)
+{
+    <input type="hidden" id="current-user-id" value="@userId" />
+}
+
 @section Scripts {
     <script>
-
-        
     document.addEventListener('DOMContentLoaded', function() {
         // Récupérer les éléments
         const btnDown = document.querySelector('.btn-down');
         const btnUp = document.querySelector('.btn-up');
         const quantityInput = document.querySelector('.product-qte input');
         const btnAddCart = document.querySelector('.btn-add-cart');
-
+        
         // Minimum et maximum de quantité
         const minQuantity = 1;
         const maxQuantity = 10;
@@ -106,11 +117,11 @@
             
             // Animation feedback
             if (value > 0) {
-            quantityInput.classList.add('qte-up');
-            setTimeout(() => quantityInput.classList.remove('qte-up'), 300);
+                quantityInput.classList.add('qte-up');
+                setTimeout(() => quantityInput.classList.remove('qte-up'), 300);
             } else if (value < 0) {
-            quantityInput.classList.add('qte-down');
-            setTimeout(() => quantityInput.classList.remove('qte-down'), 300);
+                quantityInput.classList.add('qte-down');
+                setTimeout(() => quantityInput.classList.remove('qte-down'), 300);
             }
         }
 
@@ -118,19 +129,114 @@
         btnDown.addEventListener('click', () => updateQuantity(-1));
         btnUp.addEventListener('click', () => updateQuantity(1));
 
-        // Réinitialiser la quantité au clic sur "Ajouter au panier"
+        // Gestion du panier
+        function getCart() {
+            // Vérifier si l'utilisateur est connecté
+            const userId = getUserId();
+            const cartKey = userId ? `cart_${userId}` : 'cart';
+            
+            // Récupérer le panier du localStorage ou créer un tableau vide
+            let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+            return cart;
+        }
+
+        function saveCart(cart) {
+            // Vérifier si l'utilisateur est connecté
+            const userId = getUserId();
+            const cartKey = userId ? `cart_${userId}` : 'cart';
+            
+            // Sauvegarder le panier dans localStorage
+            localStorage.setItem(cartKey, JSON.stringify(cart));
+            
+            // Toujours mettre à jour également la clé 'cart' pour l'affichage dans l'en-tête
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Émettre un événement pour notifier les autres parties de l'application
+            window.dispatchEvent(new Event('storage'));
+            
+            // Mettre à jour le compteur du panier dans l'en-tête
+            updateCartCounter();
+        }
+
+        function getUserId() {
+            // Cette fonction essaie de récupérer l'ID utilisateur à partir d'un élément caché
+            const userIdElement = document.getElementById('current-user-id');
+            return userIdElement ? userIdElement.value : null;
+        }
+
+        function updateCartCounter() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            
+            // Mettre à jour le compteur dans l'en-tête
+            const cartCounter = document.querySelector('.cart-counter');
+            if (cartCounter) {
+                cartCounter.textContent = totalItems;
+                
+                // Rendre visible si produits dans le panier
+                if (totalItems > 0) {
+                    cartCounter.style.display = 'flex';
+                } else {
+                    cartCounter.style.display = 'none';
+                }
+            }
+        }
+
+        // Initialiser le compteur au chargement de la page
+        updateCartCounter();
+
+        // Ajouter au panier
         btnAddCart.addEventListener('click', function() {
-            const currentQty = parseInt(quantityInput.value) || minQuantity;
+            const productId = this.getAttribute('data-id');
+            const productName = this.getAttribute('data-name');
+            const productPrice = parseFloat(this.getAttribute('data-price'));
+            const productImage = this.getAttribute('data-image');
+            const quantity = parseInt(quantityInput.value) || minQuantity;
+            
+            // Récupérer le panier actuel
+            let cart = getCart();
+            
+            // Vérifier si le produit existe déjà dans le panier
+            const existingProductIndex = cart.findIndex(item => item.id === productId);
+            
+            if (existingProductIndex !== -1) {
+                // Mettre à jour la quantité si le produit existe déjà
+                cart[existingProductIndex].quantity += quantity;
+            } else {
+                // Ajouter le nouveau produit
+                cart.push({
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    image: productImage,
+                    quantity: quantity
+                });
+            }
+            
+            // Sauvegarder le panier mis à jour
+            saveCart(cart);
             
             // Animation de confirmation
             quantityInput.classList.add('qte-confirm');
             setTimeout(() => {
-            quantityInput.classList.remove('qte-confirm');
-            quantityInput.value = minQuantity; // Réinitialiser à 1
+                quantityInput.classList.remove('qte-confirm');
+                quantityInput.value = minQuantity; // Réinitialiser à 1
             }, 1000);
             
-            // Ici vous pourriez ajouter la logique pour ajouter au panier
-            console.log(`Ajouté au panier: ${currentQty} unité(s)`);
+            // Feedback visuel pour l'utilisateur (remplacer alert par une notification plus élégante)
+            const notification = document.createElement('div');
+            notification.className = 'cart-notification';
+            notification.innerHTML = `<i class="fas fa-check-circle"></i> ${quantity} ${productName} ajouté(s) au panier!`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
         });
 
         // Validation de l'input manuel

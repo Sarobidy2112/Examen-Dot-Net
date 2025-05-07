@@ -17,7 +17,7 @@
             <li><a asp-controller="Produit" asp-action="Index">Les Produits</a></li>
             @if (userRole == 1)
             {
-                <li><a asp-controller="Admin" asp-action="Dashboard">Dashboard</a></li>   
+                <li><a asp-controller="Admin" asp-action="Dashboard">Dashboard</a></li>
             }
             @if (userId != null)
             {
@@ -28,7 +28,10 @@
         @if (userId != null)
         {
             <div class="cart">
-                <i class="icon fas fa-shopping-cart"></i>
+                <a asp-controller="Panier" asp-action="Index">
+                    <i class="icon fas fa-shopping-cart"></i>
+                    <span class="cart-counter">0</span>
+                </a>
             </div>
         }
     </div>
@@ -57,3 +60,114 @@
         }
     </div>
 </nav>
+
+@if (userId != null)
+{
+    <input type="hidden" id="current-user-id" value="@userId" />
+}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fonction pour mettre à jour le compteur du panier
+        function updateCartCounter() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            
+            const cartCounter = document.querySelector('.cart-counter');
+            if (cartCounter) {
+                cartCounter.textContent = totalItems;
+                
+                // Afficher ou masquer le compteur
+                if (totalItems > 0) {
+                    cartCounter.style.display = 'flex';
+                } else {
+                    cartCounter.style.display = 'none';
+                }
+            }
+        }
+        
+        // Fonction pour gérer les paniers utilisateur
+        function handleUserCart() {
+            const userId = document.getElementById('current-user-id')?.value;
+            
+            if (userId) {
+                const userCartKey = `cart_${userId}`;
+                
+                // Vérifier si l'utilisateur a un panier sauvegardé
+                const savedUserCart = localStorage.getItem(userCartKey);
+                
+                if (savedUserCart) {
+                    // Utiliser le panier sauvegardé de l'utilisateur et le synchroniser avec 'cart'
+                    localStorage.setItem('cart', savedUserCart);
+                } else {
+                    // Sauvegarder le panier actuel pour cet utilisateur
+                    const currentCart = localStorage.getItem('cart');
+                    if (currentCart) {
+                        localStorage.setItem(userCartKey, currentCart);
+                    }
+                }
+            }
+        }
+        
+        // Initialiser le panier utilisateur
+        handleUserCart();
+        
+        // Mettre à jour le compteur au chargement de la page
+        updateCartCounter();
+        
+        // Écouter les changements du panier (événement personnalisé)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'cart') {
+                updateCartCounter();
+            }
+        });
+    });
+</script>
+
+<style>
+    .cart {
+        position: relative;
+    }
+    
+    .cart-counter {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: #ff4757;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    /* Styles pour la notification de panier */
+    .cart-notification {
+        position: fixed;
+        bottom: -60px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #2ecc71;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        transition: bottom 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .cart-notification.show {
+        bottom: 20px;
+    }
+    
+    .cart-notification i {
+        font-size: 18px;
+    }
+</style>
