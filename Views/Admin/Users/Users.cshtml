@@ -35,7 +35,7 @@
                     @foreach (var item in Model) {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            @* <td>@Html.DisplayFor(modelItem => item.Name)</td> *@
                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
                             <td>@(item.Role == 0 ? "Utilisateur" : "Admin")</td>
                             <td class="actions">      

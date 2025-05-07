@@ -8,8 +8,164 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
 }
+
+<div class="logo">
+        <h1>REC<span>Sound</span></h1>
+    </div>
+
+<div class="register-container">
+    <div class="register">
+        <div class="register-title">
+            <h1>Créer mon Compte</h1>
+            <p>Vous avez déjà un compte? <a href="#">Se connecter</a></p>
+        </div>
+
+        <form asp-action="Register" method="post">
+            <div class="identification section">
+                <h2 class="section-title">Identification</h2>
+                <div class="input-group">
+                    <div class="left">
+                        <h3>Email</h3>
+                        <div class="input-field">
+                            <label for="email" asp-for="Email">Mon adresse email *</label>
+                            <input type="email" id="email"  name="Email" class="email-input" asp-for="Email" required>
+                        </div>
+                        <div class="input-field">
+                            <label for="confirm-email">Confirmation de l'email *</label>
+                            <input type="email" id="confirm-email" class="email-input">
+                            <div class="error-message email-error"></div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <h3>Mot de passe</h3>
+                        <div class="input-field">
+                            <label for="password" asp-for="Password">Mon mot de passe *</label>
+                            <input type="password" id="password" name="Password" asp-for="Password" class="password-input" required>
+                        </div>
+                        <div class="input-field">
+                            <label for="confirm-password">Confirmation du mot de passe *</label>
+                            <input type="password" id="confirm-password" name="confirmPassword" class="password-input" required>
+                            <div class="error-message password-error"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text reassurance-text">
+                    <div class="text-content">
+                        <p>En créant un compte, vous bénéficierez d'un espace sécurisé pour gérer vos commandes, suivre vos livraisons et accéder à des offres exclusives. Vos données sont protégées conformément à notre politique de confidentialité.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="facturation section">
+                <h2 class="section-title">Adresse de facturation</h2>
+                <div class="info input-group">
+                    <div class="left">
+                        <div class="input-field">
+                            <label>Civilité *</label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="Genre" value="Mr" class="round-checkbox" required asp-for="Genre" >
+                                    <span class="radio-label">Mr</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="Genre" value="Mme" class="round-checkbox" required asp-for="Genre">
+                                    <span class="radio-label">Mme</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <label for="nom" asp-for="Nom">Nom *</label>
+                            <input type="text" asp-for="Nom" id="nom" required>
+                        </div>
+                        <div class="input-field">
+                            <label for="prenom" asp-for="Prenom">Prénom *</label>
+                            <input type="text" id="prenom" asp-for="Prenom" required>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="input-field">
+                            <label for="date-naissance" asp-for="DateNaissance">Date de Naissance</label>
+                            <input type="date" id="date-naissance" asp-for="DateNaissance">
+                        </div>
+                        <div class="input-field">
+                            <label for="tel" asp-for="Telephone">Tél. Portable *</label>
+                            <input type="tel" id="tel" required asp-for="Telephone">
+                            <div class="text-text info-text">
+                                <div class="text-content">
+                                    <p>IMPORTANT : Nous vous conseillons d'indiquer votre numéro de téléphone portable. Il nous est indispensable de pouvoir vous contacter pour la livraison de vos produits.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="adresse input-group">
+                    <div class="input-field">
+                        <label for="adresse" asp-for="Adresse">Adresse *</label>
+                        <input type="text" id="adresse"  required asp-for="Adresse">
+                    </div>
+                    <div class="adresse-content">
+                        <div class="input-field">
+                            <label for="ville" asp-for="Ville">Ville *</label>
+                            <input type="text" id="ville" required asp-for="Ville">
+                        </div>
+                        <div class="input-field">
+                            <label for="pays" asp-for="Pays">Pays *</label>
+                            <input type="text" id="pays" required asp-for="Pays">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-confirme">Valider les informations</button>
+        </form>
+    </div>
+</div>
+
+<script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Récupération des éléments du formulaire
+        const emailInput = document.getElementById('email');
+        const confirmEmailInput = document.getElementById('confirm-email');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const emailError = document.querySelector('.email-error');
+        const passwordError = document.querySelector('.password-error');
+
+        // Fonction pour vérifier la correspondance des emails
+        function checkEmailMatch() {
+            if (emailInput.value !== confirmEmailInput.value && confirmEmailInput.value !== '') {
+                emailError.textContent = 'Les emails ne correspondent pas';
+                return false;
+            } else {
+                emailError.textContent = '';
+                return true;
+            }
+        }
+
+        // Fonction pour vérifier la correspondance des mots de passe
+        function checkPasswordMatch() {
+            if (passwordInput.value !== confirmPasswordInput.value && confirmPasswordInput.value !== '') {
+                passwordError.textContent = 'Les mots de passe ne correspondent pas';
+                return false;
+            } else {
+                passwordError.textContent = '';
+                return true;
+            }
+        }
+
+        // Écouteurs d'événements pour la vérification en temps réel
+        emailInput.addEventListener('input', checkEmailMatch);
+        confirmEmailInput.addEventListener('input', checkEmailMatch);
+        passwordInput.addEventListener('input', checkPasswordMatch);
+        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+    });
+
+</script>
+@* 
+
 
 <section class='signup-container'>
   <div class='wrapper'>

@@ -22,7 +22,6 @@ namespace examDotNet.Controllers
         // GET: /Auth/Register
         public IActionResult Register()
         {
-            // Si l'utilisateur est déjà connecté, rediriger vers l'accueil
             if (IsUserLoggedIn())
             {
                 return RedirectToAction("Index", "Home");
@@ -30,7 +29,6 @@ namespace examDotNet.Controllers
             return View();
         }
 
-        // POST: /Auth/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(User user, string confirmPassword)
@@ -42,24 +40,22 @@ namespace examDotNet.Controllers
 
             if (ModelState.IsValid)
             {
-                // Vérifier si l'email existe déjà
                 if (_context.Users.Any(u => u.Email == user.Email))
                 {
                     ModelState.AddModelError("Email", "Cet email est déjà utilisé");
                     return View(user);
                 }
 
-                // Hacher le mot de passe
                 user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-                
+
                 _context.Add(user);
                 await _context.SaveChangesAsync();
-                
-                // Connecter automatiquement l'utilisateur après l'inscription
+
                 SetUserSession(user);
-                
+
                 return RedirectToAction("Index", "Home");
             }
+
             return View(user);
         }
 
@@ -107,7 +103,7 @@ namespace examDotNet.Controllers
         private void SetUserSession(User user)
         {
             HttpContext.Session.SetInt32(UserIdSessionKey, user.Id);
-            HttpContext.Session.SetString(UserNameSessionKey, user.Name);
+            // HttpContext.Session.SetString(UserNameSessionKey, user.Name);
             HttpContext.Session.SetString(UserEmailSessionKey, user.Email);
             HttpContext.Session.SetInt32(UserRoleSessionKey, user.Role);
         }
