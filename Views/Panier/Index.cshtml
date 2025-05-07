@@ -1,0 +1,283 @@
+@model examDotNet.Models.PanierViewModel
+
+@{
+    ViewData["Title"] = "Votre Panier";
+    ViewData["ShowHeader"] = true;
+    ViewData["ShowFooter"] = false;
+    ViewData["UseHeaderStyles"] = true;
+    ViewData["UseFooterStyles"] = false;
+    ViewData["SlideBarAdmin"] = false;
+    ViewData["UseSlideBarAdminStyles"] = false;
+    ViewData["UseBootstrap"] = false;
+    
+    var userId = Context.Session.GetInt32("UserId");
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pannier.css" asp-append-version="true" />
+}
+
+@if (userId != null)
+{
+    <input type="hidden" id="current-user-id" value="@userId" />
+}
+
+<div class="cart-container">
+        <h1 class="cart-header">Votre Panier</h1>
+
+            <div id="loading" class="loading">
+                <div class="loading-spinner"></div>
+            </div>
+
+    <div id="cart-content" class="cart-content" style="display: none;">
+        <div class="cart-left">
+            <p class="cart-products-title">Tous vos produits sélectionnés</p>
+            <div class="cart-items-container">
+                <table class="cart-list">
+                    <tbody id="cart-items">
+                        <!-- Les produits du panier seront chargés dynamiquement ici -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="cart-right">
+            <div class="cart-summary">
+                <h2 class="summary-title">Récapitulatif</h2>
+                <div class="summary-details">
+                    <div class="subtotal-price">
+                        <p>Sous-total</p>
+                        <p id="sous-total">0 €</p>
+                    </div>
+                    <div class="shipping-price">
+                        <p>Livraison</p>
+                        <p id="frais-livraison">@Model.FraisLivraison €</p>
+                    </div>
+                    <div class="total-price">
+                        <p>Total TTC</p>
+                        <p><span id="total-amount">0</span> €</p>
+                    </div>
+                </div>
+                <button id="btn-checkout" class="btn-checkout">Passer la commande</button>
+                <div class="continue-shopping">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <a asp-controller="Produit" asp-action="Index">Continuer vos achats</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="cart-empty" class="cart-empty" style="display: none;">
+        <i class="fa-solid fa-shopping-cart"></i>
+        <h2>Votre panier est vide</h2>
+        <p>Parcourez notre catalogue et ajoutez des produits à votre panier.</p>
+        <a asp-controller="Produit" asp-action="Index" class="btn-browse">Découvrir nos produits</a>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Éléments du DOM
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartContentElement = document.getElementById('cart-content');
+        const cartEmptyElement = document.getElementById('cart-empty');
+        const loadingElement = document.getElementById('loading');
+        const sousTotal = document.getElementById('sous-total');
+        const totalAmount = document.getElementById('total-amount');
+        const fraisLivraison = document.getElementById('frais-livraison');
+        const btnCheckout = document.getElementById('btn-checkout');
+        
+        // Constantes
+        const FRAIS_LIVRAISON = parseFloat('@Model.FraisLivraison');
+        
+        // Fonction pour formater le prix
+        function formatPrice(price) {
+            return price.toFixed(2);
+        }
+        
+        // Fonction pour obtenir l'ID utilisateur
+        function getUserId() {
+            const userIdElement = document.getElementById('current-user-id');
+            return userIdElement ? userIdElement.value : null;
+        }
+        
+        // Fonction pour récupérer le panier
+        function getCart() {
+            const userId = getUserId();
+            const cartKey = userId ? `cart_${userId}` : 'cart';
+            return JSON.parse(localStorage.getItem(cartKey)) || [];
+        }
+        
+        // Fonction pour sauvegarder le panier
+        function saveCart(cart) {
+            const userId = getUserId();
+            const cartKey = userId ? `cart_${userId}` : 'cart';
+            localStorage.setItem(cartKey, JSON.stringify(cart));
+            localStorage.setItem('cart', JSON.stringify(cart)); // Pour l'affichage dans l'en-tête
+            
+            // Émettre un événement pour notifier les autres parties de l'application
+            window.dispatchEvent(new Event('storage'));
+        }
+        
+        // Fonction pour mettre à jour le compteur et les totaux
+        function updateCartSummary() {
+            const cart = getCart();
+            let subTotal = 0;
+            
+            // Calculer le sous-total
+            for (const item of cart) {
+                subTotal += item.price * item.quantity;
+            }
+            
+            // Mettre à jour les montants affichés
+            sousTotal.textContent = formatPrice(subTotal) + ' €';
+            totalAmount.textContent = formatPrice(subTotal + FRAIS_LIVRAISON);
+            
+            // Mettre à jour le compteur dans l'en-tête
+            updateCartCounter();
+        }
+        
+        // Fonction pour mettre à jour le compteur du panier
+        function updateCartCounter() {
+            const cart = getCart();
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            
+            const cartCounter = document.querySelector('.cart-counter');
+            if (cartCounter) {
+                cartCounter.textContent = totalItems;
+                
+                if (totalItems > 0) {
+                    cartCounter.style.display = 'flex';
+                } else {
+                    cartCounter.style.display = 'none';
+                }
+            }
+        }
+        
+        // Fonction pour supprimer un produit du panier
+        function removeCartItem(productId) {
+            const cart = getCart();
+            const updatedCart = cart.filter(item => item.id !== productId);
+            
+            saveCart(updatedCart);
+            loadCartItems(); // Recharger les produits
+        }
+        
+        // Fonction pour charger et afficher les produits du panier
+        function loadCartItems() {
+            const cart = getCart();
+            
+            // Masquer le chargement
+            loadingElement.style.display = 'none';
+            
+            // Vérifier si le panier est vide
+            if (cart.length === 0) {
+                cartContentElement.style.display = 'none';
+                cartEmptyElement.style.display = 'block';
+                return;
+            }
+            
+            // Afficher le contenu du panier
+            cartContentElement.style.display = 'flex';
+            cartEmptyElement.style.display = 'none';
+            
+            // Vider et remplir le conteneur de produits
+            cartItemsContainer.innerHTML = '';
+            
+            // Créer les éléments HTML pour chaque produit du panier
+            cart.forEach(item => {
+                const cartItem = document.createElement('tr');
+                cartItem.className = 'cart-item';
+                cartItem.setAttribute('data-id', item.id);
+                
+                cartItem.innerHTML = `
+                    <td class="cart-remove"><i class="fa-solid fa-xmark"></i></td> 
+                    <td class="cart-img">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                    </td>
+                    <td class="cart-info">
+                        <span class="cart-category">${item.category || 'Produit'}</span>
+                        <h3 class="cart-product-title">${item.name}</h3>
+                    </td>
+                    <td class="cart-price">
+                        <span class="cart-quantity">${item.quantity}</span> x <span class="cart-item-price">${formatPrice(item.price)} €</span>
+                    </td>
+                `;
+                
+                // Ajouter l'élément au conteneur
+                cartItemsContainer.appendChild(cartItem);
+                
+                // Ajouter l'événement de suppression
+                const removeBtn = cartItem.querySelector('.cart-remove');
+                removeBtn.addEventListener('click', function() {
+                    cartItem.classList.add('item-removing');
+                    setTimeout(() => {
+                        removeCartItem(item.id);
+                    }, 500);
+                });
+            });
+            
+            // Mettre à jour le récapitulatif
+            updateCartSummary();
+        }
+        
+        // Charger les produits au chargement de la page
+        loadCartItems();
+        
+        // Écouteur pour le bouton de passage à la caisse
+        btnCheckout.addEventListener('click', function() {
+            const userId = getUserId();
+            
+            if (!userId) {
+                // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+                window.location.href = '/Auth/Login?returnUrl=/Panier';
+                return;
+            }
+            
+            // Sinon, traiter la commande (à implémenter)
+            alert('Fonctionnalité de commande à implémenter.');
+        });
+        
+        // Ajouter un écouteur pour les changements de stockage local
+        window.addEventListener('storage', function() {
+            loadCartItems();
+        });
+        
+        // Appeler l'API pour enrichir les données des produits
+        fetch('/Panier/GetCartItems')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Mise à jour des catégories des produits
+                    const cart = getCart();
+                    const produitsMap = {};
+                    
+                    // Créer un mapping des produits
+                    data.produits.forEach(p => {
+                        produitsMap[p.id] = p;
+                    });
+                    
+                    // Mettre à jour les infos des produits dans le panier
+                    const updatedCart = cart.map(item => {
+                        const produit = produitsMap[item.id];
+                        if (produit) {
+                            item.category = produit.categorie;
+                            // Mettre à jour d'autres informations si nécessaire
+                        }
+                        return item;
+                    });
+                    
+                    // Sauvegarder le panier mis à jour
+                    saveCart(updatedCart);
+                    
+                    // Recharger les produits
+                    loadCartItems();
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des produits:', error);
+            });
+    });
+    </script>
+}
