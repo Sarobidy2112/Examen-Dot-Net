@@ -18,6 +18,9 @@ body {
 .logo h1 span {
   color: black;
 }
+.logo img{
+  width: 150px;
+}
 
 .register-container {
   max-width: 1200px;

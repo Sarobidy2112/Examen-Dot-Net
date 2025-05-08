@@ -12,14 +12,17 @@
 }
 
 <div class="logo">
-        <h1>REC<span>Sound</span></h1>
-    </div>
+        @* <h1>REC<span>Sound</span></h1> *@
+         <a asp-controller="Home" asp-action="Index">
+            <img src="~/images/logo.png" alt="">
+        </a>
+</div>
 
 <div class="register-container">
     <div class="register">
         <div class="register-title">
             <h1>Créer mon Compte</h1>
-            <p>Vous avez déjà un compte? <a href="#">Se connecter</a></p>
+            <p>Vous avez déjà un compte? <a asp-action="Login">Se connecter</a></p>
         </div>
 
         <form asp-action="Register" method="post">

@@ -14,6 +14,11 @@ a{
 .logo {
   padding: 15px 0 0 100px;
 }
+
+.logo img{
+  width: 150px;
+}
+
 .logo h1 {
   font-size: 2rem;
   font-weight: bolder;
