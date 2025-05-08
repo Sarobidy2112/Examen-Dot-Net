@@ -31,28 +31,53 @@
                             </div>
                         </div>
                         
-                        <!-- Catégories -->
+                        <!-- Grandes Catégories -->
                         <div class="filter-section">
-                            <h3>Catégories</h3>
+                            <h3>Grandes Catégories</h3>
                             <ul class="category-list">
-                                @foreach (var categorie in Model.Categories)
+                                @foreach (var grandeCat in Model.GrandesCategories)
                                 {
                                     <li>
                                         <label>
-                                            <input  type="checkbox"
-                                                    name="categories"
-                                                    value="@categorie"
-                                                    id="cat-@categorie"
-                                                   @(Model.CategoriesSelectionnees.Contains(categorie) ? "checked" : "")
-                                                   class="filter-checkbox" 
-                                                   >
-                                                    
-                                            @categorie
+                                            <input type="radio"
+                                                   name="grandCatId"
+                                                   value="@grandeCat.IdGrandCategorie"
+                                                   id="grandcat-@grandeCat.IdGrandCategorie"
+                                                   @(Model.GrandeCategorieSelectionnee == grandeCat.IdGrandCategorie ? "checked" : "")
+                                                   class="filter-radio grand-categorie-radio">
+                                            @grandeCat.NomGrandCategorie
                                         </label>
                                     </li>
                                 }
                             </ul>
                         </div>
+                        
+                        <!-- Sous-Catégories -->
+                        @foreach (var grandeCat in Model.GrandesCategories)
+                        {
+                            <div class="filter-section sous-categories" id="sous-cat-@grandeCat.IdGrandCategorie" style="display: @(Model.GrandeCategorieSelectionnee == grandeCat.IdGrandCategorie ? "block" : "none")">
+                                <h3>Sous-Catégories</h3>
+                                <ul class="category-list">
+                                    @if (Model.SousCategoriesParGrandCat.ContainsKey(grandeCat.IdGrandCategorie))
+                                    {
+                                        foreach (var sousCat in Model.SousCategoriesParGrandCat[grandeCat.IdGrandCategorie])
+                                        {
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox"
+                                                          name="categories"
+                                                          value="@sousCat.NomSousCategorie"
+                                                          id="cat-@sousCat.IdSousCategorie"
+                                                          @(Model.CategoriesSelectionnees.Contains(sousCat.NomSousCategorie) ? "checked" : "")
+                                                          class="filter-checkbox sous-categorie-checkbox">
+                                                    @sousCat.NomSousCategorie
+                                                </label>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        }
                         
                         <!-- Disponibilité -->
                         <div class="filter-section">
@@ -83,7 +108,6 @@
                         </div>
                         
                         <div class="btn-place">
-                            
                             <button type="submit" id="apply-filters" class="reset-btn">Appliquer les filtres</button>
                             <a href="@Url.Action("Index")" id="reset-filters" class="reset-btn">
                                 Réinitialiser les filtres
@@ -130,67 +154,121 @@
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        const priceSlider = document.getElementById('price-slider');
-        const maxPriceDisplay = document.getElementById('max-price-display');
-        const filterForm = document.getElementById('filter-form');
-        
-        if (priceSlider && maxPriceDisplay) {
-            // Valeur initiale du slider
-            const maxValue = @Model.PrixMaxPossible;
+            const priceSlider = document.getElementById('price-slider');
+            const maxPriceDisplay = document.getElementById('max-price-display');
+            const filterForm = document.getElementById('filter-form');
             
-            priceSlider.addEventListener('input', function() {
-                maxPriceDisplay.textContent = this.value + ' €';
-            });
+            // Gestion des grandes catégories et sous-catégories
+            const grandeCategorieRadios = document.querySelectorAll('.grand-categorie-radio');
+            const sousCategoriesContainers = document.querySelectorAll('.sous-categories');
             
-            // Ne pas soumettre la valeur de prix si elle est égale au maximum
-            priceSlider.addEventListener('change', function() {
-                if (parseInt(this.value) === maxValue) {
-                    this.removeAttribute('name');
-                } else {
-                    this.setAttribute('name', 'maxPrice');
+            // Fonction pour afficher les sous-catégories appropriées
+            function afficherSousCategories(grandCatId) {
+                // Cacher toutes les divs de sous-catégories
+                sousCategoriesContainers.forEach(container => {
+                    container.style.display = 'none';
+                });
+                
+                // Afficher la div correspondant à la grande catégorie sélectionnée
+                const sousCatDiv = document.getElementById('sous-cat-' + grandCatId);
+                if (sousCatDiv) {
+                    sousCatDiv.style.display = 'block';
                 }
+            }
+            
+            // Événement de changement pour les radios de grandes catégories
+            grandeCategorieRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.checked) {
+                        const grandCatId = this.value;
+                        afficherSousCategories(grandCatId);
+                        
+                        // Décocher toutes les sous-catégories lorsqu'on change de grande catégorie
+                        const checkboxes = document.querySelectorAll('.filter-checkbox[name="categories"]');
+                        checkboxes.forEach(checkbox => {
+                            checkbox.checked = false;
+                        });
+                        
+                        // Soumettre automatiquement le formulaire lors du changement de grande catégorie
+                        // pour afficher tous les produits de cette grande catégorie
+                        cleanupForm();
+                        filterForm.submit();
+                    }
+                });
             });
-        }
-        
-        // Soumission du formulaire lors du changement des cases à cocher
-        const filterCheckboxes = document.querySelectorAll('.filter-checkbox');
-        filterCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                // Nettoyage des paramètres inutiles avant la soumission
-                cleanupForm();
-                filterForm.submit();
+            
+            // Initialiser l'affichage des sous-catégories si une grande catégorie est déjà sélectionnée
+            const selectedGrandCat = document.querySelector('.grand-categorie-radio:checked');
+            if (selectedGrandCat) {
+                afficherSousCategories(selectedGrandCat.value);
+            }
+            
+            if (priceSlider && maxPriceDisplay) {
+                // Valeur initiale du slider
+                const maxValue = @Model.PrixMaxPossible;
+                
+                priceSlider.addEventListener('input', function() {
+                    maxPriceDisplay.textContent = this.value + ' €';
+                });
+                
+                // Ne pas soumettre la valeur de prix si elle est égale au maximum
+                priceSlider.addEventListener('change', function() {
+                    if (parseInt(this.value) === maxValue) {
+                        this.removeAttribute('name');
+                    } else {
+                        this.setAttribute('name', 'maxPrice');
+                    }
+                });
+            }
+            
+            // Soumission du formulaire lors du changement des cases à cocher
+            const filterCheckboxes = document.querySelectorAll('.filter-checkbox');
+            filterCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    // Nettoyage des paramètres inutiles avant la soumission
+                    cleanupForm();
+                    filterForm.submit();
+                });
             });
+            
+            // Nettoyage des paramètres non utilisés
+            function cleanupForm() {
+                // Supprime le paramètre searchString s'il est vide
+                const searchInput = document.getElementById('search-input');
+                if (searchInput && searchInput.value.trim() === '') {
+                    searchInput.removeAttribute('name');
+                }
+                
+                // Supprime le paramètre inStock s'il n'est pas coché
+                const inStockCheckbox = document.getElementById('in-stock');
+                if (inStockCheckbox && !inStockCheckbox.checked) {
+                    inStockCheckbox.removeAttribute('name');
+                }
+                
+                // Supprime le paramètre maxPrice s'il est à la valeur maximale
+                const maxValue = @Model.PrixMaxPossible;
+                if (priceSlider && parseInt(priceSlider.value) === maxValue) {
+                    priceSlider.removeAttribute('name');
+                }
+                
+                // Si aucune grande catégorie n'est sélectionnée, ne pas envoyer le paramètre
+                const selectedGrandCat = document.querySelector('.grand-categorie-radio:checked');
+                if (!selectedGrandCat) {
+                    const grandCatRadios = document.querySelectorAll('.grand-categorie-radio');
+                    grandCatRadios.forEach(radio => {
+                        radio.removeAttribute('name');
+                    });
+                }
+            }
+            
+            // Appliquer le nettoyage des paramètres lors de la soumission du formulaire
+            if (filterForm) {
+                filterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    cleanupForm();
+                    this.submit();
+                });
+            }
         });
-        
-        // Nettoyage des paramètres non utilisés
-        function cleanupForm() {
-            // Supprime le paramètre searchString s'il est vide
-            const searchInput = document.getElementById('search-input');
-            if (searchInput && searchInput.value.trim() === '') {
-                searchInput.removeAttribute('name');
-            }
-            
-            // Supprime le paramètre inStock s'il n'est pas coché
-            const inStockCheckbox = document.getElementById('in-stock');
-            if (inStockCheckbox && !inStockCheckbox.checked) {
-                inStockCheckbox.removeAttribute('name');
-            }
-            
-            // Supprime le paramètre maxPrice s'il est à la valeur maximale
-            const maxValue = @Model.PrixMaxPossible;
-            if (priceSlider && parseInt(priceSlider.value) === maxValue) {
-                priceSlider.removeAttribute('name');
-            }
-        }
-        
-        // Appliquer le nettoyage des paramètres lors de la soumission du formulaire
-        if (filterForm) {
-            filterForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                cleanupForm();
-                this.submit();
-            });
-        }
-    });
     </script>
 }

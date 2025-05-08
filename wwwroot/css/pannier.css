@@ -1,3 +1,7 @@
+.containers {
+  margin-top: 115px;
+}
+
 .cart-container {
     max-width: 1200px;
     margin: 2rem auto;
@@ -127,8 +131,8 @@
     border-radius: 12px;
     padding: 2rem;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 2rem;
+    position: fixed;
+    top: 8rem;
     animation: pulse 3s infinite;
   }
   .cart-summary .summary-title {

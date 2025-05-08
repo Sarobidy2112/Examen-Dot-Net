@@ -20,11 +20,12 @@ namespace examDotNet.Controllers
         }
 
         // Action pour afficher la liste des produits avec options de filtrage
-        public async Task<IActionResult> Index(string searchString, List<string> categories, bool? inStock, decimal? maxPrice)
+        public async Task<IActionResult> Index(string searchString, List<string> categories, bool? inStock, decimal? maxPrice, int? grandCatId)
         {
             // Récupérer les produits avec leurs sous-catégories
             var produitsQuery = _context.Produits
                 .Include(p => p.SousCategorie)
+                .ThenInclude(sc => sc.GrandCategorie)
                 .AsQueryable();
 
             // Filtrer par nom si un terme de recherche est fourni
@@ -33,10 +34,28 @@ namespace examDotNet.Controllers
                 produitsQuery = produitsQuery.Where(p => p.NomProduit.Contains(searchString));
             }
 
-            // Filtrer par sous-catégorie si des catégories sont sélectionnées
-            if (categories != null && categories.Count > 0)
+            // Filtrer par grande catégorie si sélectionnée
+            if (grandCatId.HasValue)
             {
-                produitsQuery = produitsQuery.Where(p => p.SousCategorie != null && categories.Contains(p.SousCategorie.NomSousCategorie));
+                // Si une grande catégorie est sélectionnée mais pas de sous-catégories spécifiques,
+                // afficher tous les produits de cette grande catégorie
+                if (categories == null || categories.Count == 0)
+                {
+                    produitsQuery = produitsQuery.Where(p => p.SousCategorie != null && 
+                                                            p.SousCategorie.IdGrandCat == grandCatId.Value);
+                }
+                else
+                {
+                    // Si des sous-catégories sont sélectionnées, filtrer par ces sous-catégories
+                    produitsQuery = produitsQuery.Where(p => p.SousCategorie != null && 
+                                                            categories.Contains(p.SousCategorie.NomSousCategorie));
+                }
+            }
+            // Si aucune grande catégorie n'est sélectionnée mais des sous-catégories sont choisies
+            else if (categories != null && categories.Count > 0)
+            {
+                produitsQuery = produitsQuery.Where(p => p.SousCategorie != null && 
+                                                        categories.Contains(p.SousCategorie.NomSousCategorie));
             }
 
             // Filtrer par disponibilité si demandé
@@ -63,13 +82,32 @@ namespace examDotNet.Controllers
             // Arrondir le prix maximum à la centaine supérieure
             prixMaximum = Math.Ceiling(prixMaximum / 100) * 100;
 
+            // Récupérer toutes les grandes catégories
+            var grandesCategories = await _context.GrandCategories
+                .ToListAsync();
+
+            // Récupérer toutes les sous-catégories regroupées par grande catégorie
+            var sousCategoriesParGrandCat = new Dictionary<int, List<SousCategorie>>();
+            
+            foreach (var grandCat in grandesCategories)
+            {
+                var sousCategories = await _context.SousCategories
+                    .Where(sc => sc.IdGrandCat == grandCat.IdGrandCategorie)
+                    .ToListAsync();
+                    
+                sousCategoriesParGrandCat[grandCat.IdGrandCategorie] = sousCategories;
+            }
+
             // Créer le ViewModel pour la vue
             var viewModel = new ProduitsViewModel
             {
                 Produits = await produitsQuery.ToListAsync(),
                 Categories = toutesCategories,
+                GrandesCategories = grandesCategories,
+                SousCategoriesParGrandCat = sousCategoriesParGrandCat,
                 SearchString = searchString,
                 CategoriesSelectionnees = categories ?? new List<string>(),
+                GrandeCategorieSelectionnee = grandCatId,
                 EnStockSeulement = inStock ?? false,
                 PrixMaximum = maxPrice ?? prixMaximum,
                 PrixMaxPossible = prixMaximum
