@@ -7,38 +7,39 @@ using examDotNet.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
-// using Newtonsoft.Json;
+using Stripe;
+using Stripe.Checkout;
 
 namespace examDotNet.Controllers
 {
     public class PanierController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private const decimal FRAIS_LIVRAISON = 34.0m; // Frais de livraison fixes
+        private readonly IConfiguration _config;
+        private const decimal FRAIS_LIVRAISON = 34.0m;
 
-        public PanierController(ApplicationDbContext context)
+        public PanierController(ApplicationDbContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
         }
 
-        // Affiche le panier avec les produits
+
         public IActionResult Index()
         {
             var viewModel = new PanierViewModel
-            {
-                ProduitsPanier = new List<ProduitPanierViewModel>(),
-                SousTotal = 0,
-                FraisLivraison = FRAIS_LIVRAISON,
-                Total = 0
-            };
+                {
+                    ProduitsPanier = new List<ProduitPanierViewModel>(),
+                    SousTotal = 0,
+                    FraisLivraison = FRAIS_LIVRAISON,
+                    Total = 0,
+                    StripePublicKey = _config["Stripe:PublishableKey"]
+                };
 
-            // Récupérer l'ID utilisateur s'il est connecté
-            var userId = HttpContext.Session.GetInt32("UserId");
-
-            return View(viewModel);
+                var userId = HttpContext.Session.GetInt32("UserId");
+                return View(viewModel);
         }
 
-        // Action pour récupérer les produits du panier via AJAX
         [HttpGet]
         public async Task<IActionResult> GetCartItems()
         {
@@ -46,9 +47,7 @@ namespace examDotNet.Controllers
             {
                 var produitsPanier = new List<ProduitPanierViewModel>();
                 decimal sousTotal = 0;
-
-                // Nous allons récupérer les IDs des produits du localStorage côté client,
-                // puis rechercher les informations complètes dans la base de données
+ 
                 var produits = await _context.Produits
                     .Include(p => p.SousCategorie)
                     .ToListAsync();
@@ -70,46 +69,107 @@ namespace examDotNet.Controllers
             }
         }
 
-        // Action pour supprimer un produit du panier
+    
         [HttpPost]
         public IActionResult RemoveItem(int productId)
-        {
-            // Cette action sera appelée via AJAX
-            // La suppression réelle sera gérée côté client dans le localStorage
+        {   
             return Json(new { success = true });
         }
 
-        // Action pour mettre à jour la quantité d'un produit
         [HttpPost]
         public IActionResult UpdateQuantity(int productId, int quantity)
-        {
-            // Cette action sera appelée via AJAX
-            // La mise à jour réelle sera gérée côté client dans le localStorage
+        {  
             return Json(new { success = true });
         }
 
-        // Action pour vider le panier
+    
         [HttpPost]
         public IActionResult ClearCart()
-        {
-            // Cette action sera appelée via AJAX
-            // Le vidage réel sera géré côté client dans le localStorage
+        {      
             return Json(new { success = true });
         }
 
-        // Action pour passer à la caisse (à implémenter plus tard)
         [HttpPost]
-        public IActionResult Checkout()
+        public async Task<IActionResult> Checkout([FromBody] List<CartItem> cartItems)
         {
-            // Vérifier si l'utilisateur est connecté
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
             {
-                return RedirectToAction("Login", "Auth", new { returnUrl = Url.Action("Index", "Panier") });
+                return Unauthorized(new { error = "Utilisateur non connecté" });
             }
 
-            // Rediriger vers une page de paiement ou de confirmation (à implémenter)
-            return RedirectToAction("Confirmation", "Commande");
+            try
+            {
+                var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
+                var options = new SessionCreateOptions
+                {
+                    PaymentMethodTypes = new List<string> { "card" },
+                    LineItems = cartItems.Select(item => new SessionLineItemOptions
+                    {
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            UnitAmount = (long)(item.price * 100),
+                            Currency = "eur",
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = item.name,
+                                Images = new List<string> { 
+                                    !string.IsNullOrEmpty(item.image) 
+                                        ? item.image.StartsWith("http") 
+                                            ? item.image 
+                                            : $"{baseUrl}{item.image}"
+                                        : $"{baseUrl}/images/no-image.png"
+                                }
+                            }
+                        },
+                        Quantity = item.quantity
+                    }).ToList(),
+                    Mode = "payment",
+                    SuccessUrl = $"{baseUrl}/Commande/Confirmation",
+                    CancelUrl = $"{baseUrl}/Panier",
+                    Metadata = new Dictionary<string, string> { { "userId", userId.ToString() } }
+                };
+
+                // Ajout des frais de livraison
+                options.LineItems.Add(new SessionLineItemOptions
+                {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        UnitAmount = (long)(FRAIS_LIVRAISON * 100),
+                        Currency = "eur",
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = "Frais de livraison"
+                        }
+                    },
+                    Quantity = 1
+                });
+
+                var service = new SessionService();
+                var session = await service.CreateAsync(options);
+
+                return Json(new { sessionId = session.Id });
+            }
+            catch (StripeException e)
+            {
+                return BadRequest(new { error = e.StripeError.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        // Ajoutez cette classe pour désérialiser les items du panier
+        public class CartItem
+        {
+            public string id { get; set; }
+            public string name { get; set; }
+            public decimal price { get; set; }
+            public int quantity { get; set; }
+            public string image { get; set; }
+            public string category { get; set; }
         }
     }
 }

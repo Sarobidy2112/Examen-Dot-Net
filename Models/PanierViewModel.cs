@@ -11,6 +11,7 @@ namespace examDotNet.Models
         public decimal SousTotal { get; set; }
         public decimal FraisLivraison { get; set; }
         public decimal Total { get; set; }
+        public string StripePublicKey { get; set; }
     }
 
     // Modèle pour les produits dans le panier
