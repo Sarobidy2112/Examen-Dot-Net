@@ -42,10 +42,12 @@
                    @foreach (var categorie in grandCategories)
                     {
                         <div class="content">
+                            <a href="@Url.Action("Index", "Produit", new { grandCatId = @categorie.IdGrandCategorie })">
                             <div class="content-img-container">
                                 <img src="@categorie.ImagePath" alt="@categorie.NomGrandCategorie" class="content-img">
                             </div>
                             <p class="content-title">@categorie.NomGrandCategorie</p>
+                            </a>
                         </div>
                     }
                 </div>
