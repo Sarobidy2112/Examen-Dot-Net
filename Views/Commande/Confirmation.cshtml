@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "Confirmation de commande";
+    ViewData["ShowHeader"] = false;
+    ViewData["ShowFooter"] = false;
+    ViewData["SlideBarAdmin"] = false;
+}
+
+<div class="confirmation-container">
+    <div class="confirmation-card">
+        <div class="confirmation-header">
+            <i class="fa-solid fa-circle-check confirmation-icon"></i>
+            <h1>Merci pour votre commande!</h1>
+        </div>
+        <div class="confirmation-body">
+            <p>Votre paiement a été traité avec succès.</p>
+            <p>Un email de confirmation vous a été envoyé.</p>
+        </div>
+        <div class="confirmation-footer">
+            <a asp-controller="Produit" asp-action="Index" class="btn-continue">Continuer vos achats</a>
+        </div>
+    </div>
+</div>

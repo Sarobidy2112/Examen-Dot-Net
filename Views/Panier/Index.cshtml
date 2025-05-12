@@ -76,9 +76,11 @@
 
 
 @section Scripts {
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Éléments du DOM
+        const stripe = Stripe('@Model.StripePublicKey');
+        
         const cartItemsContainer = document.getElementById('cart-items');
         const cartContentElement = document.getElementById('cart-content');
         const cartEmptyElement = document.getElementById('cart-empty');
@@ -87,66 +89,49 @@
         const totalAmount = document.getElementById('total-amount');
         const fraisLivraison = document.getElementById('frais-livraison');
         const btnCheckout = document.getElementById('btn-checkout');
-        
-        // Constantes
         const FRAIS_LIVRAISON = parseFloat('@Model.FraisLivraison');
         
-        // Fonction pour formater le prix
         function formatPrice(price) {
             return price.toFixed(2);
         }
         
-        // Fonction pour obtenir l'ID utilisateur
         function getUserId() {
             const userIdElement = document.getElementById('current-user-id');
             return userIdElement ? userIdElement.value : null;
         }
         
-        // Fonction pour récupérer le panier
         function getCart() {
             const userId = getUserId();
             const cartKey = userId ? `cart_${userId}` : 'cart';
             return JSON.parse(localStorage.getItem(cartKey)) || [];
         }
         
-        // Fonction pour sauvegarder le panier
         function saveCart(cart) {
             const userId = getUserId();
             const cartKey = userId ? `cart_${userId}` : 'cart';
             localStorage.setItem(cartKey, JSON.stringify(cart));
-            localStorage.setItem('cart', JSON.stringify(cart)); // Pour l'affichage dans l'en-tête
-            
-            // Émettre un événement pour notifier les autres parties de l'application
+            localStorage.setItem('cart', JSON.stringify(cart)); 
             window.dispatchEvent(new Event('storage'));
         }
         
-        // Fonction pour mettre à jour le compteur et les totaux
         function updateCartSummary() {
             const cart = getCart();
-            let subTotal = 0;
-            
-            // Calculer le sous-total
+            let subTotal = 0;    
             for (const item of cart) {
                 subTotal += item.price * item.quantity;
-            }
-            
-            // Mettre à jour les montants affichés
+            }     
             sousTotal.textContent = formatPrice(subTotal) + ' €';
-            totalAmount.textContent = formatPrice(subTotal + FRAIS_LIVRAISON);
-            
-            // Mettre à jour le compteur dans l'en-tête
+            totalAmount.textContent = formatPrice(subTotal + FRAIS_LIVRAISON);           
             updateCartCounter();
         }
         
-        // Fonction pour mettre à jour le compteur du panier
+        
         function updateCartCounter() {
             const cart = getCart();
-            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-            
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);            
             const cartCounter = document.querySelector('.cart-counter');
             if (cartCounter) {
-                cartCounter.textContent = totalItems;
-                
+                cartCounter.textContent = totalItems;               
                 if (totalItems > 0) {
                     cartCounter.style.display = 'flex';
                 } else {
@@ -155,41 +140,28 @@
             }
         }
         
-        // Fonction pour supprimer un produit du panier
         function removeCartItem(productId) {
             const cart = getCart();
             const updatedCart = cart.filter(item => item.id !== productId);
-            
             saveCart(updatedCart);
-            loadCartItems(); // Recharger les produits
+            loadCartItems(); 
         }
         
         function loadCartItems() {
             const cart = getCart();
-            
-            // Masquer le chargement
             loadingElement.style.display = 'none';
-            
-            // Vérifier si le panier est vide
             if (cart.length === 0) {
                 cartContentElement.style.display = 'none';
                 cartEmptyElement.style.display = 'block';
                 return;
             }
-            
-            // Afficher le contenu du panier
             cartContentElement.style.display = 'flex';
             cartEmptyElement.style.display = 'none';
-            
-            // Vider et remplir le conteneur de produits
             cartItemsContainer.innerHTML = '';
-            
-            // Créer les éléments HTML pour chaque produit du panier
             cart.forEach(item => {
                 const cartItem = document.createElement('tr');
                 cartItem.className = 'cart-item';
                 cartItem.setAttribute('data-id', item.id);
-                
                 cartItem.innerHTML = `
                     <td class="cart-remove"><i class="fa-solid fa-xmark"></i></td> 
                     <td class="cart-img">
@@ -202,12 +174,8 @@
                     <td class="cart-price">
                         <span class="cart-quantity">${item.quantity}</span> x <span class="cart-item-price">${formatPrice(item.price)} €</span>
                     </td>
-                `;
-                
-                // Ajouter l'élément au conteneur
+                `; 
                 cartItemsContainer.appendChild(cartItem);
-                
-                // Ajouter l'événement de suppression
                 const removeBtn = cartItem.querySelector('.cart-remove');
                 removeBtn.addEventListener('click', function() {
                     cartItem.classList.add('item-removing');
@@ -215,62 +183,52 @@
                         removeCartItem(item.id);
                     }, 500);
                 });
-            });
-            
-            // Mettre à jour le récapitulatif
+            });      
             updateCartSummary();
         }
-        
-        // Charger les produits au chargement de la page
         loadCartItems();
-        
-        // Écouteur pour le bouton de passage à la caisse
-        btnCheckout.addEventListener('click', function() {
-            const userId = getUserId();
-            
-            if (!userId) {
-                // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
-                window.location.href = '/Auth/Login?returnUrl=/Panier';
-                return;
+
+        btnCheckout.addEventListener('click', async function() {
+            try {
+                const cart = getCart();
+                const response = await fetch('/Panier/Checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(cart)
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || "Erreur serveur");
+                }
+
+                const data = await response.json();
+                await stripe.redirectToCheckout({ sessionId: data.sessionId });
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert(`Erreur: ${error.message}`);
             }
+        });
             
-            // Sinon, traiter la commande (à implémenter)
-            alert('Fonctionnalité de commande à implémenter.');
-        });
-        
-        // Ajouter un écouteur pour les changements de stockage local
-        window.addEventListener('storage', function() {
-            loadCartItems();
-        });
-        
-        // Appeler l'API pour enrichir les données des produits
         fetch('/Panier/GetCartItems')
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    // Mise à jour des catégories des produits
+                if (data.success) {  
                     const cart = getCart();
-                    const produitsMap = {};
-                    
-                    // Créer un mapping des produits
+                    const produitsMap = {};   
                     data.produits.forEach(p => {
                         produitsMap[p.id] = p;
-                    });
-                    
-                    // Mettre à jour les infos des produits dans le panier
+                    });         
                     const updatedCart = cart.map(item => {
                         const produit = produitsMap[item.id];
                         if (produit) {
-                            item.category = produit.categorie;
-                            // Mettre à jour d'autres informations si nécessaire
+                            item.category = produit.categorie;                     
                         }
                         return item;
-                    });
-                    
-                    // Sauvegarder le panier mis à jour
-                    saveCart(updatedCart);
-                    
-                    // Recharger les produits
+                    });                
+                    saveCart(updatedCart);              
                     loadCartItems();
                 }
             })

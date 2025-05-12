@@ -1,8 +1,11 @@
 using examDotNet.Data;
 using Microsoft.EntityFrameworkCore;
-
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configuration Stripe
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 builder.Services.AddDistributedMemoryCache();
 
@@ -18,8 +21,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
                      new MySqlServerVersion(new Version(8, 0, 21))));
 
+builder.Services.AddScoped<StripeService>();
+
 // Ajouter les services MVC
 builder.Services.AddControllersWithViews();
+
+// Configuration CORS (important pour Stripe)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -38,6 +54,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Activation CORS
+app.UseCors("AllowAll");
 
 app.UseSession();
 
