@@ -3,20 +3,102 @@
     ViewData["ShowHeader"] = false;
     ViewData["ShowFooter"] = false;
     ViewData["SlideBarAdmin"] = false;
+
+    var userId = Context.Session.GetInt32("UserId");
 }
 
-<div class="confirmation-container">
-    <div class="confirmation-card">
-        <div class="confirmation-header">
-            <i class="fa-solid fa-circle-check confirmation-icon"></i>
-            <h1>Merci pour votre commande!</h1>
-        </div>
-        <div class="confirmation-body">
-            <p>Votre paiement a été traité avec succès.</p>
-            <p>Un email de confirmation vous a été envoyé.</p>
-        </div>
-        <div class="confirmation-footer">
-            <a asp-controller="Produit" asp-action="Index" class="btn-continue">Continuer vos achats</a>
+@section Styles {
+    <link rel="stylesheet" href="~/css/confirm.css" asp-append-version="true" />
+}
+
+    @for (int i = 0; i < 50; i++)
+    {
+        <div class="confetti" style="left: @(new Random().Next(0, 100))vw; animation-delay: @(new Random().Next(0, 5))s; background-color: hsl(@(new Random().Next(0, 360)), 100%, 50%); width: @(new Random().Next(5, 12))px; height: @(new Random().Next(5, 12))px;"></div>
+    }
+
+    <div class="confirmation-container">
+        <div class="confirmation-card">
+            <div class="confirmation-header">
+                <i class="fa-solid fa-circle-check confirmation-icon"></i>
+                <h1>Merci pour votre commande!</h1>
+            </div>
+            <div class="confirmation-body">
+                <p>Votre paiement a été traité avec succès.</p>
+                <p>Un email de confirmation vous a été envoyé.</p>
+            </div>
+            <div class="confirmation-footer">
+                <a asp-controller="Produit" asp-action="Index" class="btn-continue">Continuer vos achats</a>
+            </div>
         </div>
     </div>
-</div>
+
+@if (userId != null)
+{
+    <input type="hidden" id="current-user-id" value="@userId" />
+}
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+    // Fonction pour obtenir l'ID utilisateur (même fonction que dans votre script original)
+    function getUserId() {
+        const userIdElement = document.getElementById('current-user-id');
+        return userIdElement ? userIdElement.value : null;
+    }
+    
+    // Mettre à jour le compteur du panier (comme dans votre script d'ajout de produits)
+    function updateCartCounter() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+        
+        const cartCounter = document.querySelector('.cart-counter');
+        if (cartCounter) {
+            cartCounter.textContent = totalItems;
+            
+            if (totalItems > 0) {
+                cartCounter.style.display = 'flex';
+            } else {
+                cartCounter.style.display = 'none';
+            }
+        }
+    }
+    
+    // Vider le panier dans le localStorage
+    function clearCart() {
+        const userId = getUserId();
+        const cartKey = userId ? `cart_${userId}` : 'cart';
+        
+        console.log("Nettoyage du panier - clés à supprimer:", cartKey, "et cart");
+        
+        // Supprimer les données du panier
+        localStorage.removeItem(cartKey);
+        localStorage.removeItem('cart');
+        
+        // Créer des paniers vides pour s'assurer qu'ils existent mais sont vides
+        localStorage.setItem(cartKey, JSON.stringify([]));
+        localStorage.setItem('cart', JSON.stringify([]));
+        
+        console.log("Panier vidé avec succès après paiement");
+        console.log("Contenu du panier après nettoyage:", localStorage.getItem('cart'));
+        
+        // Déclencher un événement pour mettre à jour l'interface
+        window.dispatchEvent(new Event('storage'));
+        
+        // Mettre à jour le compteur du panier
+        updateCartCounter();
+    }
+    
+    // Exécuter la fonction de vidage du panier immédiatement
+    clearCart();
+    
+    // Animation existante sur le bouton
+    document.querySelector('.btn-continue').addEventListener('mouseover', function() {
+        this.style.background = 'linear-gradient(to right, #4d44db, #6c63ff)';
+    });
+
+    document.querySelector('.btn-continue').addEventListener('mouseout', function() {
+        this.style.background = 'linear-gradient(to right, #6c63ff, #4d44db)';
+    });
+});
+
+    </script>
